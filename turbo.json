@@ -1,0 +1,12 @@
+{
+  "baseBranch": "origin/main",
+  "pipeline": {
+    "lint": {
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    },
+    "clean": {}
+  }
+}
