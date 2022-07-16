@@ -2,9 +2,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@mui/material/TextField";
 import { io } from "socket.io-client";
 
 import styles from "../styles/Home.module.scss";
@@ -39,23 +36,6 @@ const Home: NextPage = () => {
           Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
-
-        {/* Material UI components */}
-        <Grid container justifyContent="center" spacing={1}>
-          <TextField
-            id="outlined-basic"
-            label="Outlined"
-            variant="outlined"
-            type="text"
-            onChange={(e) => setUser(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handlePost}
-          ></Button>
-          {JSON.stringify(list)}
-        </Grid>
 
         <div className={styles.grid}>
           <a href="https://nextjs.org/docs" className={styles.card}>
