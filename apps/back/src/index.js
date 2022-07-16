@@ -1,16 +1,16 @@
 const http = require("http");
 const express = require("express");
 const cors = require("cors");
+const socketIO = require("socket.io");
 const app = express();
-app.use(cors());
 
 const server = http.createServer(app);
-const socketIO = require("socket.io");
 const io = socketIO(server);
-const port = 8080;
+const PORT = 8080;
+app.use(cors());
 
-server.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+server.listen(PORT, (req, res) => {
+  console.info(`Listening on port ${PORT}`);
 });
 
 io.on("connection", (socket) => {

@@ -1,14 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.scss";
-
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@mui/material/TextField";
 import { io } from "socket.io-client";
 
+import styles from "../styles/Home.module.scss";
+
+// https:// -> wss://
 const socket = io("http://localhost:8080", { transports: ["websocket"] });
 
 const Home: NextPage = () => {
