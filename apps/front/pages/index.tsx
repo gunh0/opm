@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React from "react";
 
+import EditingList from "../components/editingList";
 import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Link href={"/board"}>GOTO board</Link>
+      <EditingList />
     </div>
   );
 };
