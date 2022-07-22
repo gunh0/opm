@@ -1,0 +1,27 @@
+@use 'base';
+
+.footer {
+  box-sizing: border-box;
+  width: 1600px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0px 180px 0px 180px;
+  background-color: base.$footer_bg;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+.text {
+  flex-shrink: 0;
+  width: auto; /* 254px */
+  height: auto; /* 20px */
+  white-space: pre;
+  overflow: visible;
+  position: relative;
+  line-height: 1.2;
+  color: base.$footer_text;
+}

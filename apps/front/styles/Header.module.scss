@@ -1,0 +1,47 @@
+@use 'base';
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 1600px;
+  height: 520px;
+  background-color: base.$blue;
+  overflow: hidden;
+}
+
+.headerBody {
+  margin-left: 180px;
+  width: min-content; /* 1088px */
+  height: min-content; /* 363px */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: visible;
+  align-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 32px;
+}
+
+.mainText {
+  flex-shrink: 0;
+  width: auto; /* 1088px */
+  height: auto; /* 307px */
+  white-space: pre;
+  position: relative;
+  color: white;
+  line-height: 1.2;
+  font-size: 64px;
+  font-weight: bold;
+}
+
+.subText {
+  flex-shrink: 0;
+  width: auto; /* 835px */
+  height: auto; /* 24px */
+  white-space: pre;
+  position: relative;
+  color: white;
+  line-height: 1.2;
+  font-size: 24px;
+}
