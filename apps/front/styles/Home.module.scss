@@ -114,3 +114,53 @@
     flex-direction: column;
   }
 }
+
+.editingList {
+  background-color: #f4f4f4;
+}
+
+.editingCard {
+  box-sizing: border-box;
+  width: 48%;
+  height: 100%;
+  margin: 1%;
+  padding: 20px;
+  display: inline-flex;
+  gap: 2%;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+  overflow: hidden;
+  border-radius: 20px;
+  position: relative;
+}
+
+.editingCardIsMineText {
+  color: orange;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.editingCardTitle {
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+
+.editingCardDescription {
+  height: 65px;
+}
+
+.editingListTitle {
+  font-size: 36px;
+  font-weight: bold;
+  padding: 32px 0;
+}
+
+.loadingText {
+  color: #4455BB;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 60px;
+}
