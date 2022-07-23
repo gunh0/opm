@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import styles from "../styles/Home.module.scss";
 
@@ -56,10 +55,14 @@ const EditingList: NextPage = () => {
     },
   ]
 
+  const movePage = () => {
+    document.location.href = "/content";
+  }
+
   return (
     <main className={styles.editingList}>
       <div className={styles.editingListTitle}>Contents wating for editing.</div>
-      <div>
+      <div onClick={movePage}>
         {viewList.map((el) => (
           <div key={el.key} className={styles.editingCard}>
             {el.isMine && <div className={styles.editingCardIsMineText}>my request</div>}

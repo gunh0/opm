@@ -1,22 +1,24 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import React from "react";
 
+import Navigation from "../components/Navigation";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import EditingList from "../components/editingList";
-import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
-        <title>에디터에요!!!</title>
+        <title>Editing WireFrame</title>
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Link href={"/board"}>GOTO board</Link>
+      <Navigation />
+      <Header />
       <EditingList />
+      <Footer />
     </div>
   );
 };

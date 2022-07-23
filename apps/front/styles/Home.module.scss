@@ -116,6 +116,7 @@
 }
 
 .editingList {
+  padding: 0 180px;
   background-color: #f4f4f4;
 }
 
@@ -133,6 +134,7 @@
   overflow: hidden;
   border-radius: 20px;
   position: relative;
+  cursor: pointer;
 }
 
 .editingCardIsMineText {
