@@ -1,0 +1,64 @@
+@use 'base';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  margin: 200px 0 0 180px;
+  gap: 120px;
+}
+
+.menu {
+  box-sizing: border-box;
+  width: min-content;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+  background-color: base.$white;
+  overflow: auto;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 40px;
+  border-radius: 12px;
+
+  .button_deSelected {
+    box-sizing: border-box;
+    width: 200px;
+    height: 52px;
+    color: base.$button_text3;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: base.$white;
+    align-content: center;
+    flex-wrap: nowrap;
+    border-radius: 8px;
+    border: 2px solid base.$button_border3;
+    cursor: pointer;
+  }
+
+  .button_selected {
+    width: 200px;
+    height: 52px;
+    color: base.$white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: base.$button_bg1;
+    align-content: center;
+    flex-wrap: nowrap;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.content {
+  background-color: antiquewhite;
+}
