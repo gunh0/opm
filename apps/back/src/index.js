@@ -14,6 +14,8 @@ server.listen(PORT, (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  console.info("server received connection!", socket.id);
+
   socket.on("setUser", (data) => {
     console.log(data);
 
@@ -27,5 +29,9 @@ io.on("connection", (socket) => {
 
   socket.on("leaveUser", (nick) => {
     io.emit("out", nick);
+  });
+
+  socket.on("disconnect", (socket) => {
+    console.info("disconnect", socket);
   });
 });

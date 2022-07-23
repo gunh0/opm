@@ -7,6 +7,10 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  images: {
+    loader: "akamai",
+    path: "/",
+  },
 };
 
 module.exports = nextConfig;
