@@ -1,10 +1,17 @@
+@import './_variables.scss';
+
 html,
-*, body {
+body {
+  height: 100%;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   background-color: #F4F4F4;
+}
+
+#__next {
+  height: 100%;
 }
 
 a {
@@ -14,4 +21,15 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.nav {
+  z-index: 100;
+  fill: #FFFFFF;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  position: fixed;
+  height: $nav-height;
 }

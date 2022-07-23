@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
-import React, { useState } from "react";
-import Navigation from "../components/navigation";
-import Footer from "../components/footer";
+import { useState } from "react";
+
+import Navigation from "../components/common/Navigation";
+import Footer from "../components/common/Footer";
 import MyRequestMenu from "../components/Profile/MyRequestMenu";
 import ProfileMenu from "../components/Profile/ProfileMenu";
 import WorksMenu from "../components/Profile/WorksMenu";
@@ -11,15 +12,15 @@ const Profile: NextPage = () => {
   const menuArr = [
     {
       title: "Profile",
-      content: <ProfileMenu />
+      content: <ProfileMenu />,
     },
     {
       title: "My Request",
-      content: <MyRequestMenu />
+      content: <MyRequestMenu />,
     },
     {
       title: "Works",
-      content: <WorksMenu />
+      content: <WorksMenu />,
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
@@ -29,15 +30,22 @@ const Profile: NextPage = () => {
       <Navigation />
       <div className={styles.container}>
         <div className={styles.menu}>
-          {menuArr.map((section, index) =>
+          {menuArr.map((section, index) => (
             <div key={index}>
-              <button className={`${styles.button_deSelected} ${activeIndex === index ? styles.button_selected : styles.button_deSelected}`} onClick={() => setActiveIndex(index)}>{section.title}</button>
+              <button
+                className={`${styles.button_deSelected} ${
+                  activeIndex === index
+                    ? styles.button_selected
+                    : styles.button_deSelected
+                }`}
+                onClick={() => setActiveIndex(index)}
+              >
+                {section.title}
+              </button>
             </div>
-          )}
+          ))}
         </div>
-        <div className={styles.content}>
-          {menuArr[activeIndex].content}
-        </div>
+        <div className={styles.content}>{menuArr[activeIndex].content}</div>
       </div>
 
       <Footer />

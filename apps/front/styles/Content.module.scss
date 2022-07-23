@@ -44,7 +44,7 @@
 .buttonContainer {
   text-align: center;
   width: 100%;
-  height: 6%;
+  height: 72px;
   display: flex;
   justify-content: space-between;
 }
@@ -55,7 +55,7 @@
 }
 
 .acceptButton {
-  padding: 10px 0;
+  padding: 22px 0;
   width: 48%;
   background-color: #4455bb;
   border-radius: 8px;
@@ -66,7 +66,7 @@
 }
 
 .editingButton {
-  padding: 10px 0;
+  padding: 22px 0;
   width: 48%;
   background-color: #ffffff;
   border-radius: 8px;
@@ -78,7 +78,7 @@
 }
 
 .completionButton {
-  padding: 10px 0;
+  padding: 22px 0;
   width: 48%;
   background-color: #fafafa;
   border-radius: 8px;

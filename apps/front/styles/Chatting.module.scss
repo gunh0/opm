@@ -18,6 +18,26 @@
   resize: none;
   width: 100%;
   height: 100%;
+  border-radius: 12px;
+  color: #333333;
+  padding: 30px 27px 0 27px;
 }
 
 .chatInput:focus {outline:none;}
+
+.messageContainer {
+  width: 100%;
+  display: flex;
+}
+.messageBox {
+  width: 60%;
+  padding: 12px 5px 12px 5px;
+  background-color: #EDEDED;
+  border-radius: 20px;
+}
+.messageTimestamp {
+  height: 48px;
+  padding-left: 12px;
+  display: flex;
+  align-items: end;
+}
