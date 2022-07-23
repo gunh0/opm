@@ -22,14 +22,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-.nav {
-  z-index: 100;
-  fill: #FFFFFF;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  justify-items: center;
-  position: fixed;
-  height: $nav-height;
-}
