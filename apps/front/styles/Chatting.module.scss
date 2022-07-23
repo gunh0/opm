@@ -1,0 +1,23 @@
+.container {
+  background-color: #ffffff;
+  height: 100%;
+  padding: 10px;
+}
+
+.bubbleContainer {
+  height: 90%;
+  padding: 10px 0;
+}
+
+.inputContainer {
+  height: 10%;
+}
+
+.chatInput {
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 100%;
+}
+
+.chatInput:focus {outline:none;}
