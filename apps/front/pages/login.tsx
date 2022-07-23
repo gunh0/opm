@@ -2,11 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 
 import Navigation from "../components/common/Navigation";
-import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import EditingList from "../components/editingList";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   return (
     <>
       <Head>
@@ -15,11 +13,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <Header />
-      <EditingList />
+      <div>login</div>
       <Footer />
     </>
   );
 };
 
-export default Home;
+export default Login;

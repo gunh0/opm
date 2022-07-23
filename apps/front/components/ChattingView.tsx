@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
 import { SocketPath, Url } from "../models";
@@ -21,24 +21,27 @@ const ChattingView: NextPage = () => {
       }
     };
   }, []);
-  
-  // const currentTime = now
 
-  const [sendChatList, setSendChatList] = useState([{
-    messageId: '0',
-    boardId: '0',
-    from: 'me',
-    to: 'you',
-    type: 'SYSTEM',
-    timestamp: '',
-    textBody: 'open chatting room',
-  }]);
+  const [sendChatList, setSendChatList] = useState([
+    {
+      messageId: "0",
+      boardId: "0",
+      from: "me",
+      to: "you",
+      type: "SYSTEM",
+      timestamp: "Wen 21:09",
+      textBody: "open chatting room",
+    },
+  ]);
 
   return (
     <div className={styles.container}>
       <div className={styles.bubbleContainer}>
         {sendChatList.map((el) => (
-          <div key={el.messageId}>{el.textBody}</div>
+          <div className={styles.messageContainer} key={el.messageId}>
+            <div className={styles.messageBox}>{el.textBody}</div>
+            <div className={styles.messageTimestamp}>{el.timestamp}</div>
+          </div>
         ))}
       </div>
       <div className={styles.inputContainer}>
@@ -47,7 +50,7 @@ const ChattingView: NextPage = () => {
           placeholder="Please Enter Your Message"
         />
       </div>
-        {/* <div>Socket ID: {socketId}</div> */}
+      {/* <div>Socket ID: {socketId}</div> */}
     </div>
   );
 };
