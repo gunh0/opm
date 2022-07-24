@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { KeyboardEventHandler, useEffect, useState } from "react";
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
 import { parseISO } from "../../helpers/date";
@@ -20,6 +20,7 @@ const testData = {
 const ChatView: NextPage = () => {
   const [socket, setSocket] = useState<Socket>();
   const [chatList, setChatList] = useState<MessageSocket[]>([]);
+  const chatListRef = useRef<HTMLDivElement>(null);
 
   useEffect((): any => {
     if (socket) {
@@ -41,11 +42,23 @@ const ChatView: NextPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!chatListRef.current || chatList.length === 0) {
+      return;
+    }
+    chatListRef.current.scrollTop = chatListRef.current.scrollHeight;
+  }, [chatList, chatListRef]);
+
   const handleTextAreaKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (
     event,
   ) => {
     const { key } = event;
+    const text = event.target.value;
     if (key !== "Enter") {
+      return;
+    }
+    if (text.length === 0) {
+      event.preventDefault();
       return;
     }
     event.preventDefault();
@@ -56,7 +69,7 @@ const ChatView: NextPage = () => {
       ...testData,
       type: "NORMAL",
       timestamp: new Date().toISOString(),
-      textBody: event.target.value,
+      textBody: text,
     };
     socket.emit(SocketPath.MESSAGE, message);
     event.target.value = "";
@@ -64,7 +77,7 @@ const ChatView: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.bubbleContainer}>
+      <div ref={chatListRef} className={styles.bubbleContainer}>
         {chatList.map((chat) => (
           <ChatMessage
             key={chat.messageId}
