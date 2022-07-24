@@ -5,4 +5,6 @@ export const Url: Record<UrlKey, string> = {
 };
 export const SocketPath: Record<SocketKey, string> = {
   CONNECTION: "connect",
+  MESSAGE: "message",
+  ROOM_DATA: "roomData",
 };

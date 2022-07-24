@@ -9,7 +9,7 @@ export interface UserSocket {
 // PHASE 2. emoji
 export type MessageType = "SYSTEM" | "NORMAL" | "EMOJI";
 export interface MessageSocket {
-  messageId: string;
+  messageId?: string;
   boardId: string;
   from: string;
   to: string;

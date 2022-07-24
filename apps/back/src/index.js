@@ -2,6 +2,7 @@ const http = require("http");
 const express = require("express");
 const cors = require("cors");
 const socketIO = require("socket.io");
+const { randomUUID } = require("crypto");
 
 const app = express();
 const server = http.createServer(app);
@@ -14,21 +15,24 @@ server.listen(PORT, (req, res) => {
 });
 
 io.on("connection", (socket) => {
+  const roomData = {}; // TODO: DB
   console.info("server received connection!", socket.id);
 
-  socket.on("setUser", (data) => {
-    console.log(data);
-
-    io.emit("enter", data);
+  socket.on("roomData", (data) => {
+    roomData.boardId = data.boardId;
+    socket.emit("message", {
+      boardId: roomData.boardId,
+      messageId: randomUUID(),
+      type: "SYSTEM",
+      from: "SYSTEM",
+      to: socket.id,
+      timestamp: new Date().toISOString(),
+      textBody: "open chatting room",
+    });
   });
 
   socket.on("message", (data) => {
-    console.log("client가 보낸 데이터: ", data);
-    io.emit("upload", data);
-  });
-
-  socket.on("leaveUser", (nick) => {
-    io.emit("out", nick);
+    socket.emit("message", { ...data, messageId: randomUUID() });
   });
 
   socket.on("disconnect", (socket) => {
