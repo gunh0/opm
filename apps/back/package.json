@@ -4,7 +4,7 @@
   "description": "back-server",
   "license": "MIT",
   "scripts": {
-    "dev": "node src/index.js",
+    "dev": "nodemon --watch src --exec \"npx\" \"ts-node\" src/app.js",
     "clean": "rm -rf .next out .turbo"
   },
   "devDependencies": {
