@@ -23,19 +23,19 @@ const Navigation: NextPage = () => {
         <Link href="/profile">
           <a>
             <Image
-              src="/Navigation/profile.png"
+              src="/Navigation/profile.svg"
               alt="profile"
-              width={40}
-              height={40}
+              width={56}
+              height={56}
             />
           </a>
         </Link>
         <div>
           <Image
-            src="/Navigation/alert.png"
+            src="/Navigation/alarm.svg"
             alt="alert"
-            width={40}
-            height={40}
+            width={56}
+            height={56}
           />
         </div>
         <button className={styles.button}>Request</button>
