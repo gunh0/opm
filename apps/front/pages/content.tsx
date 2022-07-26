@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 
-import ChattingView from "../components/ChattingView";
+import ChatView from "../components/chat/ChatView";
 import Navigation from "../components/common/Navigation";
 import styles from "../styles/Content.module.scss";
 
@@ -87,9 +87,7 @@ const Board: NextPage = () => {
             )}
           </div>
         </div>
-        <div className={styles.chatContainer}>
-          {isAccept && <ChattingView />}
-        </div>
+        <div className={styles.chatContainer}>{isAccept && <ChatView />}</div>
       </main>
     </div>
   );

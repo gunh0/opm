@@ -21,21 +21,24 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(require("./routes"));
 
 io.on("connection", (socket) => {
+  const roomData = {}; // TODO: DB
   console.info("server received connection!", socket.id);
 
-  socket.on("setUser", (data) => {
-    console.log(data);
-
-    io.emit("enter", data);
+  socket.on("roomData", (data) => {
+    roomData.boardId = data.boardId;
+    socket.emit("message", {
+      boardId: roomData.boardId,
+      messageId: randomUUID(),
+      type: "SYSTEM",
+      from: "SYSTEM",
+      to: socket.id,
+      timestamp: new Date().toISOString(),
+      textBody: "open chatting room",
+    });
   });
 
   socket.on("message", (data) => {
-    console.log("client가 보낸 데이터: ", data);
-    io.emit("upload", data);
-  });
-
-  socket.on("leaveUser", (nick) => {
-    io.emit("out", nick);
+    socket.emit("message", { ...data, messageId: randomUUID() });
   });
 
   socket.on("disconnect", (socket) => {
