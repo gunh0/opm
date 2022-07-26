@@ -43,8 +43,8 @@ const WorksMenu: NextPage = () => {
       <div className={styles.title}>Accepted proofread contents.</div>
       <div className={styles.editingListContainer}>
         {viewList.map((el) => (
-          <div className={styles.listContainer}>
-            <div key={el.key} className={styles.editingCard} onClick={movePage}>
+          <div key={el.key} className={styles.listContainer}>
+            <div className={styles.editingCard} onClick={movePage}>
               <div className={styles.editingCardTitleContainer}>
                 <div className={styles.editingCardTitle}>{el.title}</div>
                 {el.complete && (
