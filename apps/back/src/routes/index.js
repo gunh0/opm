@@ -1,7 +1,12 @@
+require("dotenv").config();
+console.log(process.env.mongoURL);
+
 const { Router } = require("express");
 const router = Router();
 const board = require("./board");
 const user = require("./user");
+
+console.log("test");
 
 // 유저
 router.get("/user/all", user.show_all); // 모든 회원정보 보기
