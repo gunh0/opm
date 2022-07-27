@@ -6,9 +6,9 @@ const user = require("./user");
 console.log("test");
 
 // 유저
-router.get("/user/all", user.show_all); // 모든 회원정보 보기
+router.get("/user/all", user.showAll); // 모든 회원정보 보기
 
 // Article - 게시글 == 채팅방
-router.get("/api/allarticles", board.getAllArticles);
+router.get("/api/allArticles", board.getAllArticles);
 
 module.exports = router;
