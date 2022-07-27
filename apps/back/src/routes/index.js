@@ -1,6 +1,3 @@
-require("dotenv").config();
-console.log(process.env.mongoURL);
-
 const { Router } = require("express");
 const router = Router();
 const board = require("./board");
