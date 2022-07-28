@@ -1,25 +1,15 @@
 import mongoose from "mongoose";
+import { BoardInfo } from "../../front/types";
 
-const boardModel = new mongoose.Schema({
-  a_id: "string",
-  u_id: "string",
-  a_title: "string",
-  a_description: "string",
-  a_content: "string",
-  a_category: "string",
-  a_editList: "string",
-  a_editDate: "string",
-  a_status: "string",
-  e_id: "string",
-  a_hit: "string",
-});
+const boardModel = new mongoose.Schema<BoardInfo>([]);
 
 boardModel.set("collection", "Board");
 
 const Board = mongoose.model("Board", boardModel);
 
-export const showAllBoard = async (_, res) => {
-  const allBoard = await Board.find();
-  console.log(allBoard);
-  return res.json(allBoard);
-}
+export default {
+  async showAllBoard (_, res) {
+    const allBoard = await Board.find();
+    return res.json(allBoard);
+  },
+};

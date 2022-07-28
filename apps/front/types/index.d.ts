@@ -7,6 +7,8 @@ import {
   BoardSocket,
   BoardEditSocket,
   UpdateBoardStatusSocket,
+  UserInfo,
+  BoardInfo,
 } from "./socket";
 
 export {
@@ -18,4 +20,6 @@ export {
   BoardSocket,
   BoardEditSocket,
   UpdateBoardStatusSocket,
+  UserInfo,
+  BoardInfo,
 };
