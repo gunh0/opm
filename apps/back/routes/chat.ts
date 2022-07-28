@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const boardModel = new mongoose.Schema({
+const chatModel = new mongoose.Schema({
   a_id: "string",
   u_id: "string",
   a_title: "string",
@@ -14,12 +14,12 @@ const boardModel = new mongoose.Schema({
   a_hit: "string",
 });
 
-boardModel.set("collection", "Board");
+chatModel.set("collection", "Chat");
 
-const Board = mongoose.model("Board", boardModel);
+const Chat = mongoose.model("Chat", chatModel);
 
-export const showAllBoard = async (_, res) => {
-  const allBoard = await Board.find();
-  console.log(allBoard);
-  return res.json(allBoard);
+export const showAllChat = async (_, res) => {
+  const allChat = await Chat.find();
+  console.log(allChat);
+  return res.json(allChat);
 }
