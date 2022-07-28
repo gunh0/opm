@@ -26,7 +26,7 @@ const ChatView: NextPage = () => {
     if (socket) {
       return;
     }
-    const socketClient = io(Url.SOCKET, { transports: ["websocket"] });
+    const socketClient = io(Url.SOCKET);
     socketClient.on(SocketPath.CONNECTION, () => {
       console.info("connected!", socketClient.id);
       socketClient.emit(SocketPath.ROOM_DATA, { boardId: testData.boardId });
