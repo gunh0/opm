@@ -7,7 +7,7 @@
     "dev": "ts-node-dev app.ts --watch",
     "build": "tsc --project ./tsconfig.json",
     "start": "ts-node app.ts",
-    "clean": "rm -rf .next out .turbo"
+    "clean": "rm -rf node_modules .next out .turbo"
   },
   "devDependencies": {
     "@types/swagger-ui-express": "4.1.3",
