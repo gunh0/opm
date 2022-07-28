@@ -1,56 +1,79 @@
 @import './_variables.scss';
+@import './color.scss';
 
 .container {
   padding-top: $nav-height;
 }
 
 .editingList {
-  padding: 0 180px;
-  background-color: #f4f4f4;
+  padding: 120px 180px;
+}
+
+.editingListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
 }
 
 .editingCard {
   box-sizing: border-box;
-  width: 48%;
-  height: 100%;
-  margin: 1%;
-  padding: 20px;
+  width: 600px;
+  height: 216px;
+  padding: 40px 60px;
   display: inline-flex;
-  gap: 2%;
   flex-direction: column;
-  justify-content: center;
-  background-color: #ffffff;
-  overflow: hidden;
+  gap: 24px;
+  background-color: $white;
   border-radius: 20px;
   position: relative;
   cursor: pointer;
 }
 
 .editingCardIsMineText {
-  color: orange;
-  position: absolute;
-  right: 20px;
-  top: 20px;
+  color: $error;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.editingCardCompleteText {
+  color: $royalBlue500;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.editingCardTitleContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .editingCardTitle {
+  color: $gray800;
+  font-size: 28px;
   font-weight: bold;
-  margin-bottom: 7px;
 }
 
 .editingCardDescription {
-  height: 65px;
+  color: $gray600;
+  font-size: 20px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 .editingListTitle {
+  color: $gray700;
   font-size: 36px;
   font-weight: bold;
   padding: 32px 0;
+  letter-spacing: 1.2px;
 }
 
 .loadingText {
-  color: #4455BB;
-  font-size: 20px;
+  color: $royalBlue400;
+  font-size: 28px;
   font-weight: bold;
   text-align: center;
   padding: 60px;

@@ -8,6 +8,7 @@ const viewList = [
     title: "contents title",
     description: "contents description",
     isMine: true,
+    complete: false,
   },
   {
     key: 2,
@@ -15,24 +16,28 @@ const viewList = [
     description:
       "contents descriptioncontents descriptioncontents descriptioncontents description",
     isMine: false,
+    complete: true,
   },
   {
     key: 3,
     title: "contents title",
     description: "contents description",
     isMine: false,
+    complete: false,
   },
   {
     key: 4,
     title: "contents title",
     description: "contents description",
     isMine: false,
+    complete: false,
   },
   {
     key: 5,
     title: "contents title",
     description: "contents description",
     isMine: true,
+    complete: false,
   },
   {
     key: 6,
@@ -40,18 +45,21 @@ const viewList = [
     description:
       "contents descriptioncontents descriptioncontents descriptioncontents description",
     isMine: false,
+    complete: false,
   },
   {
     key: 7,
     title: "contents title",
     description: "contents description",
     isMine: false,
+    complete: false,
   },
   {
     key: 8,
     title: "contents title",
     description: "contents description",
     isMine: false,
+    complete: false,
   },
 ];
 
@@ -63,15 +71,20 @@ const EditingList: NextPage = () => {
   return (
     <main className={styles.editingList}>
       <div className={styles.editingListTitle}>
-        Contents wating for editing.
+        Contents waiting for editing.
       </div>
-      <div onClick={movePage}>
+      <div className={styles.editingListContainer}>
         {viewList.map((el) => (
-          <div key={el.key} className={styles.editingCard}>
-            {el.isMine && (
-              <div className={styles.editingCardIsMineText}>my request</div>
-            )}
-            <div className={styles.editingCardTitle}>{el.title}</div>
+          <div key={el.key} className={styles.editingCard} onClick={movePage}>
+            <div className={styles.editingCardTitleContainer}>
+              <div className={styles.editingCardTitle}>{el.title}</div>
+              {el.isMine && (
+                <div className={styles.editingCardIsMineText}>my request</div>
+              )}
+              {el.complete && (
+                <div className={styles.editingCardCompleteText}>complete</div>
+              )}
+            </div>
             <div className={styles.editingCardDescription}>
               {el.description}
             </div>
