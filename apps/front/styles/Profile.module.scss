@@ -4,9 +4,10 @@
 .container {
   display: flex;
   flex-direction: row;
-  margin: 120px 180px;
+  margin: 120px 180px 0 200px;
   padding: 0px;
   gap: 120px;
+  height: 100vh;
 }
 
 .menuContainer {

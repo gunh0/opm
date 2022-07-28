@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 
-import styles from "../styles/Home.module.scss";
+import styles from "../../styles/Home.module.scss";
 
 const viewList = [
   {
@@ -61,6 +61,62 @@ const viewList = [
     isMine: false,
     complete: false,
   },
+  {
+    key: 9,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 10,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 11,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 12,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 13,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 14,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 15,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
+  {
+    key: 16,
+    title: "contents title",
+    description: "contents description",
+    isMine: false,
+    complete: false,
+  },
 ];
 
 const EditingList: NextPage = () => {
@@ -69,7 +125,7 @@ const EditingList: NextPage = () => {
   };
 
   return (
-    <main className={styles.editingList}>
+    <div className={styles.editingList}>
       <div className={styles.editingListTitle}>
         Contents waiting for editing.
       </div>
@@ -90,9 +146,9 @@ const EditingList: NextPage = () => {
             </div>
           </div>
         ))}
+        <div className={styles.loadingText}>Now loading ...</div>
       </div>
-      <div className={styles.loadingText}>Now loading ...</div>
-    </main>
+    </div>
   );
 };
 
