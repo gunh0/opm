@@ -4,41 +4,63 @@ import Image from "next/image";
 
 import styles from "../../styles/Navigation.module.scss";
 
-const Navigation: NextPage = () => {
+interface NavigationProps {
+  isTop?: boolean;
+  isHome?: boolean;
+}
+
+const Navigation: NextPage<NavigationProps> = ({
+  isTop = true,
+  isHome = false,
+}) => {
+  const homeTrans = isHome && isTop;
+
   return (
     <div className={styles.default}>
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Image
-              src="/Navigation/logo.png"
-              alt="logo"
-              width={56}
-              height={56}
-            />
+            <Image src="/svg/logo.png" alt="logo" width={56} height={56} />
           </a>
         </Link>
       </div>
       <div className={styles.links}>
         <Link href="/profile">
           <a>
-            <Image
-              src="/Navigation/profile.svg"
-              alt="profile"
-              width={56}
-              height={56}
-            />
+            {homeTrans ? (
+              <Image
+                src="/svg/profileWhite.svg"
+                alt="profile"
+                width={56}
+                height={56}
+              />
+            ) : (
+              <Image
+                src="/svg/profile.svg"
+                alt="profile"
+                width={56}
+                height={56}
+              />
+            )}
           </a>
         </Link>
         <div>
-          <Image
-            src="/Navigation/alarm.svg"
-            alt="alert"
-            width={56}
-            height={56}
-          />
+          {homeTrans ? (
+            <Image
+              src="/svg/alarmWhite.svg"
+              alt="alert"
+              width={56}
+              height={56}
+            />
+          ) : (
+            <Image src="/svg/alarm.svg" alt="alert" width={56} height={56} />
+          )}
         </div>
-        <button className={styles.button}>Request</button>
+        <button
+          className={homeTrans ? styles.buttonTransparent : styles.button}
+        >
+          Request
+        </button>
       </div>
     </div>
   );

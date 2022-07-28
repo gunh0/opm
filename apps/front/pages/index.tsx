@@ -1,12 +1,34 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useEffect, useRef, useState } from "react";
 
 import Navigation from "../components/common/Navigation";
-import Header from "../components/common/Header";
 import Footer from "../components/common/Footer";
-import EditingList from "../components/editingList";
+import EditingList from "../components/home/editingList";
+import HomeBody from "../components/home";
+import styles from "../styles/Home.module.scss";
 
 const Home: NextPage = () => {
+  const [isTop, setIsTop] = useState(true);
+  const topRef = useRef<HTMLDivElement>(null);
+
+  const handleObserver: IntersectionObserverCallback = ([entry]) => {
+    setIsTop(entry.isIntersecting);
+  };
+
+  useEffect(() => {
+    if (!topRef.current) {
+      return;
+    }
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "-5px",
+    });
+    observer.observe(topRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [topRef]);
   return (
     <>
       <Head>
@@ -14,10 +36,18 @@ const Home: NextPage = () => {
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navigation />
-      <Header />
-      <EditingList />
-      <Footer />
+      <Navigation isTop={isTop} isHome />
+      <div className={styles.homeContainer}>
+        <div className={styles.scrollSnap} ref={topRef}>
+          <HomeBody />
+        </div>
+        <div className={styles.scrollSnap}>
+          <EditingList />
+        </div>
+        <div className={styles.scrollSnapEnd}>
+          <Footer />
+        </div>
+      </div>
     </>
   );
 };
