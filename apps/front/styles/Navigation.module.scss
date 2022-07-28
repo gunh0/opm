@@ -1,7 +1,8 @@
 @import './color.scss';
 
 .default {
-  position: sticky;
+  position: fixed;
+  width: 100%;
   top: 0;
   box-sizing: border-box;
   height: 80px;
@@ -10,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 0px 180px 0px 180px;
-  background-color: $white;
+  opacity: 1;
   overflow: hidden;
   align-content: center;
   flex-wrap: nowrap;
@@ -45,6 +46,20 @@
     align-content: center;
     flex-wrap: nowrap;
     gap: 40px;
+  }
+
+  .buttonTransparent {
+    box-sizing: border-box;
+    width: 200px;
+    height: 44px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    padding: 12px 56px;
+    cursor: pointer;
+    background-color: var(--Transparent_150, rgba(0, 0, 0, 0.15));
+    color: var(--White, #ffffff);
   }
   
   .button {
