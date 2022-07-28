@@ -1,8 +1,7 @@
 {
   "display": "Server",
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["esnext"],
+    "target": "es2021",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -10,10 +9,9 @@
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "commonjs",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "moduleResolution": "node"
+    "isolatedModules": true
   },
   "exclude": ["node_modules"]
 }

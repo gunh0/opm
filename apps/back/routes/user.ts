@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Schema 생성. (입력될 데이터의 타입이 정의된 DB 설계도)
-var userModel = mongoose.Schema({
+const userModel = new mongoose.Schema({
   u_id: "string",
   u_createDate: "string",
   u_email: "string",
@@ -35,9 +35,9 @@ newUser.save(function (error, data) {
   }
 });
 
-exports.showAll = (_, res) => {
+export const showAllUser = (_, res) => {
   // User 전체 데이터 가져오기
   var allUser = User.find();
   console.log(allUser);
   return res.json(allUser);
-}
+};
