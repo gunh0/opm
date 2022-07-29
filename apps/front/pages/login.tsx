@@ -10,8 +10,10 @@ import styles from "../styles/Login.module.scss";
 const Login: NextPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value);
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value);
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(e.currentTarget.value);
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setPassword(e.currentTarget.value);
 
   return (
     <>
@@ -32,17 +34,37 @@ const Login: NextPage = () => {
               <div className={styles.subtitleContainer}>
                 <div className={styles.subTitle}>E-mail</div>
                 {/* TODO: 오류 조건식 */}
-                {true && <div className={styles.errorText}>please check your address</div>}
+                {true && (
+                  <div className={styles.errorText}>
+                    please check your address
+                  </div>
+                )}
               </div>
-              <input type="text" name="email" value={email} onChange={onChangeEmail} className={styles.sign} />
+              <input
+                type="text"
+                name="email"
+                value={email}
+                onChange={onChangeEmail}
+                className={styles.sign}
+              />
             </div>
             <div className={styles.inputContainer}>
               <div className={styles.subtitleContainer}>
                 <div className={styles.subTitle}>Password</div>
                 {/* TODO: 오류 조건식 */}
-                {true && <div className={styles.errorText}>please check your password</div>}
+                {true && (
+                  <div className={styles.errorText}>
+                    please check your password
+                  </div>
+                )}
               </div>
-              <input type="password" name="password" value={password} onChange={onChangePassword} className={styles.sign} />
+              <input
+                type="password"
+                name="password"
+                value={password}
+                onChange={onChangePassword}
+                className={styles.sign}
+              />
             </div>
           </div>
           <div className={styles.buttonContainer}>

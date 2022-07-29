@@ -11,6 +11,7 @@
   "scripts": {
     "front": "yarn workspace front",
     "back": "yarn workspace back",
+    "eslint": "yarn workspace eslint-config-custom",
     "dev": "turbo run dev",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",

@@ -38,7 +38,7 @@ const Profile: NextPage = () => {
                     activeIndex === index
                       ? styles.button_selected
                       : styles.button_deSelected
-                    }`}
+                  }`}
                   onClick={() => setActiveIndex(index)}
                 >
                   {section.title}

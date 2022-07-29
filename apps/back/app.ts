@@ -1,13 +1,14 @@
-import dotEnv from "dotenv";
-import express from "express";
 import { randomUUID } from "crypto";
 import http from "http";
-import { Server } from "socket.io";
+
 import cors from "cors";
+import express from "express";
+import dotEnv from "dotenv";
+import { Server } from "socket.io";
 import swaggerUi from "swagger-ui-express";
 import mongoose, { ConnectOptions } from "mongoose";
-import routes from "./routes";
 
+import routes from "./routes";
 import { specs } from "./swagger/swagger";
 
 dotEnv.config();
