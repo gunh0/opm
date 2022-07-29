@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { showAllBoard } from "./board";
-import { showAllUser } from "./user";
+import user from "./user";
+import board from "./board";
+import chat from "./chat";
 
 const router = Router();
 
-// 유저
-router.get("/user/all", showAllUser); // 모든 회원정보 보기
+router.get("/user/all", user.showAllUser);
 
-// Article - 게시글 == 채팅방
-router.get("/article/all", showAllBoard);
+router.get("/article/all", board.showAllBoard);
+
+router.get("/chat/all", chat.showAllChat);
 
 export default router;
