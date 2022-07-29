@@ -7,6 +7,11 @@
     "dev": "ts-node-dev app.ts --watch",
     "build": "tsc --project ./tsconfig.json",
     "start": "ts-node app.ts",
+    "lint:prettier": "prettier --list-different \"./{routes,swagger}/**/*.{json,html,yml,tsx,ts,js,jsx}\" app.ts",
+    "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
+    "lint:typeCheck": "tsc --pretty",
+    "lint": "FORCE_COLOR=1 npm-run-all -p --print-label \"lint:**\"",
+    "eslint-fix": "eslint --fix --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
     "clean": "rm -rf node_modules .next out .turbo"
   },
   "devDependencies": {

@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+
 import styles from "../../styles/Profile.module.scss";
 
 const viewList = [
