@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 import { UserInfo } from "../../front/types";
 
 const userModel = new mongoose.Schema<UserInfo>([]);
@@ -25,9 +26,13 @@ newUser.save(function (error, data) {
   }
 });
 
-export default {
-  async showAllUser (_, res) {
-    const allUser = await User.find();
-    return res.json(allUser);
-  },
+const showAllUser = async (_, res) => {
+  const allUser = await User.find();
+  return res.json(allUser);
 };
+
+const user = {
+  showAllUser,
+};
+
+export default user;
