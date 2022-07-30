@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
 import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { MessageSocket, SocketPath, Url } from "opm-models";
 
 import { parseISO } from "../../helpers/date";
 import { ErrorMessage } from "../../helpers/error";
-import { SocketPath, Url } from "../../models";
 import styles from "../../styles/Chat.module.scss";
-import { MessageSocket } from "../../types";
 
 import ChatMessage from "./ChatMessage";
 

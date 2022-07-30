@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import { UserInfo } from "opm-models";
 
-import { UserInfo } from "../../front/types";
-
-const userModel = new mongoose.Schema<UserInfo>([]);
+const userModel = new mongoose.Schema<UserInfo>([] as unknown as UserInfo);
 
 userModel.set("collection", "User");
 
@@ -15,7 +14,7 @@ const newUser = new User<UserInfo>({
   uName: "test",
   uNickName: "testtest",
   uPassword: "password",
-  uStatus: "online",
+  uStatus: "ONLINE",
 });
 
 newUser.save(function (error, data) {

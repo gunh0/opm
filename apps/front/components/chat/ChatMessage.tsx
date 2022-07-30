@@ -1,8 +1,8 @@
 import { FunctionComponent } from "react";
+import { MessageSocket } from "opm-models";
 
 import { parseISO } from "../../helpers/date";
 import styles from "../../styles/Chat.module.scss";
-import { MessageSocket } from "../../types";
 
 interface ChatMessageProps {
   message: MessageSocket;

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-
-import { MessageSocket } from "../../front/types";
+import { MessageSocket } from "opm-models";
 
 const chatModel = new mongoose.Schema({
   c_id: "string",

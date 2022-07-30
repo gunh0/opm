@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
+import { BoardInfo } from "opm-models";
 
-import { BoardInfo } from "../../front/types";
-
-const boardModel = new mongoose.Schema<BoardInfo>([]);
+const boardModel = new mongoose.Schema<BoardInfo>([] as unknown as BoardInfo);
 
 boardModel.set("collection", "Board");
 

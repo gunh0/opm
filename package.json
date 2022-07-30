@@ -6,13 +6,15 @@
   "license": "MIT",
   "workspaces": [
     "apps/*",
-    "packages/scripts/*"
+    "packages/**/*"
   ],
   "scripts": {
     "front": "yarn workspace front",
     "back": "yarn workspace back",
     "eslint": "yarn workspace eslint-config-custom",
-    "dev": "turbo run dev",
+    "models": "yarn workspace opm-models",
+    "build:pkgs": "turbo run build --filter=opm-*",
+    "dev": "yarn run build:pkgs && turbo run dev",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
     "prepare": "husky install"

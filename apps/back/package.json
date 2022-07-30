@@ -27,6 +27,7 @@
     "swagger-ui-express": "4.5.0"
   },
   "dependencies": {
+    "opm-models": "*",
     "ts-node": "10.9.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
