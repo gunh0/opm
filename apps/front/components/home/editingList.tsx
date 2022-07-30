@@ -120,8 +120,8 @@ const viewList = [
 ];
 
 const EditingList: NextPage = () => {
-  const movePage = () => {
-    document.location.href = "/content";
+  const movePage = (index: number) => {
+    document.location.href = `/board/${index}`;
   };
 
   return (
@@ -130,8 +130,12 @@ const EditingList: NextPage = () => {
         Contents waiting for editing.
       </div>
       <div className={styles.editingListContainer}>
-        {viewList.map((el) => (
-          <div key={el.key} className={styles.editingCard} onClick={movePage}>
+        {viewList.map((el, index) => (
+          <div
+            key={el.key}
+            className={styles.editingCard}
+            onClick={() => movePage(index)}
+          >
             <div className={styles.editingCardTitleContainer}>
               <div className={styles.editingCardTitle}>{el.title}</div>
               {el.isMine && (
