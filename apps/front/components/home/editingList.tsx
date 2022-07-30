@@ -1,127 +1,11 @@
 import type { NextPage } from "next";
+import { board } from "opm-dump";
 
 import styles from "../../styles/Home.module.scss";
 
-const viewList = [
-  {
-    key: 1,
-    title: "contents title",
-    description: "contents description",
-    isMine: true,
-    complete: false,
-  },
-  {
-    key: 2,
-    title: "contents title",
-    description:
-      "contents descriptioncontents descriptioncontents descriptioncontents description",
-    isMine: false,
-    complete: true,
-  },
-  {
-    key: 3,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 4,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 5,
-    title: "contents title",
-    description: "contents description",
-    isMine: true,
-    complete: false,
-  },
-  {
-    key: 6,
-    title: "contents title",
-    description:
-      "contents descriptioncontents descriptioncontents descriptioncontents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 7,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 8,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 9,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 10,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 11,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 12,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 13,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 14,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 15,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 16,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-];
-
 const EditingList: NextPage = () => {
-  const movePage = () => {
-    document.location.href = "/content";
+  const movePage = (index: number) => {
+    document.location.href = `/board/${index}`;
   };
 
   return (
@@ -130,8 +14,12 @@ const EditingList: NextPage = () => {
         Contents waiting for editing.
       </div>
       <div className={styles.editingListContainer}>
-        {viewList.map((el) => (
-          <div key={el.key} className={styles.editingCard} onClick={movePage}>
+        {board.homeList.map((el, index) => (
+          <div
+            key={el.key}
+            className={styles.editingCard}
+            onClick={() => movePage(index)}
+          >
             <div className={styles.editingCardTitleContainer}>
               <div className={styles.editingCardTitle}>{el.title}</div>
               {el.isMine && (
