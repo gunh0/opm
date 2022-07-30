@@ -17,6 +17,9 @@
   height: 90%;
   overflow: auto;
 }
+.editingListContainer::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
 
 .editingCard {
   box-sizing: border-box;
