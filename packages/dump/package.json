@@ -1,0 +1,19 @@
+{
+  "name": "opm-dump",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "clean": "rm -rf node_modules .turbo dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "tsconfig": "*",
+    "opm-models": "*"
+  }
+}

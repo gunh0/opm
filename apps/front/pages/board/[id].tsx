@@ -3,32 +3,12 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { board } from "opm-dump";
 
 import BoardContent from "../../components/board/BoardContent";
 import ChatView from "../../components/chat/ChatView";
 import Navigation from "../../components/common/Navigation";
 import styles from "../../styles/Board.module.scss";
-
-const boardText = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam itaque
-      reprehenderit fugit aut reiciendis nobis explicabo repudiandae tempore
-      odit quos animi, quasi eius quod provident suscipit, voluptatem, magnam
-      asperiores esse? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Dicta neque est distinctio sunt commodi non beatae obcaecati perspiciatis
-      autem voluptas nostrum, pariatur atque consequuntur rerum expedita eveniet
-      omnis, ex asperiores? Lorem ipsum dolor sit amet consectetur adipisicing
-      elit. Consequatur, atque tenetur at eos voluptatibus non laudantium
-      quibusdam harum? Dolore omnis fugiat aliquid laboriosam. Amet officia
-      excepturi voluptate repudiandae ipsam harum?Lorem ipsum dolor sit amet
-      consectetur adipisicing elit. Ullam itaque reprehenderit fugit aut
-      reiciendis nobis explicabo repudiandae tempore odit quos animi, quasi eius
-      quod provident suscipit, voluptatem, magnam asperiores esse? Lorem ipsum
-      dolor sit amet consectetur adipisicing elit. Dicta neque est distinctio
-      sunt commodi non beatae obcaecati perspiciatis autem voluptas nostrum,
-      pariatur atque consequuntur rerum expedita eveniet omnis, ex asperiores?
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-      atque tenetur at eos voluptatibus non laudantium quibusdam harum? Dolore
-      omnis fugiat aliquid laboriosam. Amet officia excepturi voluptate
-      repudiandae ipsam harum?`;
 
 const Board: NextPage = () => {
   const router = useRouter();
@@ -58,7 +38,7 @@ const Board: NextPage = () => {
           <Image src="/backbutton.png" alt="logo" width={56} height={56} />
         </div>
         <div className={styles.textContainer}>
-          <BoardContent text={boardText} />
+          <BoardContent text={board.boardText} />
           <div className={styles.buttonContainer}>
             {isAccept ? (
               <>
