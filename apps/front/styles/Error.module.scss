@@ -1,0 +1,18 @@
+@import './color.scss';
+
+.background {
+  background-color: $gray800;
+  height: 100vh;
+  text-align: center;
+}
+.logo {
+  padding-top: 40%;
+  padding-bottom: 56px;
+}
+.title {
+  color: $royalBlue200;
+}
+.description {
+  padding-top: 16px;
+  color: $royalBlue200;
+}
