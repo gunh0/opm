@@ -17,6 +17,7 @@
     "dev": "yarn run build:pkgs && turbo run dev",
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
+    "fix": "turbo run fix",
     "prepare": "husky install"
   },
   "devDependencies": {

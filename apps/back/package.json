@@ -11,7 +11,9 @@
     "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
     "lint:typeCheck": "tsc --pretty",
     "lint": "npm-run-all -p --print-label \"lint:**\"",
-    "eslint-fix": "eslint --fix --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
+    "fix:prettier": "prettier --write \"./{routes,swagger}/**/*.{json,html,yml,tsx,ts,js,jsx}\" app.ts",
+    "fix:eslint": "eslint --fix --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
+    "fix": "npm-run-all -p --print-label \"fix:**\"",
     "clean": "rm -rf node_modules .next out .turbo"
   },
   "devDependencies": {
