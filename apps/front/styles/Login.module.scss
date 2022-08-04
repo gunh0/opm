@@ -1,11 +1,11 @@
 @import './color.scss';
 @import './Profile.module.scss';
 
-.container {
+.mainContainer {
   display: flex;
   flex-direction: row;
   gap: 120px;
-  margin: 120px 180px;
+  margin: 200px 180px;
 }
 
 .img1 {

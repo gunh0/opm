@@ -66,7 +66,13 @@ const ContentRequest: NextPage = () => {
               <div className={styles.loginBtn}>Next</div>
             </div>
           </div>
-          <div className={styles.img3}></div>
+          <Image
+            src="/440-756.png"
+            alt="img3"
+            width={440}
+            height={756}
+            className={styles.img3}
+          />
         </div>
       </div>
       <Footer />

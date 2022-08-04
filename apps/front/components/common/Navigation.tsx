@@ -44,11 +44,29 @@ const Navigation: NextPage<NavigationProps> = ({
   };
 
   return (
-    <div className={styles.default}>
+    <div
+      className={`${styles.transparent} ${
+        homeTrans ? styles.transparent : styles.default
+      }`}
+    >
       <div className={styles.logo}>
         <Link href="/">
           <a>
-            <Image src="/svg/logo.png" alt="logo" width={56} height={56} />
+            {homeTrans ? (
+              <Image
+                src="/svg/logo-secondary.svg"
+                alt="logo"
+                width="116px"
+                height="56px"
+              />
+            ) : (
+              <Image
+                src="/svg/logo-primary.svg"
+                alt="logo"
+                width={116}
+                height={56}
+              />
+            )}
           </a>
         </Link>
       </div>
