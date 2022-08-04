@@ -2,8 +2,13 @@
   "baseBranch": "origin/main",
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "dist/**"
+      ]
     },
     "dev": {
       "cache": false
@@ -11,6 +16,7 @@
     "lint": {
       "outputs": []
     },
+    "fix": {},
     "clean": {}
   }
 }
