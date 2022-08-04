@@ -68,6 +68,7 @@
   color: $white;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0px 4px 8px 0px $transparent200;
 }
 
 .editingButton {
@@ -80,6 +81,7 @@
   color: $royalBlue300;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0px 4px 8px 0px $transparent100;
 }
 
 .completionButton {
@@ -90,6 +92,7 @@
   color: $gray300;
   font-weight: bold;
   cursor: pointer;
+  box-shadow: 0px 4px 8px 0px $transparent200;
 }
 
 .chatContainer {
@@ -130,6 +133,7 @@
   border-radius: 12px;
   color: $gray800;
   font-size: 20px;
+  box-shadow: 0px 4px 16px 0px $transparent50;
 }
 
 .inputDescription {
@@ -140,6 +144,7 @@
   border-radius: 12px;
   color: $gray800;
   font-size: 20px;
+  box-shadow: 0px 4px 16px 0px $transparent50;
 }
 
 .guideText {

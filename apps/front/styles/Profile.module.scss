@@ -38,6 +38,7 @@
   flex-wrap: nowrap;
   gap: 40px;
   border-radius: 12px;
+  box-shadow: 0px 2px 12px 0px $transparent50;
 
   .button_deSelected {
     box-sizing: border-box;
@@ -116,6 +117,7 @@
   border-radius: 12px;
   color: $gray600;
   font-size: 20px;
+  box-shadow: 0px 4px 16px 0px $transparent50;
 
   &:disabled {
     background-color: $gray200;

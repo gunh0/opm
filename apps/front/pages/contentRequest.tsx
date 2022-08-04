@@ -7,7 +7,6 @@ import Footer from "../components/common/Footer";
 import styles from "../styles/Board.module.scss";
 
 const ContentRequest: NextPage = () => {
-
   const movePage = () => {
     document.location.href = "/";
   };
@@ -36,9 +35,7 @@ const ContentRequest: NextPage = () => {
               <div className={styles.inputContainer}>
                 <div className={styles.subtitleContainer}>
                   <div className={styles.subTitle}>Title about request.</div>
-                  <div className={styles.guideText}>
-                    {title.length}/20
-                  </div>
+                  <div className={styles.guideText}>{title.length}/20</div>
                 </div>
                 <input
                   type="text"

@@ -19,6 +19,7 @@
   border-style: solid;
   border-width: 0px 0px 1px 0px;
   z-index: 2;
+  box-shadow: 0px 2px 32px 0px $transparent100;
 
   .logo {
     flex-shrink: 0;
@@ -58,8 +59,8 @@
     border: none;
     padding: 12px 56px;
     cursor: pointer;
-    background-color: var(--Transparent_150, rgba(0, 0, 0, 0.15));
-    color: var(--White, #ffffff);
+    background-color: $transparent150;
+    color: $white;
   }
   
   .button {
