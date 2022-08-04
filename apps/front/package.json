@@ -11,6 +11,9 @@
     "lint:eslint": "eslint --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
     "lint:typeCheck": "tsc --pretty",
     "lint": "npm-run-all -p --print-label \"lint:**\"",
+    "fix:prettier": "prettier --write \"./{pages,components}/**/*.{json,html,yml,tsx,ts,js,jsx}\"",
+    "fix:eslint": "eslint --fix --ext .ts,.tsx,.js,.jsx \"./**/*.{js,jsx,ts,tsx}\"",
+    "fix": "npm-run-all -p --print-label \"fix:**\"",
     "export": "next build && next export"
   },
   "dependencies": {

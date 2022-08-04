@@ -15,7 +15,7 @@ const Navigation: NextPage<NavigationProps> = ({
 }) => {
   const homeTrans = isHome && isTop;
 
-  const user = window.localStorage.getItem('user');
+  const user = window.localStorage.getItem("user");
 
   // TODO: 유효성 검증
   const checkUserValidation = (user: any) => {
@@ -23,25 +23,25 @@ const Navigation: NextPage<NavigationProps> = ({
       return false;
     }
     return true;
-  }
+  };
 
   const handleProfile = () => {
     if (!user) {
-      window.location.href = '/login';
+      window.location.href = "/login";
       return;
     }
     const isValid = checkUserValidation(user);
-    window.location.href = isValid ? '/profile' : '/login';
-  }
+    window.location.href = isValid ? "/profile" : "/login";
+  };
 
   const handleRequest = () => {
     if (!user) {
-      window.location.href = '/login';
+      window.location.href = "/login";
       return;
     }
     const isValid = checkUserValidation(user);
-    window.location.href = isValid ? '/contentRequest' : '/login';
-  }
+    window.location.href = isValid ? "/contentRequest" : "/login";
+  };
 
   return (
     <div className={styles.default}>

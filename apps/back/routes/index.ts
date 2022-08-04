@@ -7,7 +7,10 @@ import chat from "./chat";
 const router = Router();
 
 router.get("/user/all", user.showAllUser);
+router.get("/user/signup", user.signUpUser);
+
 router.get("/article/all", board.showAllBoard);
+
 router.get("/chat/all", chat.showAllChat);
 
 export default router;
