@@ -3,6 +3,7 @@ import http from "http";
 
 import cors from "cors";
 import express from "express";
+import bodyParser from "body-parser";
 import dotEnv from "dotenv";
 import { Server } from "socket.io";
 import swaggerUi from "swagger-ui-express";
@@ -18,6 +19,7 @@ const PORT = 8080;
 const io = new Server(server, { cors: { origin: "*" } });
 
 app.use(cors());
+app.use(bodyParser.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use(routes);
 
