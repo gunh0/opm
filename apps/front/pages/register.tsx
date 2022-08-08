@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useState } from "react";
 import Head from "next/head";
+import Image from "next/image";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
@@ -27,9 +28,15 @@ const Register: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <div className={styles.container}>
+      <div className={styles.mainContainer}>
         <div>
-          <div className={styles.img2}></div>
+          <Image
+            src="/184-660.png"
+            width={184}
+            height={660}
+            alt="img2"
+            className={styles.img2}
+          />
         </div>
         <div className={styles.rightContainer}>
           <div className={styles.title}>Join the Community.</div>

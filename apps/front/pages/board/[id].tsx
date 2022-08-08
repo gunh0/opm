@@ -68,7 +68,13 @@ const Board: NextPage = () => {
             )}
           </div>
         </div>
-        <div className={styles.chatContainer}>{isAccept && <ChatView />}</div>
+        <div className={styles.chatContainer}>
+          {isAccept ? (
+            <ChatView />
+          ) : (
+            <Image src="/440-756.png" alt="img" width={440} height={756} />
+          )}
+        </div>
       </main>
     </div>
   );
