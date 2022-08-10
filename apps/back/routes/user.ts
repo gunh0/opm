@@ -1,29 +1,30 @@
 import { Request } from "express";
 import { Schema, model, connect } from "mongoose";
-// import { UserInfo } from "opm-models";
+import { UserInfo } from "opm-models";
 
 // 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다.";
 
-interface UserInfo {
-  uId: string;
-  uCreateDate: string;
-  uEmail: string;
-  uFirstName: string;
-  uLastName: string;
-  uNickName: string;
-  uPassword: string;
-}
+// interface UserInfo {
+//   uId: string;
+//   uCreateDate: string;
+//   uEmail: string;
+//   uFirstName: string;
+//   uLastName: string;
+//   uNickName: string;
+//   uPassword: string;
+// }
 
 // Mongoose
 const userSchema = new Schema<UserInfo>({
-  uId: String,
-  uCreateDate: String,
-  uEmail: String,
-  uFirstName: String,
-  uLastName: String,
-  uNickName: String,
-  uPassword: String,
+  uId: "String",
+  uCreateDate: "String",
+  uEmail: "String",
+  uFirstName: "String",
+  uLastName: "String",
+  uNickName: "String",
+  uPassword: "String",
+  uStatus: "String",
 });
 userSchema.set("collection", "User");
 const User = model<UserInfo>("User", userSchema);
@@ -42,30 +43,6 @@ async function checkEmail(email) {
   }
 }
 
-// export interface UserInfo {
-//   uId: string;
-//   uCreateDate: string;
-//   uEmail: string;
-//   uFirstName: string;
-//   uLastName: string;
-//   uNickName: string;
-//   uPassword: string;
-//   uStatus: USER_STATUS;
-// }
-
-// const newUser = new User({
-//   uId: "asdfasdfsad",
-//   uCreateDate: "datetime",
-//   uEmail: "@",
-//   uFirstName: "test",
-//   uLastName: "test",
-//   uNickName: "testtest",
-//   uPassword: "password",
-//   uStatus: "ONLINE",
-// });
-// console.log("=======", newUser.uId);
-// await newUser.save();
-
 const showAllUser = async (req, res) => {
   const allUser = await User.find();
   return res.json(allUser);
@@ -81,7 +58,14 @@ const signUpUser = async (req: Request, res) => {
     uEmail: req.body.uEmail,
     uPassword: req.body.uPassword,
   });
-  await newUser.save();
+  const checkUser = await User.find({ uEmail: req.body.uEmail });
+  console.log(checkUser.length);
+  if (checkUser.length) {
+    console.log("하위");
+  } else {
+    console.log("바위");
+  }
+  await newUser.save({});
   console.log(newUser);
 
   return res.send(ALREADY_ID);
