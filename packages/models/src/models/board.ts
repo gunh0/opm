@@ -7,6 +7,8 @@ export interface BoardInfo {
   aDescription: string;
   aContent: string;
   aCategory: string;
+  aCreateDate: string;
+  aEditDate: string;
   aHit: string;
   aEditList: BoardEditList[];
   aStatus: ARTICLE_STATUS;
@@ -14,6 +16,6 @@ export interface BoardInfo {
 
 export interface BoardEditList {
   seq: string;
-  body: string;
-  editDate: string;
+  aProofread: string;
+  aProofreadDate: string;
 }

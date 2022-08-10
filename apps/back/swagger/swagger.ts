@@ -7,8 +7,8 @@ const options = {
       version: "1.0.0",
       description: "설명이 필요한가",
     },
-    host: "localhost:8080",
-    basePath: "/api",
+    host: "http://49.50.166.140:8080",
+    basePath: "/",
 
     securityDefinitions: {
       jwt: {
@@ -19,7 +19,7 @@ const options = {
     },
     security: [{ jwt: [] }],
   },
-  apis: ["./routes/*.yaml", "./swagger/*.yaml"],
+  apis: ["./swagger/*.yaml"],
 };
 
 export const specs = swaggerJsdoc(options);

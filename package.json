@@ -18,7 +18,8 @@
     "clean": "turbo run clean && rm -rf node_modules",
     "lint": "turbo run lint",
     "fix": "turbo run fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest"
   },
   "devDependencies": {
     "husky": "^8.0.1",
