@@ -3,21 +3,32 @@ info:
   version: "1.0.0"
   title: "OPM"
 
-servers:
-  - url: http://49.50.166.140:8080/
-
 paths:
   /user/all:
-    get:
-      summary: "유저 정보 불러오기"
+    post:
+      summary: "모든 회원정보 조회"
       tags:
         - User
-      response:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  ok:
-                    type: boolean
+      consumes:
+        - application/json
+
+  /user/signup:
+    post:
+      summary: "새로운 유저 회원가입"
+      tags:
+        - User
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              uEmail:
+                type: string
+              uPassword:
+                type: string
+              uFirstName:
+                type: string
+              uLastName:
+                type: string

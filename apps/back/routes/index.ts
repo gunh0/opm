@@ -6,7 +6,7 @@ import chat from "./chat";
 
 const router = Router();
 
-router.get("/user/all", user.showAllUser);
+router.post("/user/all", user.showAllUser);
 router.post("/user/signup", user.signUpUser);
 
 router.get("/article/all", board.showAllBoard);
