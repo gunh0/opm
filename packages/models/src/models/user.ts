@@ -3,7 +3,8 @@ export interface UserInfo {
   uId: string;
   uCreateDate: string;
   uEmail: string;
-  uName: string;
+  uFirstName: string;
+  uLastName: string;
   uNickName: string;
   uPassword: string;
   uStatus: USER_STATUS;
