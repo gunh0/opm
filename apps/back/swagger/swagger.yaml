@@ -4,6 +4,14 @@ info:
   title: "OPM"
 
 paths:
+  /user/all:
+    post:
+      summary: "모든 회원정보 조회"
+      tags:
+        - User
+      consumes:
+        - application/json
+        
   /user/signup:
     post:
       summary: "새로운 유저 회원가입"
