@@ -30,8 +30,14 @@ const showAllUser = async (_, res) => {
   return res.json(allUser);
 };
 
+const signUpUser = async (_, res) => {
+  const allUser = await User.find();
+  return res.json(allUser);
+};
+
 const user = {
   showAllUser,
+  signUpUser,
 };
 
 export default user;

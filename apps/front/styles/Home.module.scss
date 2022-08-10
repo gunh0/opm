@@ -23,7 +23,7 @@
 
 .editingCard {
   box-sizing: border-box;
-  width: 600px;
+  width: 48%;
   height: 216px;
   padding: 40px 60px;
   display: inline-flex;
@@ -33,6 +33,7 @@
   border-radius: 20px;
   position: relative;
   cursor: pointer;
+  box-shadow: 0px 4px 8px 0px $transparent50;
 }
 
 .editingCardIsMineText {
@@ -78,6 +79,7 @@
 }
 
 .loadingText {
+  width: 100%;
   color: $royalBlue400;
   font-size: 28px;
   font-weight: bold;

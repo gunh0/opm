@@ -15,64 +15,78 @@
   overflow: hidden;
   align-content: center;
   flex-wrap: nowrap;
-  border-color: $transparent100;
-  border-style: solid;
-  border-width: 0px 0px 1px 0px;
   z-index: 2;
+  background-color: $white;
+  box-shadow: 0px 2px 32px 0px $transparent100;
+}
 
-  .logo {
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    overflow: visible;
-    position: relative;
-    aspect-ratio: 1 / 1;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  
-  .links {
-    flex-shrink: 0;
-    width: 392px;
-    height: 56px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    overflow: visible;
-    position: relative;
-    padding: 0px 0px 0px 0px;
-    align-content: center;
-    flex-wrap: nowrap;
-    gap: 40px;
-  }
+.transparent {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  box-sizing: border-box;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 180px 0px 180px;
+  opacity: 1;
+  overflow: hidden;
+  align-content: center;
+  flex-wrap: nowrap;
+  z-index: 2;
+  box-shadow: 0px 4px 32px 0px $transparent150;
+}
 
-  .buttonTransparent {
-    box-sizing: border-box;
-    width: 200px;
-    height: 44px;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 8px;
-    border: none;
-    padding: 12px 56px;
-    cursor: pointer;
-    background-color: var(--Transparent_150, rgba(0, 0, 0, 0.15));
-    color: var(--White, #ffffff);
-  }
-  
-  .button {
-    box-sizing: border-box;
-    width: 200px;
-    height: 44px;
-    color: $royalBlue500;
-    font-size: 20px;
-    font-weight: bold;
-    background-color: $royalBlue100;
-    border-radius: 8px;
-    border: none;
-    padding: 12px 56px;
-    cursor: pointer;
-  }
+.logo {
+  flex-shrink: 0;
+  width: 116px;
+  height: 56px;
+  overflow: visible;
+  position: relative;
+}
+
+.links {
+  flex-shrink: 0;
+  width: 392px;
+  height: 56px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: visible;
+  position: relative;
+  padding: 0px 0px 0px 0px;
+  align-content: center;
+  flex-wrap: nowrap;
+  gap: 40px;
+}
+
+.buttonTransparent {
+  box-sizing: border-box;
+  width: 200px;
+  height: 44px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 56px;
+  cursor: pointer;
+  background-color: $transparent150;
+  color: $white;
+}
+
+.button {
+  box-sizing: border-box;
+  width: 200px;
+  height: 44px;
+  color: $royalBlue500;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: $royalBlue100;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 56px;
+  cursor: pointer;
 }

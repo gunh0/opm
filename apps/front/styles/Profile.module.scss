@@ -4,7 +4,7 @@
 .container {
   display: flex;
   flex-direction: row;
-  margin: 120px 180px 0 200px;
+  margin: 200px 180px 0 200px;
   padding: 0px;
   gap: 120px;
   height: 100vh;
@@ -38,6 +38,7 @@
   flex-wrap: nowrap;
   gap: 40px;
   border-radius: 12px;
+  box-shadow: 0px 2px 12px 0px $transparent50;
 
   .button_deSelected {
     box-sizing: border-box;
@@ -81,6 +82,14 @@
   background-color: none;
 }
 
+.editingListContainer {
+  height: 40rem;
+}
+
+.editingCard {
+  width: 600px;
+}
+
 .title {
   color: $gray700;
   font-size: 36px;
@@ -116,6 +125,7 @@
   border-radius: 12px;
   color: $gray600;
   font-size: 20px;
+  box-shadow: 0px 4px 16px 0px $transparent50;
 
   &:disabled {
     background-color: $gray200;
@@ -149,8 +159,13 @@
 }
 
 .rightBtn {
-  color: $gray300;
-  font-size: 24px;
-  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  box-shadow: 0px 4px 8px 0px $transparent50;
+  background-color: $white;
+  border-radius: 8px;
   cursor: pointer;
 }

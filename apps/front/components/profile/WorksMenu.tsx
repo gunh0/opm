@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import Image from "next/image";
 
 import styles from "../../styles/Profile.module.scss";
 
@@ -56,11 +57,19 @@ const WorksMenu: NextPage = () => {
                 {el.description}
               </div>
             </div>
-            <div className={styles.rightBtn}>Cancel</div>
+            <div className={styles.rightBtn}>
+              <Image
+                src="/svg/delete.svg"
+                width={16}
+                height={18}
+                alt="cancel"
+                title="cancel"
+              />
+            </div>
           </div>
         ))}
+        <div className={styles.loadingText}>Now loading ...</div>
       </div>
-      <div className={styles.loadingText}>Now loading ...</div>
     </div>
   );
 };
