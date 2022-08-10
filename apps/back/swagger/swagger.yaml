@@ -32,3 +32,127 @@ paths:
                 type: string
               uLastName:
                 type: string
+
+  /board/allArticle:
+    get:
+      tags:
+        - Board
+      summary: "모든 게시글 조회"
+      description: "작성된 모든 게시글을 조회합니다."
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: 성공
+
+  /board/writeArticle:
+    post:
+      tags:
+        - Board
+      summary: "새로운 게시글 작성 (요청자)"
+      description: "요청자가 새로운 게시글을 작성합니다."
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              uId:
+                type: string
+              aTitle:
+                type: string
+              aDescription:
+                type: string
+              aContent:
+                type: string
+              aCategory:
+                type: string
+              aCreateDate:
+                type: string
+
+  /board/editArticle:
+    post:
+      tags:
+        - Board
+      summary: "작성된 게시글 수정 (요청자)"
+      description: "게시글이 LOADING 상태일 때 요청자가 게시글을 수정합니다."
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              aId:
+                type: string
+              uId:
+                type: string
+              aTitle:
+                type: string
+              aDescription:
+                type: string
+              aContent:
+                type: string
+              aCategory:
+                type: string
+              aEditDate:
+                type: string
+
+  /board/acceptArticle:
+    post:
+      tags:
+        - Board
+      summary: "게시글 첨삭 수락 (첨삭자)"
+      description: "게시글이 LOADING 상태일 때 첨삭자가 게시글 첨삭을 수락합니다."
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              aId:
+                type: string
+              eId:
+                type: string
+
+  /board/cancleArticle:
+    post:
+      tags:
+        - Board
+      summary: "게시글 첨삭 취소 (첨삭자)"
+      description: "게시글이 EDITING 상태일 때 첨삭자가 게시글 첨삭을 취소합니다."
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              aId:
+                type: string
+              eId:
+                type: string
+
+  /board/proofreadArticle:
+    post:
+      tags:
+        - Board
+      summary: "게시글 첨삭 완료 (첨삭자)"
+      description: "게시글이 EDITING 상태일 때 첨삭자가 게시글 첨삭을 완료합니다."
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              aId:
+                type: string
+              eId:
+                type: string
+              aProofread:
+                type: string
+              aProofreadDate:
+                type: string

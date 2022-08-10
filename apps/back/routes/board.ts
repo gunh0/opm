@@ -70,7 +70,6 @@ const editArticle = async (req: Request, res: Response) => {
       foundArticle.aContent = req.body.aContent;
       foundArticle.aCategory = req.body.aCategory;
       foundArticle.aEditDate = req.body.aEditDate;
-      foundArticle.aHit = req.body.aHit;
 
       foundArticle.save(function (error, data) {
         if (error) {
