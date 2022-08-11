@@ -15,6 +15,7 @@ router.post("/board/editArticle", board.editArticle);
 router.post("/board/acceptArticle", board.acceptArticle);
 router.post("/board/cancleArticle", board.cancleArticle);
 router.post("/board/proofreadArticle", board.proofreadArticle);
+router.post("/board/hitUpArticle", board.hitUpArticle);
 
 router.get("/room/all", room.showAllRoom);
 

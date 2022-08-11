@@ -182,6 +182,25 @@ const proofreadArticle = async (req: Request, res: Response) => {
   }
 };
 
+const hitUpArticle = async (req: Request, res: Response) => {
+  const foundArticle = await Board.findOne({ aId: req.body.aId });
+  if (foundArticle) {
+    const intHit = parseInt(foundArticle.aHit) + 1;
+    foundArticle.aHit = intHit.toString();
+
+    foundArticle.save(function (error, data) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log(data, "Article Hit updated");
+      }
+    });
+    return res.send({ data: foundArticle, message: "Article Hit 올림" });
+  } else {
+    return res.send({ data: "", message: "aId가 일치하는 Article이 없음" });
+  }
+};
+
 const board = {
   showAllArticle,
   writeArticle,
@@ -189,6 +208,7 @@ const board = {
   acceptArticle,
   cancleArticle,
   proofreadArticle,
+  hitUpArticle,
 };
 
 export default board;
