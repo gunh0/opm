@@ -26,7 +26,7 @@ const Board: NextPage = () => {
   const handleCompletionButton = () => {};
 
   return (
-    <div>
+    <>
       <Head>
         <title>Content View WireFrame</title>
         <meta name="description" content="OPM" />
@@ -76,7 +76,7 @@ const Board: NextPage = () => {
           )}
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
