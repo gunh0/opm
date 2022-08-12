@@ -8,6 +8,7 @@ const router = Router();
 
 router.post("/user/all", user.showAllUser);
 router.post("/user/signup", user.signUpUser);
+router.post("/user/login", user.signIn);
 
 router.get("/board/allArticle", board.showAllArticle);
 router.post("/board/writeArticle", board.writeArticle);
