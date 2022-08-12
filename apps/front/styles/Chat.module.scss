@@ -1,5 +1,7 @@
+@import './_color.scss';
+
 .container {
-  background-color: #ffffff;
+  background-color: $white;
   height: 100%;
   padding: 10px;
 }
@@ -20,8 +22,10 @@
   width: 100%;
   height: 100%;
   border-radius: 12px;
-  color: #333333;
+  color: $gray700;
+  background-color: $gray100;
   padding: 30px 27px 0 27px;
+  font-family: 'Noto Sans KR';
 }
 
 .chatInput:focus {outline:none;}
@@ -34,7 +38,7 @@
   &My {
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     padding-bottom: 28px;
   }
 }
@@ -42,15 +46,16 @@
   display: flex;
   width: 60%;
   padding: 16px 20px 20px 24px;
-  background-color: #EDEDED;
+  background-color: $gray100;
+  color: $gray600;
   border-radius: 20px;
   
   &My {
     display: flex;
     width: 60%;
     padding: 16px 20px 20px 24px;
-    background-color: #8291E3;
-    color: #FFFFFF;
+    background-color: $transparent50;
+    color: $gray600;
     border-radius: 20px;
   }
 }
@@ -60,4 +65,5 @@
   align-items: flex-end;
   height: 48px;
   padding: 16px 20px 0 20px; 
+  color: $gray400;
 }

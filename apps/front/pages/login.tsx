@@ -74,7 +74,7 @@ const Login: NextPage = () => {
               />
             </div>
           </div>
-          <div className={styles.buttonContainer}>
+          <div className={styles.loginButtonContainer}>
             <div className={styles.loginBtn}>Sign In</div>
             <Link href="/register">
               <div className={styles.signupBtn}>Join our Community</div>

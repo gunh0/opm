@@ -26,14 +26,14 @@ const Board: NextPage = () => {
   const handleCompletionButton = () => {};
 
   return (
-    <div>
+    <>
       <Head>
         <title>Content View WireFrame</title>
         <meta name="description" content="OPM" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <main className={styles.container}>
+      <main className={styles.boardContainer}>
         <div className={styles.backContainer} onClick={movePage}>
           <Image src="/backbutton.png" alt="logo" width={56} height={56} />
         </div>
@@ -76,7 +76,7 @@ const Board: NextPage = () => {
           )}
         </div>
       </main>
-    </div>
+    </>
   );
 };
 
