@@ -39,7 +39,7 @@ const ChatView: NextPage = () => {
       console.info("disconnected!", socketClient.id);
       socketClient.disconnect();
     };
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
     if (!chatListRef.current || chatList.length === 0) {
