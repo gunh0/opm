@@ -32,6 +32,23 @@ paths:
                 type: string
               uLastName:
                 type: string
+  
+  /user/login:
+    post:
+      summary: "유저 로그인"
+      tags:
+        - User
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          schema:
+            type: object
+            properties:
+              uEmail:
+                type: string
+              uPassword:
+                type: string
 
   /board/allArticle:
     get:
