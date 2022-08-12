@@ -9,13 +9,13 @@ export interface BoardInfo {
   aCategory: string;
   aCreateDate: string;
   aEditDate: string;
-  aHit: string;
+  aHit: number;
   aEditList: BoardEditList[];
   aStatus: ARTICLE_STATUS;
 }
 
 export interface BoardEditList {
-  seq: string;
+  seq: number;
   aProofread: string;
   aProofreadDate: string;
 }
