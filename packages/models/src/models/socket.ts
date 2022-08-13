@@ -12,7 +12,7 @@ export interface MessageSocket {
   messageId?: string;
   boardId: string;
   from: string;
-  to: string;
+  to?: string[];
   type: MessageType;
   timestamp: string;
   textBody: string;

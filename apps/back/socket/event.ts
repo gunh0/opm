@@ -1,32 +1,32 @@
 import { randomUUID } from "crypto";
 
-import { SocketPath } from "opm-models";
+import { SocketPath, MessageSocket } from "opm-models";
 import { Server } from "socket.io";
 
-// interface RoomData {
-//   aId: string;
-// }
 type Rooms = Record<string, string[]>;
 
 export const runSocket = (io: Server) => {
+  const rooms = {} as Rooms;
+
   io.on(SocketPath.CONNECT, (socket) => {
-    const rooms = {
-      // 'a31b3fed-72d8-4b15-bfa5-ff73abcae70d': []
-    } as Rooms;
     console.info("server received connection!", socket.id);
 
     socket.on(SocketPath.ROOM_DATA, (data) => {
-      const { aId } = data;
-      // TODO: rooms에 aId가 키 값으로 있고, 그 배열 안에 소켓 아이디가 있어야 함.
+      const { aId, uId } = data;
       if (!rooms[aId]) {
         rooms[aId] = [];
+      }
+      if (rooms[aId].length >= 2) {
+        socket.emit(SocketPath.INVALID, {
+          message: "Room 인원 초과",
+        });
       }
       socket.emit(SocketPath.MESSAGE, {
         aId,
         messageId: randomUUID(),
         type: "SYSTEM",
         from: "SYSTEM",
-        to: socket.id,
+        to: [uId],
         timestamp: new Date().toISOString(),
         textBody: "open chatting room",
       });
@@ -34,15 +34,20 @@ export const runSocket = (io: Server) => {
       socket.join(aId);
     });
 
-    socket.on(SocketPath.MESSAGE, (data) => {
-      // TODO: aId를 기준으로 거기에다가 메시지 보내야 함.
-      // console.info("received", data);
-      // console.log(rooms);
-      socket.emit("message", { ...data, messageId: randomUUID() });
-      // socket.to(roomData.aId).emit(SocketPath.MESSAGE, { textBody: "WOW~!!" });
+    socket.on(SocketPath.MESSAGE, (data: MessageSocket) => {
+      socket.emit(SocketPath.MESSAGE, { ...data, messageId: randomUUID() });
+
+      const { boardId, textBody } = data;
+      rooms[boardId].forEach((socketId) => {
+        if (socketId === socket.id) {
+          return;
+        }
+
+        socket.to(socketId).emit(SocketPath.MESSAGE, { textBody: textBody });
+      });
     });
 
-    socket.on("disconnect", () => {
+    socket.on(SocketPath.DISCONNECT, () => {
       console.info("disconnect", socket.id);
     });
   });

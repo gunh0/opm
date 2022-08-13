@@ -9,10 +9,9 @@ import styles from "../../styles/Chat.module.scss";
 import ChatMessage from "./ChatMessage";
 
 const testData = {
-  userId: "me",
+  userId: `${Date.now()}`,
   boardId: "test0",
-  from: "me",
-  to: "you",
+  from: `${Date.now()}`
 };
 
 const ChatView: NextPage = () => {
@@ -30,9 +29,13 @@ const ChatView: NextPage = () => {
 
     socket.on(SocketPath.CONNECT, () => {
       console.info("connected!", socket.id);
-      socket.emit(SocketPath.ROOM_DATA, { aId: testData.boardId });
+      socket.emit(SocketPath.ROOM_DATA, { 
+        aId: testData.boardId,
+        uId: testData.userId
+      });
     });
-    socket.on(SocketPath.MESSAGE, (data: any) => {
+
+    socket.on(SocketPath.MESSAGE, (data: MessageSocket) => {
       setChatList((prev) => [...prev, data]);
     });
 
