@@ -10,6 +10,7 @@ router.post("/user/all", user.showAllUser);
 router.post("/user/signup", user.signUpUser);
 router.post("/user/login", user.signIn);
 
+router.get("/board/article", board.showArticle);
 router.get("/board/articleList", board.showArticleList);
 router.post("/user/myArticleList", board.showArticleListByUser);
 router.post("/user/myEditingList", board.showEditingListByUser);

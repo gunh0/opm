@@ -10,11 +10,11 @@ export interface BoardInfo {
   aCreateDate: string;
   aEditDate: string;
   aHit: number;
-  aEditList: BoardEditList[];
+  aEditList: BoardEditData[];
   aStatus: ARTICLE_STATUS;
 }
 
-export interface BoardEditList {
+export interface BoardEditData {
   seq: number;
   aProofread: string;
   aProofreadDate: string;

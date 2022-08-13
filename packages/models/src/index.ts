@@ -1,5 +1,5 @@
 import { Url, SocketPath, UserApiPath, BoardApiPath } from "./constant/path";
-import type { ARTICLE_STATUS, BoardInfo, BoardEditList } from "./models/board";
+import type { ARTICLE_STATUS, BoardInfo, BoardEditData } from "./models/board";
 import type { UrlKey, SocketKey } from "./models/path";
 import type {
   CommonSocket,
@@ -31,6 +31,6 @@ export {
   UrlKey,
   SocketKey,
   BoardInfo,
-  BoardEditList,
+  BoardEditData,
   StatusCode,
 };
