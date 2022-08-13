@@ -37,7 +37,7 @@ const viewList = [
 ];
 
 const WorksMenu: NextPage = () => {
-  const [isNull, setNull] = useState(false);
+  const [isPostEmpty, setIsPostEmpty] = useState(false);
   const movePage = () => {
     document.location.href = "/content";
   };
@@ -45,7 +45,7 @@ const WorksMenu: NextPage = () => {
   return (
     <div>
       <div className={styles.title}>Accepted proofread contents.</div>
-      {isNull ? (
+      {isPostEmpty ? (
         <div className={styles.nullText}>You never accepted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>

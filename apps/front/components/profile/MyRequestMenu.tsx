@@ -37,7 +37,7 @@ const viewList = [
 ];
 
 const MyRequestMenu: NextPage = () => {
-  const [isNull, setNull] = useState(false);
+  const [isPostEmpty, setIsPostEmpty] = useState(false);
   const movePage = () => {
     document.location.href = "/content";
   };
@@ -45,7 +45,7 @@ const MyRequestMenu: NextPage = () => {
   return (
     <div>
       <div className={styles.title}>Posted by you.</div>
-      {isNull ? (
+      {isPostEmpty ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
