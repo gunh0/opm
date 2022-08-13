@@ -8,7 +8,8 @@ export const ApiPath: Record<ApiKey, string> = {
   signup: "/user/signup",
 };
 export const SocketPath: Record<SocketKey, string> = {
-  CONNECTION: "connect",
+  CONNECT: "connect",
   MESSAGE: "message",
   ROOM_DATA: "roomData",
+  DISCONNECT: "disconnect",
 };

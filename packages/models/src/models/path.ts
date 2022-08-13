@@ -1,5 +1,5 @@
 export type UrlKey = "SOCKET" | "SERVER";
 
-export type SocketKey = "CONNECTION" | "MESSAGE" | "ROOM_DATA";
+export type SocketKey = "CONNECT" | "MESSAGE" | "ROOM_DATA" | "DISCONNECT";
 
 export type ApiKey = "signup";

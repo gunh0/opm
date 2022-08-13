@@ -15,7 +15,8 @@ const Navigation: NextPage<NavigationProps> = ({
 }) => {
   const homeTrans = isHome && isTop;
 
-  const user = window.localStorage.getItem("user");
+  // const user = window.localStorage.getItem("user");
+  const user = "";
 
   // TODO: 유효성 검증
   const checkUserValidation = (user: any) => {

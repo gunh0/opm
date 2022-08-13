@@ -28,9 +28,9 @@ const ChatView: NextPage = () => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(SocketPath.CONNECTION, () => {
+    socket.on(SocketPath.CONNECT, () => {
       console.info("connected!", socket.id);
-      socket.emit(SocketPath.ROOM_DATA, { boardId: testData.boardId });
+      socket.emit(SocketPath.ROOM_DATA, { aId: testData.boardId });
     });
     socket.on(SocketPath.MESSAGE, (data: any) => {
       setChatList((prev) => [...prev, data]);
