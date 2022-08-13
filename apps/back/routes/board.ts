@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { BoardEditList, BoardInfo } from "opm-models";
+import { BoardEditList, BoardInfo, StatusCode } from "opm-models";
 
 const boardModel = new mongoose.Schema<BoardInfo>({
   aId: "",
@@ -26,7 +26,7 @@ const showArticleList = async (req: Request, res: Response) => {
   if (aId) {
     const foundArticle = await Board.findOne({ aId: aId });
     if (!foundArticle) {
-      return res.status(200).send({ code: 300200 });
+      return res.status(200).send({ code: StatusCode.BAD_REQUEST });
     }
 
     const lastMongoId = foundArticle._id;
@@ -72,11 +72,11 @@ const editArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus !== "INIT" || foundArticle.uId !== uId) {
-    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아니거나 uId가 다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.aTitle = aTitle;
@@ -100,11 +100,11 @@ const acceptArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "INIT") {
-    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아님
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.eId = eId;
@@ -125,11 +125,11 @@ const cancelArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
-    return res.status(200).send({ code: 300200 }); // Article이 EDITING 상태가 아니거나 edi가다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.eId = "";
@@ -150,11 +150,11 @@ const proofreadArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
-    return res.status(200).send({ code: 300200 }); // Article이 EDITING 상태가 아니거나 edi가다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   const editList = foundArticle.aEditList;
@@ -180,7 +180,7 @@ const hitUpArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.aHit += 1;
