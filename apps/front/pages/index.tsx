@@ -44,9 +44,6 @@ const Home: NextPage = () => {
         <div className={styles.scrollSnap}>
           <EditingList />
         </div>
-        <div className={styles.scrollSnapEnd}>
-          <Footer />
-        </div>
       </div>
     </>
   );
