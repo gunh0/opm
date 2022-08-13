@@ -6,9 +6,11 @@ import bodyParser from "body-parser";
 import dotEnv from "dotenv";
 import swaggerUi from "swagger-ui-express";
 import mongoose, { ConnectOptions } from "mongoose";
+import { Server } from "socket.io";
 
 import routes from "./routes";
 import { specs } from "./swagger/swagger";
+import { runSocket } from "./socket/event";
 
 dotEnv.config();
 const app = express();
@@ -22,6 +24,8 @@ app.use(routes);
 
 opmServer.listen(PORT, () => {
   console.info(`Listening on port ${PORT}`);
+  const io = new Server(opmServer, { cors: { origin: "*" } });
+  runSocket(io);
 });
 
 const mongooseOption: ConnectOptions = {
