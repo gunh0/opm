@@ -12,6 +12,7 @@ import type {
   UpdateBoardStatusSocket,
 } from "./models/socket";
 import type { USER_STATUS, UserInfo } from "./models/user";
+import {StatusCode} from "./models/status";
 
 export {
   SocketPath,
@@ -32,4 +33,5 @@ export {
   SocketKey,
   BoardInfo,
   BoardEditList,
+  StatusCode,
 };
