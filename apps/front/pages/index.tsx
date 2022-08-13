@@ -28,6 +28,7 @@ const Home: NextPage = () => {
       observer.disconnect();
     };
   }, [topRef]);
+
   return (
     <>
       <Head>

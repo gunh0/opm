@@ -1,14 +1,16 @@
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Board.module.scss";
 
 const ContentRequest: NextPage = () => {
+  const router = useRouter();
   const movePage = () => {
-    document.location.href = "/";
+    router.push("/");
   };
 
   const [title, setTitle] = useState<string>("");

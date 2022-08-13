@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import styles from "../../styles/Profile.module.scss";
 
@@ -36,8 +37,9 @@ const viewList = [
 ];
 
 const WorksMenu: NextPage = () => {
+  const router = useRouter();
   const movePage = () => {
-    document.location.href = "/content";
+    router.push("/content");
   };
 
   return (

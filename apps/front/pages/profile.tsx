@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { UserInfo } from "opm-models";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
@@ -8,28 +10,37 @@ import MyRequestMenu from "../components/profile/MyRequestMenu";
 import ProfileMenu from "../components/profile/ProfileMenu";
 import WorksMenu from "../components/profile/WorksMenu";
 import styles from "../styles/Profile.module.scss";
+import { logout } from "../store/slice/user";
+import { RootState } from "../store";
+
+const menuArr = [
+  {
+    title: "Profile",
+    content: <ProfileMenu />,
+  },
+  {
+    title: "My Request",
+    content: <MyRequestMenu />,
+  },
+  {
+    title: "Works",
+    content: <WorksMenu />,
+  },
+];
 
 const Profile: NextPage = () => {
   const router = useRouter();
-  const menuArr = [
-    {
-      title: "Profile",
-      content: <ProfileMenu />,
-    },
-    {
-      title: "My Request",
-      content: <MyRequestMenu />,
-    },
-    {
-      title: "Works",
-      content: <WorksMenu />,
-    },
-  ];
   const [activeIndex, setActiveIndex] = useState(0);
+  const dispatch = useDispatch();
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
 
-  // 로그아웃
+  if (!user.uId) {
+    router.push("/login");
+    return <div>Loading...</div>;
+  }
+
   const handleLogoutClick = () => {
-    window.localStorage.removeItem("user");
+    dispatch(logout());
     router.push("/");
   };
 

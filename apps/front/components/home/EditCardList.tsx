@@ -14,7 +14,6 @@ const EditCardList: NextPage = () => {
     const apiCall = async () => {
       try {
         const res = await fetch(`${Url.SERVER}${BoardApiPath.all}`);
-        if (!res.body) return;
         const { data } = await res.json();
         setBoardList(data);
       } catch (e) {

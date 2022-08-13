@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { UserInfo } from "opm-models";
 
 import styles from "../../styles/Navigation.module.scss";
+import { RootState } from "../../store";
 
 interface NavigationProps {
   isTop?: boolean;
@@ -15,42 +18,23 @@ const Navigation: NextPage<NavigationProps> = ({
   isHome = false,
 }) => {
   const homeTrans = isHome && isTop;
-  const [user, setUser] = useState("");
-
-  useEffect(() => {
-    if (!window) {
-      return;
-    }
-    const user = window.localStorage.getItem("user");
-    if (user) {
-      setUser(user);
-    }
-  }, []);
-
-  // TODO: 유효성 검증
-  const checkUserValidation = (user: any) => {
-    if (!user) {
-      return false;
-    }
-    return true;
-  };
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
+  const router = useRouter();
 
   const handleProfile = () => {
-    if (!user) {
-      window.location.href = "/login";
+    if (!user.uId) {
+      router.push("/login");
       return;
     }
-    const isValid = checkUserValidation(user);
-    window.location.href = isValid ? "/profile" : "/login";
+    router.push("/profile");
   };
 
   const handleRequest = () => {
-    if (!user) {
-      window.location.href = "/login";
+    if (!user.uId) {
+      router.push("/login");
       return;
     }
-    const isValid = checkUserValidation(user);
-    window.location.href = isValid ? "/contentRequest" : "/login";
+    router.push("/contentRequest");
   };
 
   return (

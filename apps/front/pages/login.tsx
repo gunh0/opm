@@ -5,13 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { Url, UserApiPath } from "opm-models";
 import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
+import { login } from "../store/slice/user";
 
 const Login: NextPage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [validEmail, setValidEmail] = useState<boolean>(true);
@@ -21,7 +24,6 @@ const Login: NextPage = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
 
-  // 로그인
   const handleSignInClick = () => {
     if (!email || !password) {
       alert("Please fill out everything.");
@@ -41,20 +43,16 @@ const Login: NextPage = () => {
       body: JSON.stringify(data),
     })
       .then((response) => {
-        if (response.ok) {
-          router.push("/");
-          window.localStorage.setItem("user", email);
+        if (!response.ok) {
+          setValidEmail(false);
+          setValidPassword(false);
           return;
         }
-        if (response.status == 404) {
-          // 회원정보 없음
-          setValidEmail(false);
-        } else {
-          if (response.status == 400) {
-            // 잘못된 비밀번호
-            setValidPassword(false);
-          }
-        }
+        return response.json();
+      })
+      .then((data) => {
+        dispatch(login(data));
+        router.push("/");
       })
       .catch((e) => {
         console.error(e);

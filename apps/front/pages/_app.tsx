@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 
 import useWindowSize from "../hooks/useWindowSize";
 import Error from "../components/common/Error";
+import wrapper from "../store";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [width, height] = useWindowSize();
@@ -17,4 +18,4 @@ function MyApp({ Component, pageProps }: AppProps) {
   );
 }
 
-export default MyApp;
+export default wrapper.withRedux(MyApp);

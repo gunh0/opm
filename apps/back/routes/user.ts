@@ -1,3 +1,5 @@
+import { randomUUID } from "crypto";
+
 import { Request } from "express";
 import mongoose, { Schema, model } from "mongoose";
 import { UserInfo, StatusCode } from "opm-models";
@@ -30,6 +32,7 @@ const signUpUser = async (req: Request, res) => {
 
   const { email, password, firstName, lastName } = req.body;
   const newUser = new User({
+    uId: randomUUID(),
     uEmail: email,
     uPassword: password,
     uFirstName: firstName,
@@ -49,24 +52,15 @@ const signUpUser = async (req: Request, res) => {
 };
 
 const signIn = async (req: Request, res) => {
-  const checkUser = await User.find({ uEmail: req.body.email });
-  console.info(checkUser.length);
-  if (checkUser.length) {
-    const user = await User.find({
-      uEmail: req.body.email,
-      uPassword: req.body.password,
-    });
+  const user = await User.findOne({
+    uEmail: req.body.email,
+    uPassword: req.body.password,
+  });
 
-    // 비밀번호 확인
-    console.info(user.length);
-    if (user.length === 0) {
-      return res.status(StatusCode.BAD_REQUEST).send("잘못된 비밀번호입니다.");
-    } else {
-      return res.status(StatusCode.OK).send("로그인 성공!");
-    }
-  } else {
-    return res.status(StatusCode.NOT_FOUND).send("없는 사용자입니다.");
+  if (!user) {
+    return res.status(StatusCode.BAD_REQUEST).send("잘못된 인풋입니다.");
   }
+  return res.status(StatusCode.OK).json(user);
 };
 
 const user = {
