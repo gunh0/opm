@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { MessageSocket, SocketPath, Url } from "opm-models";
+import { useRouter } from "next/router";
 
 import { ErrorMessage } from "../../helpers/error";
 import styles from "../../styles/Chat.module.scss";
@@ -15,9 +16,12 @@ const testData = {
 };
 
 const ChatView: NextPage = () => {
+  const router = useRouter();
   const [socket, setSocket] = useState<Socket>();
   const [chatList, setChatList] = useState<MessageSocket[]>([]);
   const chatListRef = useRef<HTMLDivElement>(null);
+
+  const { id: aId } = router.query;
 
   useEffect((): any => {
     const socketClient = io(Url.SOCKET, { transports: ["websocket"] });
@@ -26,7 +30,6 @@ const ChatView: NextPage = () => {
 
   useEffect(() => {
     if (!socket) return;
-
     socket.on(SocketPath.CONNECT, () => {
       console.info("connected!", socket.id);
       socket.emit(SocketPath.ROOM_DATA, {
@@ -44,7 +47,7 @@ const ChatView: NextPage = () => {
       console.info("disconnected!", socket.id);
       socket.disconnect();
     };
-  }, [socket]);
+  }, [socket, aId]);
 
   useEffect(() => {
     if (!chatListRef.current || chatList.length === 0) {

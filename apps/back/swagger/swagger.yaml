@@ -93,7 +93,7 @@ paths:
       tags:
         - Board
       summary: "작성된 게시글 수정 (요청자)"
-      description: "게시글이 LOADING 상태일 때 요청자가 게시글을 수정합니다."
+      description: "게시글이 INIT 상태일 때 요청자가 게시글을 수정합니다."
       consumes:
         - application/json
       parameters:
@@ -121,7 +121,7 @@ paths:
       tags:
         - Board
       summary: "게시글 첨삭 수락 (첨삭자)"
-      description: "게시글이 LOADING 상태일 때 첨삭자가 게시글 첨삭을 수락합니다."
+      description: "게시글이 INIT 상태일 때 첨삭자가 게시글 첨삭을 수락합니다."
       consumes:
         - application/json
       parameters:

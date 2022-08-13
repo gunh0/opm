@@ -19,7 +19,8 @@
     "lint": "turbo run lint",
     "fix": "turbo run fix",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "start": "yarn && yarn run build:pkgs && yarn front build && yarn back build && turbo run start"
   },
   "devDependencies": {
     "husky": "^8.0.1",

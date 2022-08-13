@@ -42,7 +42,7 @@ const writeArticle = async (req: Request, res: Response) => {
     aEditDate: createDate,
     aHit: 0,
     aEditList: [],
-    aStatus: "LOADING",
+    aStatus: "INIT",
   });
 
   newArticle.save((error, data) => {
@@ -63,8 +63,8 @@ const editArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
   }
 
-  if (foundArticle.aStatus !== "LOADING" || foundArticle.uId !== uId) {
-    return res.status(200).send({ code: 300200 }); // Article이 LOADING 상태가 아니거나 uId가 다름
+  if (foundArticle.aStatus !== "INIT" || foundArticle.uId !== uId) {
+    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아니거나 uId가 다름
   }
 
   foundArticle.aTitle = aTitle;
@@ -91,8 +91,8 @@ const acceptArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
   }
 
-  if (foundArticle.aStatus === "LOADING") {
-    return res.status(200).send({ code: 300200 }); // Article이 LOADING 상태가 아님
+  if (foundArticle.aStatus === "INIT") {
+    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아님
   }
 
   foundArticle.eId = eId;
@@ -121,7 +121,7 @@ const cancelArticle = async (req: Request, res: Response) => {
   }
 
   foundArticle.eId = "";
-  foundArticle.aStatus = "LOADING";
+  foundArticle.aStatus = "INIT";
 
   foundArticle.save((error, data) => {
     if (error) {

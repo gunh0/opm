@@ -1,3 +1,5 @@
+import { ARTICLE_STATUS } from "./board";
+
 export interface CommonSocket {
   path: string;
 }
@@ -17,11 +19,10 @@ export interface MessageSocket {
   timestamp: string;
   textBody: string;
 }
-export type BOARD_STATUS = "LOADING" | "EDITING" | "DONE"; // TODO: 상태 추가
 export interface BoardSocket {
   boardId: string;
   editorId: string;
-  boardStatus: BOARD_STATUS;
+  boardStatus: ARTICLE_STATUS;
   editedList: BoardEditSocket[];
 }
 export interface BoardEditSocket {
@@ -34,5 +35,5 @@ export interface BoardEditSocket {
 export interface UpdateBoardStatusSocket {
   boardId: string;
   editorId: string;
-  status: BOARD_STATUS;
+  status: ARTICLE_STATUS;
 }

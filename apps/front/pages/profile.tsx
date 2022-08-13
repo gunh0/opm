@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
@@ -9,6 +10,7 @@ import WorksMenu from "../components/profile/WorksMenu";
 import styles from "../styles/Profile.module.scss";
 
 const Profile: NextPage = () => {
+  const router = useRouter();
   const menuArr = [
     {
       title: "Profile",
@@ -24,6 +26,12 @@ const Profile: NextPage = () => {
     },
   ];
   const [activeIndex, setActiveIndex] = useState(0);
+
+  // 로그아웃
+  const handleLogoutClick = () => {
+    window.localStorage.removeItem("user");
+    router.push("/");
+  };
 
   return (
     <div>
@@ -46,7 +54,9 @@ const Profile: NextPage = () => {
               </div>
             ))}
           </div>
-          <div className={styles.logoutBtn}>Log out</div>
+          <div className={styles.logoutBtn} onClick={handleLogoutClick}>
+            Log out
+          </div>
         </div>
         <div className={styles.content}>{menuArr[activeIndex].content}</div>
       </div>
