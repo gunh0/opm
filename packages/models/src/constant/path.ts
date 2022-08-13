@@ -10,7 +10,7 @@ export const UserApiPath: Record<UserApiKey, string> = {
   signin: "/user/login",
 };
 export const BoardApiPath: Record<BoardApiKey, string> = {
-  all: "/board/allArticle",
+  all: "/board/articleList",
   write: "/board/writeArticle",
   edit: "/board/editArticle",
   accept: "/board/acceptArticle",
