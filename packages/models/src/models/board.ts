@@ -1,4 +1,4 @@
-export type ARTICLE_STATUS = "LOADING" | "EDITING" | "DONE";
+export type ARTICLE_STATUS = "INIT" | "EDITING" | "DONE" | "COMPLETE";
 export interface BoardInfo {
   aId: string;
   uId: string;

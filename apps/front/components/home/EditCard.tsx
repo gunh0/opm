@@ -29,12 +29,15 @@ const EditCard: FunctionComponent<EditCardProps> = ({
     <div className={styles.editingCard} onClick={() => movePage(aId)}>
       <div className={styles.editingCardTitleContainer}>
         <div className={styles.editingCardTitle}>{aTitle}</div>
+        {/* TODO: uId가 나랑 같으면 이거 */}
         {/* {isMine && (
           <div className={styles.editingCardIsMineText}>my request</div>
         )}
         {complete && (
           )}  */}
-        <div className={styles.editingCardCompleteText}>complete</div>
+        {aStatus === "COMPLETE" && (
+          <div className={styles.editingCardCompleteText}>complete</div>
+        )}
       </div>
       <div className={styles.editingCardDescription}>{aDescription}</div>
     </div>
