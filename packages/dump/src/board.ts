@@ -136,9 +136,38 @@ const homeList = [
   },
 ];
 
+const alarmList = [
+  {
+    key: 1,
+    content: "Requested contents",
+    watch: false,
+  },
+  {
+    key: 2,
+    content: "Proofreaded contents",
+    watch: false,
+  },
+  {
+    key: 3,
+    content: "Requested contents",
+    watch: false,
+  },
+  {
+    key: 4,
+    content: "Proofreaded contents",
+    watch: false,
+  },
+  {
+    key: 5,
+    content: "Requested contents",
+    watch: false,
+  },
+];
+
 const board = {
   boardText,
   homeList,
+  alarmList,
 };
 
 export default board;
