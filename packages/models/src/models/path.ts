@@ -7,7 +7,12 @@ export type SocketKey =
   | "DISCONNECT"
   | "ERROR";
 
-export type UserApiKey = "all" | "signup" | "signin";
+export type UserApiKey =
+  | "all"
+  | "signup"
+  | "signin"
+  | "myArticleList"
+  | "myEditingList";
 
 export type BoardApiKey =
   | "all"
