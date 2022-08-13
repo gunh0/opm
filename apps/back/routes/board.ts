@@ -21,9 +21,20 @@ const boardModel = new mongoose.Schema<BoardInfo>({
 boardModel.set("collection", "Board");
 const Board = mongoose.model("Board", boardModel);
 
-const showAllArticle = async (_: Request, res: Response) => {
-  const allBoard = await Board.find();
-  return res.status(200).send({ data: allBoard });
+const showArticleList = async (req: Request, res: Response) => {
+  const { aId } = req.query;
+  if (aId) {
+    const foundArticle = await Board.findOne({ aId: aId });
+    if (!foundArticle) {
+      return res.status(200).send({ code: 300200 });
+    }
+
+    const lastMongoId = foundArticle._id;
+    await Board.find({ _id: { $gt: lastMongoId } }).limit(20);
+  }
+
+  const BoardData = await Board.find().limit(20);
+  return res.status(200).send({ data: BoardData });
 };
 
 const writeArticle = async (req: Request, res: Response) => {
@@ -184,7 +195,7 @@ const hitUpArticle = async (req: Request, res: Response) => {
 };
 
 const board = {
-  showAllArticle,
+  showArticleList,
   writeArticle,
   editArticle,
   acceptArticle,
