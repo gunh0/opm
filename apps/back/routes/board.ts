@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { BoardEditList, BoardInfo, StatusCode } from "opm-models";
+import { BoardEditData, BoardInfo, StatusCode } from "opm-models";
 
 const boardModel = new mongoose.Schema<BoardInfo>({
   aId: "",
@@ -20,6 +20,15 @@ const boardModel = new mongoose.Schema<BoardInfo>({
 });
 boardModel.set("collection", "Board");
 const Board = mongoose.model("Board", boardModel);
+
+const showArticle = async (req: Request, res: Response) => {
+  const { aId } = req.query;
+  const foundArticle = await Board.findOne({ aId: aId });
+  if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+  return res.status(200).send({ data: foundArticle });
+};
 
 const showArticleList = async (req: Request, res: Response) => {
   const { aId } = req.query;
@@ -71,7 +80,7 @@ const writeArticle = async (req: Request, res: Response) => {
     aCreateDate: createDate,
     aEditDate: createDate,
     aHit: 0,
-    aEditList: [{} as BoardEditList],
+    aEditList: [] as BoardEditData[],
     aStatus: "INIT",
   });
 
@@ -185,12 +194,12 @@ const proofreadArticle = async (req: Request, res: Response) => {
   }
 
   foundArticle.aEditList = [];
-  const newBoardEditList: BoardEditList = {
+  const newBoardEditData: BoardEditData = {
     seq: 1,
     aProofread,
     aProofreadDate: new Date().toISOString(),
   };
-  foundArticle.aEditList.push(newBoardEditList);
+  foundArticle.aEditList.push(newBoardEditData);
 
   foundArticle.save((error, data) => {
     if (error) {
@@ -223,6 +232,7 @@ const hitUpArticle = async (req: Request, res: Response) => {
 };
 
 const board = {
+  showArticle,
   showArticleList,
   showArticleListByUser,
   showEditingListByUser,

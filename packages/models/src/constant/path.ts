@@ -12,9 +12,11 @@ export const UserApiPath: Record<UserApiKey, string> = {
   myEditingList: "/user/myEditingList",
 };
 export const BoardApiPath: Record<BoardApiKey, string> = {
+  one: "/board/articleId",
   all: "/board/articleList",
   write: "/board/writeArticle",
   edit: "/board/editArticle",
+  delete: "/board/deleteArticle",
   accept: "/board/acceptArticle",
   cancel: "/board/calcelArticle",
   proofread: "/board/proofreadArticle",

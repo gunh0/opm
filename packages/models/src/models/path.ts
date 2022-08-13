@@ -16,9 +16,11 @@ export type UserApiKey =
   | "myEditingList";
 
 export type BoardApiKey =
+  | "one"
   | "all"
   | "write"
   | "edit"
+  | "delete"
   | "accept"
   | "cancel"
   | "proofread";
