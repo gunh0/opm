@@ -30,7 +30,8 @@ const showArticleList = async (req: Request, res: Response) => {
     }
 
     const lastMongoId = foundArticle._id;
-    await Board.find({ _id: { $gt: lastMongoId } }).limit(20);
+    const BoardData = await Board.find({ _id: { $gt: lastMongoId } }).limit(20);
+    return res.status(200).send({ data: BoardData });
   }
 
   const BoardData = await Board.find().limit(20);
