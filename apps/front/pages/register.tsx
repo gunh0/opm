@@ -1,17 +1,22 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import { Url, ApiPath } from "opm-models";
+import { useRouter } from "next/router";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 
 const Register: NextPage = () => {
+  const router = useRouter();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [agreePP, setAgreePP] = useState<boolean>(false);
+
   const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFirstName(e.currentTarget.value);
   const onChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -20,6 +25,48 @@ const Register: NextPage = () => {
     setEmail(e.currentTarget.value);
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
+
+  const handleAgreementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAgreePP(e.target.checked);
+  };
+  const handleSignUpClick = () => {
+    if (!firstName || !lastName || !email || !password) {
+      alert("빈칸을 채우세요");
+      return;
+    }
+    if (!agreePP) {
+      alert("동의 하셈");
+      return;
+    }
+    const matchedEmailRegExpList = email.match(/@/g);
+    if (email.startsWith("@") || matchedEmailRegExpList?.length !== 1) {
+      alert("님 이메일 이상함");
+      return;
+    }
+
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    fetch(`${Url.SERVER}${ApiPath.signup}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((data) => {
+        // 분기 처리가 필요함.
+        router.push("/login");
+      })
+      .catch((e) => {
+        console.error(e);
+        alert("먼가 문제 있음...");
+      });
+  };
+
   return (
     <>
       <Head>
@@ -101,12 +148,14 @@ const Register: NextPage = () => {
               <input
                 type="checkbox"
                 name="agree"
-                value="yes"
                 className={styles.checkbox}
+                onChange={handleAgreementChange}
               />
               I agree to all the Term, Privacy Policy and Fees.
             </label>
-            <div className={styles.loginBtn}>Sign Up</div>
+            <div className={styles.loginBtn} onClick={handleSignUpClick}>
+              Sign Up
+            </div>
           </div>
         </div>
       </div>

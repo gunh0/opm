@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import { UserInfo } from "opm-models";
 // const MUUID = require('uuid-mongodb');
 
@@ -23,14 +23,14 @@ const statusCode = {
 };
 
 // Mongoose
-const userSchema = new Schema<UserInfo>({
-  uId: "String",
-  uCreateDate: "String",
-  uEmail: "String",
-  uFirstName: "String",
-  uLastName: "String",
-  uNickName: "String",
-  uPassword: "String",
+const userSchema = new mongoose.Schema<UserInfo>({
+  uId: "",
+  uCreateDate: "",
+  uEmail: "",
+  uFirstName: "",
+  uLastName: "",
+  uNickName: "",
+  uPassword: "",
   uStatus: "String",
 });
 userSchema.set("collection", "User");
@@ -42,23 +42,23 @@ const showAllUser = async (req, res) => {
 };
 
 const signUpUser = async (req: Request, res) => {
-  console.log("Requests:", req.body);
-  console.log("Request email:", req.body.uEmail);
+  console.info("Requests:", req.body);
+
+  const { email, password, firstName, lastName } = req.body;
   const newUser = new User({
-    uEmail: req.body.uEmail,
-    uPassword: req.body.uPassword,
-    uFirstName: req.body.uFirstName,
-    uLastName: req.body.uLastName,
+    uEmail: email,
+    uPassword: password,
+    uFirstName: firstName,
+    uLastName: lastName,
   });
   // 중복 이메일 확인
-  const checkUser = await User.find({ uEmail: req.body.uEmail });
-  console.log(checkUser.length);
+  const checkUser = await User.find({ uEmail: email });
   if (checkUser.length) {
-    console.log("이미 존재하는 사용자입니다.");
+    console.info("이미 존재하는 사용자입니다.");
     return res.send(ALREADY_ID);
   } else {
-    console.log("존재하지 않는 사용자입니다.");
-    console.log("회원등록 정보:", newUser);
+    console.info("존재하지 않는 사용자입니다.");
+    console.info("회원등록 정보:", newUser);
     await newUser.save();
     return res.send(CREATED_ID);
   }
@@ -66,7 +66,7 @@ const signUpUser = async (req: Request, res) => {
 
 const signIn = async (req: Request, res) => {
   const checkUser = await User.find({ uEmail: req.body.uEmail });
-  console.log(checkUser.length);
+  console.info(checkUser.length);
   if (checkUser.length) {
     const user = await User.find({
       uEmail: req.body.uEmail,
@@ -74,7 +74,7 @@ const signIn = async (req: Request, res) => {
     });
 
     // 비밀번호 확인
-    console.log(user.length);
+    console.info(user.length);
     if (user.length === 0) {
       return res.status(statusCode.BAD_REQUEST).send("잘못된 비밀번호입니다.");
     } else {
