@@ -19,14 +19,22 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState<string>("");
   const [validEmail, setValidEmail] = useState<boolean>(true);
   const [validPassword, setValidPassword] = useState<boolean>(true);
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidEmail(true);
     setEmail(e.currentTarget.value);
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  };
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValidPassword(true);
     setPassword(e.currentTarget.value);
+  };
 
   const handleSignInClick = () => {
-    if (!email || !password) {
-      alert("Please fill out everything.");
+    if (!email) {
+      setValidEmail(false);
+      return;
+    }
+    if (!password) {
+      setValidPassword(false);
       return;
     }
 
@@ -44,9 +52,7 @@ const Login: NextPage = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          setValidEmail(false);
-          setValidPassword(false);
-          return;
+          throw new Error("invalid");
         }
         return response.json();
       })
@@ -55,8 +61,9 @@ const Login: NextPage = () => {
         router.push("/");
       })
       .catch((e) => {
+        setValidEmail(false);
+        setValidPassword(false);
         console.error(e);
-        alert("Error occured");
       });
   };
 

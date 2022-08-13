@@ -12,7 +12,7 @@ export interface UserSocket {
 export type MessageType = "SYSTEM" | "NORMAL" | "EMOJI";
 export interface MessageSocket {
   messageId?: string;
-  boardId: string;
+  aId: string;
   from: string;
   to?: string[];
   type: MessageType;
@@ -20,7 +20,7 @@ export interface MessageSocket {
   textBody: string;
 }
 export interface BoardSocket {
-  boardId: string;
+  aId: string;
   editorId: string;
   boardStatus: ARTICLE_STATUS;
   editedList: BoardEditSocket[];
@@ -33,7 +33,7 @@ export interface BoardEditSocket {
   // seq2: My <span style="color: red">names</span><span style="color:blue">name</span> is
 }
 export interface UpdateBoardStatusSocket {
-  boardId: string;
+  aId: string;
   editorId: string;
   status: ARTICLE_STATUS;
 }

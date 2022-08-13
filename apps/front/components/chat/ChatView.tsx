@@ -1,25 +1,22 @@
 import type { NextPage } from "next";
 import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import { MessageSocket, SocketPath, Url } from "opm-models";
+import { MessageSocket, SocketPath, Url, UserInfo } from "opm-models";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
 
 import { ErrorMessage } from "../../helpers/error";
 import styles from "../../styles/Chat.module.scss";
+import { RootState } from "../../store";
 
 import ChatMessage from "./ChatMessage";
-
-const testData = {
-  userId: `${Date.now()}`,
-  boardId: "test0",
-  from: `${Date.now()}`,
-};
 
 const ChatView: NextPage = () => {
   const router = useRouter();
   const [socket, setSocket] = useState<Socket>();
   const [chatList, setChatList] = useState<MessageSocket[]>([]);
   const chatListRef = useRef<HTMLDivElement>(null);
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
 
   const { id: aId } = router.query;
 
@@ -29,15 +26,14 @@ const ChatView: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!socket) return;
+    if (!socket || !user.uId) return;
     socket.on(SocketPath.CONNECT, () => {
       console.info("connected!", socket.id);
       socket.emit(SocketPath.ROOM_DATA, {
-        aId: testData.boardId,
-        uId: testData.userId,
+        aId,
+        uId: user.uId,
       });
     });
-
     socket.on(SocketPath.MESSAGE, (data: MessageSocket) => {
       setChatList((prev) => [...prev, data]);
     });
@@ -45,9 +41,10 @@ const ChatView: NextPage = () => {
     return () => {
       if (!socket) return;
       console.info("disconnected!", socket.id);
+      socket.emit(SocketPath.END, { aId, uId: user.uId });
       socket.disconnect();
     };
-  }, [socket, aId]);
+  }, [socket, aId, user]);
 
   useEffect(() => {
     if (!chatListRef.current || chatList.length === 0) {
@@ -73,7 +70,9 @@ const ChatView: NextPage = () => {
       throw new Error(ErrorMessage.SOCKET_CLOSED);
     }
     const message: MessageSocket = {
-      ...testData,
+      // @ts-ignore
+      aId,
+      from: user.uId,
       type: "NORMAL",
       timestamp: new Date().toISOString(),
       textBody: text,
@@ -86,11 +85,7 @@ const ChatView: NextPage = () => {
     <div className={styles.container}>
       <div ref={chatListRef} className={styles.bubbleContainer}>
         {chatList.map((chat) => (
-          <ChatMessage
-            key={chat.messageId}
-            message={chat}
-            userId={testData.userId}
-          />
+          <ChatMessage key={chat.messageId} message={chat} userId={user.uId} />
         ))}
       </div>
       <div className={styles.inputContainer}>

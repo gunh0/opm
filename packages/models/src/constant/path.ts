@@ -20,6 +20,7 @@ export const BoardApiPath: Record<BoardApiKey, string> = {
   proofread: "/board/proofreadArticle",
 };
 export const SocketPath: Record<SocketKey, string> = {
+  END: "end",
   CONNECT: "connect",
   MESSAGE: "message",
   ROOM_DATA: "roomData",

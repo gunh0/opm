@@ -1,6 +1,7 @@
 export type UrlKey = "SOCKET" | "SERVER";
 
 export type SocketKey =
+  | "END"
   | "CONNECT"
   | "MESSAGE"
   | "ROOM_DATA"
