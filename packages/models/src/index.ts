@@ -1,4 +1,4 @@
-import { Url, SocketPath, ApiPath } from "./constant/path";
+import { Url, SocketPath, UserApiPath, BoardApiPath } from "./constant/path";
 import type { ARTICLE_STATUS, BoardInfo, BoardEditList } from "./models/board";
 import type { UrlKey, SocketKey } from "./models/path";
 import type {
@@ -12,12 +12,13 @@ import type {
   UpdateBoardStatusSocket,
 } from "./models/socket";
 import type { USER_STATUS, UserInfo } from "./models/user";
-import {StatusCode} from "./models/status";
+import { StatusCode } from "./models/status";
 
 export {
   SocketPath,
   Url,
-  ApiPath,
+  UserApiPath,
+  BoardApiPath,
   CommonSocket,
   UserSocket,
   MessageType,

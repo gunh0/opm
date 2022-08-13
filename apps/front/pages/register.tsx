@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import React, { useState } from "react";
 import Head from "next/head";
 import Image from "next/image";
-import { Url, ApiPath } from "opm-models";
+import { Url, UserApiPath } from "opm-models";
 import { useRouter } from "next/router";
 
 import Navigation from "../components/common/Navigation";
@@ -51,7 +51,7 @@ const Register: NextPage = () => {
       email,
       password,
     };
-    fetch(`${Url.SERVER}${ApiPath.signup}`, {
+    fetch(`${Url.SERVER}${UserApiPath.signup}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
