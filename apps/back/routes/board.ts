@@ -38,6 +38,24 @@ const showArticleList = async (req: Request, res: Response) => {
   return res.status(200).send({ data: BoardData });
 };
 
+const showArticleListByUser = async (req: Request, res: Response) => {
+  const { uId } = req.body;
+  const foundArticleList = await Board.find({ uId: uId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
+};
+
+const showEditingListByUser = async (req: Request, res: Response) => {
+  const { eId } = req.body;
+  const foundArticleList = await Board.find({ eId: eId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
+};
+
 const writeArticle = async (req: Request, res: Response) => {
   const { uId, aTitle, aDescription, aContent, aCategory } = req.body;
   const createDate = Date();
@@ -197,6 +215,8 @@ const hitUpArticle = async (req: Request, res: Response) => {
 
 const board = {
   showArticleList,
+  showArticleListByUser,
+  showEditingListByUser,
   writeArticle,
   editArticle,
   acceptArticle,
