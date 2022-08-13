@@ -17,30 +17,31 @@ const Register: NextPage = () => {
   const [password, setPassword] = useState<string>("");
   const [agreePP, setAgreePP] = useState<boolean>(false);
 
-  const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFirstName(e.currentTarget.value);
-  const onChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setLastName(e.currentTarget.value);
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setEmail(e.currentTarget.value);
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.currentTarget.value);
-
   const handleAgreementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAgreePP(e.target.checked);
   };
+
+  // 회원가입
   const handleSignUpClick = () => {
     if (!firstName || !lastName || !email || !password) {
-      alert("빈칸을 채우세요");
+      alert("Please fill out everything.");
       return;
     }
     if (!agreePP) {
-      alert("동의 하셈");
+      alert("Please click the agreement.");
       return;
     }
     const matchedEmailRegExpList = email.match(/@/g);
     if (email.startsWith("@") || matchedEmailRegExpList?.length !== 1) {
-      alert("님 이메일 이상함");
+      alert("Invalid email address");
       return;
     }
 
@@ -57,13 +58,16 @@ const Register: NextPage = () => {
       },
       body: JSON.stringify(data),
     })
-      .then((data) => {
+      .then((response) => {
         // 분기 처리가 필요함.
-        router.push("/login");
+        if (response.ok) {
+          router.push("/login");
+          return;
+        }
       })
       .catch((e) => {
         console.error(e);
-        alert("먼가 문제 있음...");
+        alert("Error occured");
       });
   };
 
@@ -98,7 +102,7 @@ const Register: NextPage = () => {
                 type="text"
                 name="firstName"
                 value={firstName}
-                onChange={onChangeFirstName}
+                onChange={handleFirstNameChange}
                 className={styles.sign}
               />
             </div>
@@ -108,7 +112,7 @@ const Register: NextPage = () => {
                 type="text"
                 name="lastName"
                 value={lastName}
-                onChange={onChangeLastName}
+                onChange={handleLastNameChange}
                 className={styles.sign}
               />
             </div>
@@ -123,7 +127,7 @@ const Register: NextPage = () => {
                 type="text"
                 name="email"
                 value={email}
-                onChange={onChangeEmail}
+                onChange={handleEmailChange}
                 className={styles.sign}
               />
             </div>
@@ -138,7 +142,7 @@ const Register: NextPage = () => {
                 type="password"
                 name="password"
                 value={password}
-                onChange={onChangePassword}
+                onChange={handlePasswordChange}
                 className={styles.sign}
               />
             </div>
