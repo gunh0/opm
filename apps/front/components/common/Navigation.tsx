@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,9 +15,17 @@ const Navigation: NextPage<NavigationProps> = ({
   isHome = false,
 }) => {
   const homeTrans = isHome && isTop;
+  const [user, setUser] = useState("");
 
-  // const user = window.localStorage.getItem("user");
-  const user = "";
+  useEffect(() => {
+    if (!window) {
+      return;
+    }
+    const user = window.localStorage.getItem("user");
+    if (user) {
+      setUser(user);
+    }
+  }, []);
 
   // TODO: 유효성 검증
   const checkUserValidation = (user: any) => {
