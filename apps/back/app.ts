@@ -49,6 +49,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("message", (data) => {
+    console.info("received", data);
     socket.emit("message", { ...data, messageId: randomUUID() });
   });
 

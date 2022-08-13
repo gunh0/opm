@@ -3,7 +3,6 @@ import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { MessageSocket, SocketPath, Url } from "opm-models";
 
-import { parseISO } from "../../helpers/date";
 import { ErrorMessage } from "../../helpers/error";
 import styles from "../../styles/Chat.module.scss";
 
@@ -22,22 +21,25 @@ const ChatView: NextPage = () => {
   const chatListRef = useRef<HTMLDivElement>(null);
 
   useEffect((): any => {
-    if (socket) {
-      return;
-    }
-    const socketClient = io(Url.SOCKET);
-    socketClient.on(SocketPath.CONNECTION, () => {
-      console.info("connected!", socketClient.id);
-      socketClient.emit(SocketPath.ROOM_DATA, { boardId: testData.boardId });
-    });
+    const socketClient = io(Url.SOCKET, { transports: ["websocket"] });
     setSocket(socketClient);
-    socketClient.on(SocketPath.MESSAGE, (data: any) => {
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on(SocketPath.CONNECTION, () => {
+      console.info("connected!", socket.id);
+      socket.emit(SocketPath.ROOM_DATA, { boardId: testData.boardId });
+    });
+    socket.on(SocketPath.MESSAGE, (data: any) => {
       setChatList((prev) => [...prev, data]);
     });
 
     return () => {
-      console.info("disconnected!", socketClient.id);
-      socketClient.disconnect();
+      if (!socket) return;
+      console.info("disconnected!", socket.id);
+      socket.disconnect();
     };
   }, [socket]);
 
