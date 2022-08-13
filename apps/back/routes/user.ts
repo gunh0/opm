@@ -1,26 +1,10 @@
 import { Request } from "express";
 import mongoose, { Schema, model } from "mongoose";
-import { UserInfo } from "opm-models";
-// const MUUID = require('uuid-mongodb');
+import { UserInfo, StatusCode } from "opm-models";
 
 // 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
-
-const statusCode = {
-  OK: 200,
-  CREATED: 201,
-  NO_CONTENT: 204,
-  RESET_CONTENT: 205,
-  NOT_MODIFIED: 304,
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  FORBIDDEN: 403,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-  SERVICE_UNAVAILABLE: 503,
-  DB_ERROR: 600,
-};
 
 // Mongoose
 const userSchema = new mongoose.Schema<UserInfo>({
@@ -76,12 +60,12 @@ const signIn = async (req: Request, res) => {
     // 비밀번호 확인
     console.info(user.length);
     if (user.length === 0) {
-      return res.status(statusCode.BAD_REQUEST).send("잘못된 비밀번호입니다.");
+      return res.status(StatusCode.BAD_REQUEST).send("잘못된 비밀번호입니다.");
     } else {
-      return res.status(statusCode.OK).send("로그인 성공!");
+      return res.status(StatusCode.OK).send("로그인 성공!");
     }
   } else {
-    return res.status(statusCode.BAD_REQUEST).send("없는 사용자입니다.");
+    return res.status(StatusCode.BAD_REQUEST).send("없는 사용자입니다.");
   }
 };
 
