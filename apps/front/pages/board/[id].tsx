@@ -47,16 +47,13 @@ const Board: NextPage = () => {
     setEditText(value);
   };
   const handleSaveButtonClick = () => {
-    const data = {
-      aId: "",
-      uId: user.uId,
-      aTitle: "",
-      aDescription: "",
+    const data: BoardInfo = {
+      ...board,
       aContent: editText,
-      aCategory: "",
       aEditDate: new Date().toISOString(),
     };
-    fetch(`${Url.SERVER}${BoardApiPath.write}`, {
+    // TODO: post_board_proofreadArticle 로 변경 필요함.
+    fetch(`${Url.SERVER}${BoardApiPath.edit}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

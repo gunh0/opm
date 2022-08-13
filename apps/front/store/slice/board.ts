@@ -16,10 +16,13 @@ export const boardSlice = createSlice({
     setBoard: (state, action: PayloadAction<BoardInfo>) => {
       return { ...state, ...action.payload };
     },
+    clearBoard: () => {
+      return {};
+    },
   },
 });
 
-export const { getBoard, setBoard } = boardSlice.actions;
+export const { getBoard, setBoard, clearBoard } = boardSlice.actions;
 
 const boardReducer = boardSlice.reducer;
 
