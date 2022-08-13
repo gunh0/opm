@@ -40,7 +40,7 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId });
+  const foundArticleList = await Board.find({ uId: uId });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
@@ -49,7 +49,7 @@ const showArticleListByUser = async (req: Request, res: Response) => {
 
 const showEditingListByUser = async (req: Request, res: Response) => {
   const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId });
+  const foundArticleList = await Board.find({ eId: eId });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
@@ -58,7 +58,7 @@ const showEditingListByUser = async (req: Request, res: Response) => {
 
 const writeArticle = async (req: Request, res: Response) => {
   const { uId, aTitle, aDescription, aContent, aCategory } = req.body;
-  const createDate = Date();
+  const createDate = new Date().toISOString();
 
   const newArticle = new Board<BoardInfo>({
     aId: randomUUID(),
@@ -71,7 +71,7 @@ const writeArticle = async (req: Request, res: Response) => {
     aCreateDate: createDate,
     aEditDate: createDate,
     aHit: 0,
-    aEditList: [],
+    aEditList: [{} as BoardEditList],
     aStatus: "INIT",
   });
 
@@ -101,7 +101,7 @@ const editArticle = async (req: Request, res: Response) => {
   foundArticle.aDescription = aDescription;
   foundArticle.aContent = aContent;
   foundArticle.aCategory = aCategory;
-  foundArticle.aEditDate = Date();
+  foundArticle.aEditDate = new Date().toISOString();
 
   foundArticle.save((error, data) => {
     if (error) {
@@ -113,6 +113,14 @@ const editArticle = async (req: Request, res: Response) => {
   return res.status(200).send({ data: foundArticle });
 };
 
+const deleteArticle = async (req: Request, res: Response) => {
+  const { aId, uId, aStatus } = req.body;
+  if (aStatus === "INIT") {
+    await Board.deleteOne({ aId: aId, uId: uId });
+    return res.status(200).send();
+  }
+};
+
 const acceptArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
@@ -121,7 +129,7 @@ const acceptArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus === "INIT") {
+  if (foundArticle.aStatus !== "INIT") {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -135,6 +143,7 @@ const acceptArticle = async (req: Request, res: Response) => {
       console.log(data, "Article proofread accepted");
     }
   });
+
   return res.status(200).send({ data: foundArticle });
 };
 
@@ -146,7 +155,7 @@ const cancelArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
+  if (foundArticle.aStatus !== "EDITING" || foundArticle.eId !== eId) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -164,22 +173,22 @@ const cancelArticle = async (req: Request, res: Response) => {
 };
 
 const proofreadArticle = async (req: Request, res: Response) => {
-  const { aId, eId, aProofread, aProofreadDate } = req.body;
+  const { aId, eId, aProofread } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
+  if (foundArticle.aStatus !== "EDITING" || foundArticle.eId !== eId) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  const editList = foundArticle.aEditList;
+  foundArticle.aEditList = [];
   const newBoardEditList: BoardEditList = {
-    seq: editList[editList.length - 1].seq + 1,
+    seq: 1,
     aProofread,
-    aProofreadDate,
+    aProofreadDate: new Date().toISOString(),
   };
   foundArticle.aEditList.push(newBoardEditList);
 
@@ -219,6 +228,7 @@ const board = {
   showEditingListByUser,
   writeArticle,
   editArticle,
+  deleteArticle,
   acceptArticle,
   cancelArticle,
   proofreadArticle,
