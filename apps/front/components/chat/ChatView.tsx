@@ -11,7 +11,7 @@ import ChatMessage from "./ChatMessage";
 const testData = {
   userId: `${Date.now()}`,
   boardId: "test0",
-  from: `${Date.now()}`
+  from: `${Date.now()}`,
 };
 
 const ChatView: NextPage = () => {
@@ -29,9 +29,9 @@ const ChatView: NextPage = () => {
 
     socket.on(SocketPath.CONNECT, () => {
       console.info("connected!", socket.id);
-      socket.emit(SocketPath.ROOM_DATA, { 
+      socket.emit(SocketPath.ROOM_DATA, {
         aId: testData.boardId,
-        uId: testData.userId
+        uId: testData.userId,
       });
     });
 
