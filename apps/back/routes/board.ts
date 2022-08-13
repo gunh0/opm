@@ -40,7 +40,7 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId: uId });
+  const foundArticleList = await Board.find({ uId });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
@@ -49,7 +49,7 @@ const showArticleListByUser = async (req: Request, res: Response) => {
 
 const showEditingListByUser = async (req: Request, res: Response) => {
   const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId: eId });
+  const foundArticleList = await Board.find({ eId });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
