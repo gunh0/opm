@@ -3,8 +3,7 @@ import Head from "next/head";
 import { useEffect, useRef, useState } from "react";
 
 import Navigation from "../components/common/Navigation";
-import Footer from "../components/common/Footer";
-import EditingList from "../components/home/editingList";
+import EditCardList from "../components/home/EditCardList";
 import HomeBody from "../components/home";
 import styles from "../styles/Home.module.scss";
 
@@ -42,7 +41,7 @@ const Home: NextPage = () => {
           <HomeBody />
         </div>
         <div className={styles.scrollSnap}>
-          <EditingList />
+          <EditCardList />
         </div>
       </div>
     </>
