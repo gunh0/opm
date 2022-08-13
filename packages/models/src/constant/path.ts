@@ -22,5 +22,5 @@ export const SocketPath: Record<SocketKey, string> = {
   MESSAGE: "message",
   ROOM_DATA: "roomData",
   DISCONNECT: "disconnect",
-  INVALID: "invalid",
+  ERROR: "error",
 };

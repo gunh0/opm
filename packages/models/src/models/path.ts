@@ -5,7 +5,7 @@ export type SocketKey =
   | "MESSAGE"
   | "ROOM_DATA"
   | "DISCONNECT"
-  | "INVALID";
+  | "ERROR";
 
 export type UserApiKey = "all" | "signup" | "signin";
 

@@ -17,7 +17,7 @@ export const runSocket = (io: Server) => {
         rooms[aId] = [];
       }
       if (rooms[aId].length >= 2) {
-        socket.emit(SocketPath.INVALID, {
+        socket.emit(SocketPath.ERROR, {
           message: "Room 인원 초과",
         });
       }
