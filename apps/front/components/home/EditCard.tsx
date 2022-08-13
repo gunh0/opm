@@ -32,9 +32,7 @@ const EditCard: FunctionComponent<EditCardProps> = ({
         {/* TODO: uId가 나랑 같으면 이거 */}
         {/* {isMine && (
           <div className={styles.editingCardIsMineText}>my request</div>
-        )}
-        {complete && (
-          )}  */}
+        )} */}
         {aStatus === "COMPLETE" && (
           <div className={styles.editingCardCompleteText}>complete</div>
         )}
