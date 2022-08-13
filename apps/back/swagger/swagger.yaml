@@ -32,7 +32,7 @@ paths:
                 type: string
               uLastName:
                 type: string
-  
+
   /user/login:
     post:
       summary: "유저 로그인"
@@ -134,7 +134,7 @@ paths:
               eId:
                 type: string
 
-  /board/cancleArticle:
+  /board/cancelArticle:
     post:
       tags:
         - Board

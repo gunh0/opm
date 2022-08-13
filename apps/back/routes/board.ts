@@ -45,7 +45,7 @@ const writeArticle = async (req: Request, res: Response) => {
     aStatus: "LOADING",
   });
 
-  newArticle.save(function (error, data) {
+  newArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
@@ -73,7 +73,7 @@ const editArticle = async (req: Request, res: Response) => {
   foundArticle.aCategory = aCategory;
   foundArticle.aEditDate = Date();
 
-  foundArticle.save(function (error, data) {
+  foundArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
@@ -98,7 +98,7 @@ const acceptArticle = async (req: Request, res: Response) => {
   foundArticle.eId = eId;
   foundArticle.aStatus = "EDITING";
 
-  foundArticle.save(function (error, data) {
+  foundArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
@@ -108,7 +108,7 @@ const acceptArticle = async (req: Request, res: Response) => {
   return res.status(200).send({ data: foundArticle });
 };
 
-const cancleArticle = async (req: Request, res: Response) => {
+const cancelArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
@@ -123,11 +123,11 @@ const cancleArticle = async (req: Request, res: Response) => {
   foundArticle.eId = "";
   foundArticle.aStatus = "LOADING";
 
-  foundArticle.save(function (error, data) {
+  foundArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(data, "Article proofread cancled");
+      console.log(data, "Article proofread canceled");
     }
   });
   return res.status(200).send({ data: foundArticle });
@@ -153,7 +153,7 @@ const proofreadArticle = async (req: Request, res: Response) => {
   };
   foundArticle.aEditList.push(newBoardEditList);
 
-  foundArticle.save(function (error, data) {
+  foundArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
@@ -173,7 +173,7 @@ const hitUpArticle = async (req: Request, res: Response) => {
 
   foundArticle.aHit += 1;
 
-  foundArticle.save(function (error, data) {
+  foundArticle.save((error, data) => {
     if (error) {
       console.log(error);
     } else {
@@ -188,7 +188,7 @@ const board = {
   writeArticle,
   editArticle,
   acceptArticle,
-  cancleArticle,
+  cancelArticle,
   proofreadArticle,
   hitUpArticle,
 };

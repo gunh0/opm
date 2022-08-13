@@ -14,7 +14,7 @@ router.get("/board/allArticle", board.showAllArticle);
 router.post("/board/writeArticle", board.writeArticle);
 router.post("/board/editArticle", board.editArticle);
 router.post("/board/acceptArticle", board.acceptArticle);
-router.post("/board/cancleArticle", board.cancleArticle);
+router.post("/board/cancelArticle", board.cancelArticle);
 router.post("/board/proofreadArticle", board.proofreadArticle);
 router.post("/board/hitUpArticle", board.hitUpArticle);
 
