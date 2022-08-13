@@ -12,10 +12,14 @@ const EditCardList: NextPage = () => {
 
   useEffect(() => {
     const apiCall = async () => {
-      const res = await fetch(`${Url.SERVER}${BoardApiPath.all}`);
-      if (!res.body) return;
-      const { data } = await res.json();
-      setBoardList(data);
+      try {
+        const res = await fetch(`${Url.SERVER}${BoardApiPath.all}`);
+        if (!res.body) return;
+        const { data } = await res.json();
+        setBoardList(data);
+      } catch (e) {
+        console.error(e);
+      }
     };
     apiCall();
   }, []);
