@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 
@@ -36,6 +37,7 @@ const viewList = [
 ];
 
 const MyRequestMenu: NextPage = () => {
+  const [isNull, setNull] = useState(false);
   const movePage = () => {
     document.location.href = "/content";
   };
@@ -43,36 +45,43 @@ const MyRequestMenu: NextPage = () => {
   return (
     <div>
       <div className={styles.title}>Posted by you.</div>
-      <div className={styles.editingListContainer}>
-        {viewList.map((el) => (
-          <div key={el.key} className={styles.listContainer}>
-            <div className={styles.editingCard} onClick={movePage}>
-              <div className={styles.editingCardTitleContainer}>
-                <div className={styles.editingCardTitle}>{el.title}</div>
-                {el.isMine && (
-                  <div className={styles.editingCardIsMineText}>my request</div>
-                )}
-                {el.complete && (
-                  <div className={styles.editingCardCompleteText}>complete</div>
-                )}
+      {isNull ? (
+        <div className={styles.nullText}>You never posted a request.</div>
+      ) : (
+        <div className={styles.editingListContainer}>
+          {viewList.map((el) => (
+            <div key={el.key} className={styles.listContainer}>
+              <div className={styles.editingCard} onClick={movePage}>
+                <div className={styles.editingCardTitleContainer}>
+                  <div className={styles.editingCardTitle}>{el.title}</div>
+                  {el.isMine && (
+                    <div className={styles.editingCardIsMineText}>
+                      my request
+                    </div>
+                  )}
+                  {el.complete && (
+                    <div className={styles.editingCardCompleteText}>
+                      complete
+                    </div>
+                  )}
+                </div>
+                <div className={styles.editingCardDescription}>
+                  {el.description}
+                </div>
               </div>
-              <div className={styles.editingCardDescription}>
-                {el.description}
+              <div className={styles.rightBtn}>
+                <Image
+                  src="/svg/delete.svg"
+                  width={16}
+                  height={18}
+                  alt="delete"
+                  title="delete"
+                />
               </div>
             </div>
-            <div className={styles.rightBtn}>
-              <Image
-                src="/svg/delete.svg"
-                width={16}
-                height={18}
-                alt="delete"
-                title="delete"
-              />
-            </div>
-          </div>
-        ))}
-        <div className={styles.loadingText}>Now loading ...</div>
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
