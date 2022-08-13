@@ -30,10 +30,10 @@ const mongooseOption: ConnectOptions = {
 
 mongoose
   .connect(process.env.DB_URL, mongooseOption)
-  .then(() => console.log("MongoDB connected successfully."))
+  .then(() => console.info("MongoDB connected successfully."))
   .catch((err) => {
-    console.log("MongoDB Connection Failed");
-    console.log(err);
+    console.info("MongoDB Connection Failed");
+    console.info(err);
   });
 
 export default opmServer;
