@@ -22,10 +22,17 @@ const ContentRequest: NextPage = () => {
     <div>
       <Navigation />
       <div className={styles.main}>
-        <div onClick={movePage} className={styles.backBtn}>
-          <Image src="/backbutton.png" alt="logo" width={56} height={56} />
-        </div>
         <div className={styles.leftContainer}>
+          <div className={styles.backBtnContainer}>
+            <Image
+              src="/backbutton.png"
+              alt="logo"
+              width={56}
+              height={56}
+              onClick={movePage}
+              className={styles.backBtn}
+            />
+          </div>
           <div>
             <div className={styles.title}>Request description.</div>
             <div className={styles.description}>
@@ -66,14 +73,14 @@ const ContentRequest: NextPage = () => {
               <div className={styles.loginBtn}>Next</div>
             </div>
           </div>
-          <Image
-            src="/440-756.png"
-            alt="img3"
-            width={440}
-            height={756}
-            className={styles.img3}
-          />
         </div>
+        <Image
+          src="/440-756.png"
+          alt="img3"
+          width={440}
+          height={756}
+          className={styles.img3}
+        />
       </div>
       <Footer />
     </div>

@@ -110,17 +110,24 @@
 
 // contentRequest
 .main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
   margin: 150px 180px;
 }
 
-.backBtn {
+.backBtnContainer {
   margin-bottom: 36px;
+}
+
+.backBtn {
+  cursor: pointer;
 }
 
 .leftContainer {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .requestContainer {
@@ -150,6 +157,7 @@
   color: $gray800;
   font-size: 20px;
   box-shadow: 0px 4px 16px 0px $transparent50;
+  font-family: 'Noto Sans KR';
 }
 
 .guideText {

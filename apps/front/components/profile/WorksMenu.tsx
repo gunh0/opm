@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 
@@ -36,6 +37,7 @@ const viewList = [
 ];
 
 const WorksMenu: NextPage = () => {
+  const [isPostEmpty, setIsPostEmpty] = useState(false);
   const movePage = () => {
     document.location.href = "/content";
   };
@@ -43,33 +45,38 @@ const WorksMenu: NextPage = () => {
   return (
     <div>
       <div className={styles.title}>Accepted proofread contents.</div>
-      <div className={styles.editingListContainer}>
-        {viewList.map((el) => (
-          <div key={el.key} className={styles.listContainer}>
-            <div className={styles.editingCard} onClick={movePage}>
-              <div className={styles.editingCardTitleContainer}>
-                <div className={styles.editingCardTitle}>{el.title}</div>
-                {el.complete && (
-                  <div className={styles.editingCardCompleteText}>complete</div>
-                )}
+      {isPostEmpty ? (
+        <div className={styles.nullText}>You never accepted a request.</div>
+      ) : (
+        <div className={styles.editingListContainer}>
+          {viewList.map((el) => (
+            <div key={el.key} className={styles.listContainer}>
+              <div className={styles.editingCard} onClick={movePage}>
+                <div className={styles.editingCardTitleContainer}>
+                  <div className={styles.editingCardTitle}>{el.title}</div>
+                  {el.complete && (
+                    <div className={styles.editingCardCompleteText}>
+                      complete
+                    </div>
+                  )}
+                </div>
+                <div className={styles.editingCardDescription}>
+                  {el.description}
+                </div>
               </div>
-              <div className={styles.editingCardDescription}>
-                {el.description}
+              <div className={styles.rightBtn}>
+                <Image
+                  src="/svg/delete.svg"
+                  width={16}
+                  height={18}
+                  alt="cancel"
+                  title="cancel"
+                />
               </div>
             </div>
-            <div className={styles.rightBtn}>
-              <Image
-                src="/svg/delete.svg"
-                width={16}
-                height={18}
-                alt="cancel"
-                title="cancel"
-              />
-            </div>
-          </div>
-        ))}
-        <div className={styles.loadingText}>Now loading ...</div>
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
