@@ -2,7 +2,7 @@ import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { BoardEditList, BoardInfo } from "opm-models";
+import { BoardEditList, BoardInfo, StatusCode } from "opm-models";
 
 const boardModel = new mongoose.Schema<BoardInfo>({
   aId: "",
@@ -21,9 +21,39 @@ const boardModel = new mongoose.Schema<BoardInfo>({
 boardModel.set("collection", "Board");
 const Board = mongoose.model("Board", boardModel);
 
-const showAllArticle = async (_: Request, res: Response) => {
-  const allBoard = await Board.find();
-  return res.status(200).send({ data: allBoard });
+const showArticleList = async (req: Request, res: Response) => {
+  const { aId } = req.query;
+  if (aId) {
+    const foundArticle = await Board.findOne({ aId: aId });
+    if (!foundArticle) {
+      return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+    }
+
+    const lastMongoId = foundArticle._id;
+    const BoardData = await Board.find({ _id: { $gt: lastMongoId } }).limit(20);
+    return res.status(200).send({ data: BoardData });
+  }
+
+  const BoardData = await Board.find().limit(20);
+  return res.status(200).send({ data: BoardData });
+};
+
+const showArticleListByUser = async (req: Request, res: Response) => {
+  const { uId } = req.body;
+  const foundArticleList = await Board.find({ uId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
+};
+
+const showEditingListByUser = async (req: Request, res: Response) => {
+  const { eId } = req.body;
+  const foundArticleList = await Board.find({ eId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
 };
 
 const writeArticle = async (req: Request, res: Response) => {
@@ -60,11 +90,11 @@ const editArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus !== "INIT" || foundArticle.uId !== uId) {
-    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아니거나 uId가 다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.aTitle = aTitle;
@@ -88,11 +118,11 @@ const acceptArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "INIT") {
-    return res.status(200).send({ code: 300200 }); // Article이 INIT 상태가 아님
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.eId = eId;
@@ -113,11 +143,11 @@ const cancelArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
-    return res.status(200).send({ code: 300200 }); // Article이 EDITING 상태가 아니거나 edi가다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.eId = "";
@@ -138,11 +168,11 @@ const proofreadArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus === "EDITING" && foundArticle.eId === eId) {
-    return res.status(200).send({ code: 300200 }); // Article이 EDITING 상태가 아니거나 edi가다름
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   const editList = foundArticle.aEditList;
@@ -168,7 +198,7 @@ const hitUpArticle = async (req: Request, res: Response) => {
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
-    return res.status(200).send({ code: 300200 }); // aid로 Article 못찾음
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   foundArticle.aHit += 1;
@@ -184,7 +214,9 @@ const hitUpArticle = async (req: Request, res: Response) => {
 };
 
 const board = {
-  showAllArticle,
+  showArticleList,
+  showArticleListByUser,
+  showEditingListByUser,
   writeArticle,
   editArticle,
   acceptArticle,

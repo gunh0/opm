@@ -8,9 +8,11 @@ export const UserApiPath: Record<UserApiKey, string> = {
   all: "/user/all",
   signup: "/user/signup",
   signin: "/user/login",
+  myArticleList: "/user/myArticleList",
+  myEditingList: "/user/myEditingList",
 };
 export const BoardApiPath: Record<BoardApiKey, string> = {
-  all: "/board/allArticle",
+  all: "/board/articleList",
   write: "/board/writeArticle",
   edit: "/board/editArticle",
   accept: "/board/acceptArticle",
@@ -22,4 +24,5 @@ export const SocketPath: Record<SocketKey, string> = {
   MESSAGE: "message",
   ROOM_DATA: "roomData",
   DISCONNECT: "disconnect",
+  ERROR: "error",
 };
