@@ -46,10 +46,10 @@ const Register: NextPage = () => {
     }
 
     const data = {
-      ufirstName: firstName,
-      ulastName: lastName,
-      uEmail: email,
-      uPassword: password,
+      firstName,
+      lastName,
+      email,
+      password,
     };
     fetch(`${Url.SERVER}${ApiPath.signup}`, {
       method: "POST",
