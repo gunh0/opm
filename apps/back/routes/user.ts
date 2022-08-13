@@ -49,12 +49,12 @@ const signUpUser = async (req: Request, res) => {
 };
 
 const signIn = async (req: Request, res) => {
-  const checkUser = await User.find({ uEmail: req.body.uEmail });
+  const checkUser = await User.find({ uEmail: req.body.email });
   console.info(checkUser.length);
   if (checkUser.length) {
     const user = await User.find({
-      uEmail: req.body.uEmail,
-      uPassword: req.body.uPassword,
+      uEmail: req.body.email,
+      uPassword: req.body.password,
     });
 
     // 비밀번호 확인
@@ -65,7 +65,7 @@ const signIn = async (req: Request, res) => {
       return res.status(StatusCode.OK).send("로그인 성공!");
     }
   } else {
-    return res.status(StatusCode.BAD_REQUEST).send("없는 사용자입니다.");
+    return res.status(StatusCode.NOT_FOUND).send("없는 사용자입니다.");
   }
 };
 
