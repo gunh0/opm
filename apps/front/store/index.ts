@@ -1,6 +1,7 @@
 import { AnyAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
+import boardReducer from "./slice/board";
 import userReducer from "./slice/user";
 
 const reducer = (state: any, action: AnyAction) => {
@@ -9,10 +10,13 @@ const reducer = (state: any, action: AnyAction) => {
       return {
         ...state,
         ...action.payload,
+        user: { ...state.user, ...action.payload.user },
+        board: { ...state.board, ...action.payload.board },
       };
     default: {
       const combineReducer = combineReducers({
         user: userReducer,
+        board: boardReducer,
       });
       return combineReducer(state, action);
     }

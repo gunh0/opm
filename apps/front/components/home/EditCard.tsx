@@ -1,28 +1,28 @@
 import { useRouter } from "next/router";
 import { BoardInfo } from "opm-models";
 import { FunctionComponent } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../../store";
+import { setBoard } from "../../store/slice/board";
 import styles from "../../styles/Home.module.scss";
 
 interface EditCardProps extends BoardInfo {}
 
-const EditCard: FunctionComponent<EditCardProps> = ({
-  aId,
-  uId,
-  aTitle,
-  aDescription,
-  aStatus,
-}) => {
+const EditCard: FunctionComponent<EditCardProps> = (props) => {
+  const { aId, aTitle, uId, aStatus, aDescription } = props;
+
   const router = useRouter();
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
-  const movePage = (aId: string) => {
+
+  const handleEditCardClick = () => {
+    dispatch(setBoard(props));
     router.push(`/board/${aId}`);
   };
 
   return (
-    <div className={styles.editingCard} onClick={() => movePage(aId)}>
+    <div className={styles.editingCard} onClick={handleEditCardClick}>
       <div className={styles.editingCardTitleContainer}>
         <div className={styles.editingCardTitle}>{aTitle}</div>
         {user.uId === uId && (

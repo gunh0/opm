@@ -17,14 +17,6 @@ export const userSlice = createSlice({
       return {};
     },
   },
-  extraReducers: {
-    HYDRATE: (state, action) => {
-      return {
-        ...state,
-        ...action.payload.user,
-      };
-    },
-  },
 });
 
 export const { login, logout } = userSlice.actions;

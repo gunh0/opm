@@ -28,7 +28,6 @@ const ChatView: NextPage = () => {
   useEffect(() => {
     if (!socket || !user.uId) return;
     socket.on(SocketPath.CONNECT, () => {
-      console.info("connected!", socket.id);
       socket.emit(SocketPath.ROOM_DATA, {
         aId,
         uId: user.uId,
@@ -40,7 +39,6 @@ const ChatView: NextPage = () => {
 
     return () => {
       if (!socket) return;
-      console.info("disconnected!", socket.id);
       socket.emit(SocketPath.END, { aId, uId: user.uId });
       socket.disconnect();
     };
