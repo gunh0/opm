@@ -75,7 +75,7 @@ const Navigation: NextPage<NavigationProps> = ({
                 alt="profile"
                 width={56}
                 height={56}
-                style={{ cursor: "pointer" }}
+                className={styles.icon}
               />
             ) : (
               <Image
@@ -83,7 +83,7 @@ const Navigation: NextPage<NavigationProps> = ({
                 alt="profile"
                 width={56}
                 height={56}
-                style={{ cursor: "pointer" }}
+                className={styles.icon}
               />
             )}
           </a>
@@ -95,7 +95,7 @@ const Navigation: NextPage<NavigationProps> = ({
               alt="alert"
               width={56}
               height={56}
-              style={{ cursor: "pointer" }}
+              className={styles.icon}
             />
           ) : (
             <Image
@@ -103,7 +103,7 @@ const Navigation: NextPage<NavigationProps> = ({
               alt="alert"
               width={56}
               height={56}
-              style={{ cursor: "pointer" }}
+              className={styles.icon}
             />
           )}
         </div>
