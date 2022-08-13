@@ -16,6 +16,7 @@ router.post("/user/myEditingList", board.showEditingListByUser);
 
 router.post("/board/writeArticle", board.writeArticle);
 router.post("/board/editArticle", board.editArticle);
+router.post("/board/deleteArticle", board.deleteArticle);
 router.post("/board/acceptArticle", board.acceptArticle);
 router.post("/board/cancelArticle", board.cancelArticle);
 router.post("/board/proofreadArticle", board.proofreadArticle);
