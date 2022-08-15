@@ -13,6 +13,7 @@ import styles from "../../styles/Board.module.scss";
 import { RootState } from "../../store";
 import BoardButtonContainer from "../../components/board/BoardButtonContainer";
 import BoardEditContent from "../../components/board/BoardEditContent";
+import { Api } from "../../helpers/api";
 
 export enum BoardPhase {
   view = "view",
@@ -49,7 +50,7 @@ const Board: NextPage = () => {
     const { value } = e.target as HTMLTextAreaElement;
     setEditText(value);
   };
-  const handleSaveButtonClick = () => {
+  const handleSaveButtonClick = async () => {
     const { uId } = user;
     const { aId } = board;
     const data = {
@@ -58,25 +59,17 @@ const Board: NextPage = () => {
       aProofread: editText,
       aProofreadDate: new Date().toISOString(),
     };
-
-    fetch(`${Url.SERVER}${BoardApiPath.proofread}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then(async (res) => {
-        const json = await res.json();
-        if (json.code === StatusCode.BAD_REQUEST) {
-          throw new Error("INVALID USER");
-        }
-        const { aEditList } = json.data as BoardInfo;
-        setBoardText(aEditList[aEditList.length - 1].aProofread);
-      })
-      .finally(() => {
-        setBoardPhase(BoardPhase.view);
-      });
+    const res = await Api.post(BoardApiPath.proofread, data);
+    const json = await res.json();
+    if (json.code === StatusCode.BAD_REQUEST) {
+      // TODO: set modal
+      alert("INVALID USER");
+      setBoardPhase(BoardPhase.view);
+      return;
+    }
+    const { aEditList } = json.data as BoardInfo;
+    setBoardText(aEditList[aEditList.length - 1].aProofread);
+    setBoardPhase(BoardPhase.view);
   };
 
   return (

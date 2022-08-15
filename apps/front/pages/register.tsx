@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
+import { Api } from "../helpers/api";
 
 const Register: NextPage = () => {
   const router = useRouter();
@@ -30,7 +31,7 @@ const Register: NextPage = () => {
   };
 
   // 회원가입
-  const handleSignUpClick = () => {
+  const handleSignUpClick = async () => {
     if (!firstName || !lastName || !email || !password) {
       alert("Please fill out everything.");
       return;
@@ -51,24 +52,12 @@ const Register: NextPage = () => {
       email,
       password,
     };
-    fetch(`${Url.SERVER}${UserApiPath.signup}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        // 분기 처리가 필요함.
-        if (response.ok) {
-          router.push("/login");
-          return;
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        alert("Error occured");
-      });
+    const res = await Api.post(UserApiPath.signup, data);
+    if (res.ok) {
+      router.push("/login");
+      return;
+    }
+    alert("Error!");
   };
 
   return (

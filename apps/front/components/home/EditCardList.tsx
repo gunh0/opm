@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import { board } from "opm-dump";
-import { BoardApiPath, BoardInfo, Url } from "opm-models";
+import { BoardApiPath, BoardInfo } from "opm-models";
 import { useEffect, useState } from "react";
 
+import { Api } from "../../helpers/api";
 import styles from "../../styles/Home.module.scss";
 
 import EditCard from "./EditCard";
@@ -13,7 +13,7 @@ const EditCardList: NextPage = () => {
   useEffect(() => {
     const apiCall = async () => {
       try {
-        const res = await fetch(`${Url.SERVER}${BoardApiPath.all}`);
+        const res = await Api.get(BoardApiPath.all);
         const { data } = await res.json();
         setBoardList(data);
       } catch (e) {

@@ -11,6 +11,7 @@ import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 import { login } from "../store/slice/user";
+import { Api } from "../helpers/api";
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const Login: NextPage = () => {
     setPassword(e.currentTarget.value);
   };
 
-  const handleSignInClick = () => {
+  const handleSignInClick = async () => {
     if (!email) {
       setValidEmail(false);
       return;
@@ -37,34 +38,20 @@ const Login: NextPage = () => {
       setValidPassword(false);
       return;
     }
-
     const data = {
       email,
       password,
     };
-
-    fetch(`${Url.SERVER}${UserApiPath.signin}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("invalid");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        dispatch(login(data));
-        router.push("/");
-      })
-      .catch((e) => {
-        setValidEmail(false);
-        setValidPassword(false);
-        console.error(e);
-      });
+    const res = await Api.post(UserApiPath.signin, data);
+    if (!res.ok) {
+      setValidEmail(false);
+      setValidPassword(false);
+      alert("INVALID USER");
+      return;
+    }
+    const jsonData = await res.json();
+    dispatch(login(jsonData));
+    router.push("/");
   };
 
   return (
