@@ -193,7 +193,9 @@ const proofreadArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  foundArticle.aEditList = [];
+  if (!Array.isArray(foundArticle.aEditList)) {
+    foundArticle.aEditList = [];
+  }
   const newBoardEditData: BoardEditData = {
     seq: 1,
     aProofread,

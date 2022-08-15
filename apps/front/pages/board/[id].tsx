@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import { BoardApiPath, BoardInfo, Url, UserInfo } from "opm-models";
+import { BoardApiPath, BoardInfo, StatusCode, Url, UserInfo } from "opm-models";
 import { useSelector } from "react-redux";
 
 import BoardContent from "../../components/board/BoardContent";
@@ -26,6 +26,9 @@ const Board: NextPage = () => {
   const [isAccept, setIsAccept] = useState(false);
   const [boardPhase, setBoardPhase] = useState(BoardPhase.view);
   const [editText, setEditText] = useState("");
+  const [boardText, setBoardText] = useState(
+    board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? board.aContent,
+  );
 
   const handleAcceptButtonClick = () => {
     if (!user.uId) {
@@ -47,21 +50,33 @@ const Board: NextPage = () => {
     setEditText(value);
   };
   const handleSaveButtonClick = () => {
-    const data: BoardInfo = {
-      ...board,
-      aContent: editText,
-      aEditDate: new Date().toISOString(),
+    const { uId } = user;
+    const { aId } = board;
+    const data = {
+      aId,
+      eId: uId,
+      aProofread: editText,
+      aProofreadDate: new Date().toISOString(),
     };
-    // TODO: post_board_proofreadArticle 로 변경 필요함.
-    fetch(`${Url.SERVER}${BoardApiPath.edit}`, {
+
+    fetch(`${Url.SERVER}${BoardApiPath.proofread}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then(() => {
-      setBoardPhase(BoardPhase.view);
-    });
+    })
+      .then(async (res) => {
+        const json = await res.json();
+        if (json.code === StatusCode.BAD_REQUEST) {
+          throw new Error("INVALID USER");
+        }
+        const { aEditList } = json.data as BoardInfo;
+        setBoardText(aEditList[aEditList.length - 1].aProofread);
+      })
+      .finally(() => {
+        setBoardPhase(BoardPhase.view);
+      });
   };
 
   return (
@@ -78,10 +93,10 @@ const Board: NextPage = () => {
         </div>
         <div className={styles.textContainer}>
           {boardPhase === BoardPhase.view ? (
-            <BoardContent text={board.aContent} />
+            <BoardContent text={boardText} />
           ) : (
             <BoardEditContent
-              originText={board.aContent}
+              originText={boardText}
               onChange={handleEditContentChange}
             />
           )}
