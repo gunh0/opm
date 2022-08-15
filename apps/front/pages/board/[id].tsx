@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
 import { BoardApiPath, BoardInfo, StatusCode, Url, UserInfo } from "opm-models";
@@ -15,6 +14,7 @@ import BoardButtonContainer from "../../components/board/BoardButtonContainer";
 import BoardEditContent from "../../components/board/BoardEditContent";
 import { Api } from "../../helpers/api";
 import BackButton from "../../components/common/BackButton";
+import AdImage from "../../components/common/AdImage";
 
 export enum BoardPhase {
   view = "view",
@@ -109,11 +109,7 @@ const Board: NextPage = () => {
           />
         </div>
         <div className={styles.chatContainer}>
-          {isAccept ? (
-            <ChatView />
-          ) : (
-            <Image src="/440-756.png" alt="img" width={440} height={756} />
-          )}
+          {isAccept ? <ChatView /> : <AdImage src={"/ad/newjeans.jpeg"} />}
         </div>
       </main>
     </>

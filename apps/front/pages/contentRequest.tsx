@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { BoardApiPath, Url, UserInfo } from "opm-models";
+import { BoardApiPath, UserInfo } from "opm-models";
 
 import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
@@ -13,6 +12,7 @@ import BackButton from "../components/common/BackButton";
 import InfoHeader from "../components/contentRequest/titlePhase/InfoHeader";
 import Button from "../components/contentRequest/Button";
 import { Api } from "../helpers/api";
+import AdImage from "../components/common/AdImage";
 
 enum PagePhase {
   title = "title",
@@ -126,13 +126,9 @@ const ContentRequest: NextPage = () => {
             </>
           )}
         </div>
-        <Image
-          src="/440-756.png"
-          alt="img3"
-          width={440}
-          height={756}
-          className={styles.img3}
-        />
+        <div className={styles.adImageContainer}>
+          <AdImage src="/ad/cat2.gif" imageClassName={styles.img3} />
+        </div>
       </main>
       <Footer />
     </>

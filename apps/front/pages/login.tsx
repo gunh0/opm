@@ -2,8 +2,7 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import Image from "next/image";
-import { Url, UserApiPath } from "opm-models";
+import { UserApiPath } from "opm-models";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 
@@ -12,6 +11,7 @@ import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 import { login } from "../store/slice/user";
 import { Api } from "../helpers/api";
+import AdImage from "../components/common/AdImage";
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -63,14 +63,8 @@ const Login: NextPage = () => {
       </Head>
       <Navigation />
       <div className={styles.mainContainer}>
-        <div>
-          <Image
-            src="/620-660.png"
-            width={620}
-            height={660}
-            alt="img1"
-            className={styles.img1}
-          />
+        <div className={styles.imageContainer}>
+          <AdImage src="/ad/cat.webp" imageClassName={styles.img1} />
         </div>
         <div>
           <div className={styles.title}>Sign In.</div>
