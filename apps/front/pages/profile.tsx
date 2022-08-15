@@ -1,3 +1,5 @@
+import { ParsedUrlQuery } from "querystring";
+
 import type { NextPage } from "next";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -12,6 +14,12 @@ import WorksMenu from "../components/profile/WorksMenu";
 import styles from "../styles/Profile.module.scss";
 import { logout } from "../store/slice/user";
 import { RootState } from "../store";
+import {
+  TAB_MAP,
+  TAB_INDEX_MAP,
+  TAB_KEY,
+  TAB_INDEX_KEY,
+} from "../helpers/profile";
 
 const menuArr = [
   {
@@ -30,7 +38,9 @@ const menuArr = [
 
 const Profile: NextPage = () => {
   const router = useRouter();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(
+    TAB_MAP[router.query.tab as TAB_KEY] ?? 0,
+  );
   const dispatch = useDispatch();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
 
@@ -42,6 +52,12 @@ const Profile: NextPage = () => {
   const handleLogoutClick = () => {
     dispatch(logout());
     router.push("/");
+  };
+  const handleTabClick = (index: number) => {
+    const indexKey = `${index}` as TAB_INDEX_KEY;
+    const query: ParsedUrlQuery = { tab: `${TAB_INDEX_MAP[indexKey]}` };
+    setActiveIndex(index);
+    router.push({ query });
   };
 
   return (
@@ -58,7 +74,7 @@ const Profile: NextPage = () => {
                       ? styles.button_selected
                       : styles.button_deSelected
                   }`}
-                  onClick={() => setActiveIndex(index)}
+                  onClick={() => handleTabClick(index)}
                 >
                   {section.title}
                 </button>

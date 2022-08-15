@@ -9,63 +9,77 @@ import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Board.module.scss";
 import { RootState } from "../store";
+import BackButton from "../components/common/BackButton";
+import InfoHeader from "../components/contentRequest/titlePhase/InfoHeader";
+import Button from "../components/contentRequest/Button";
+import { Api } from "../helpers/api";
+
+enum PagePhase {
+  title = "title",
+  content = "content",
+}
 
 const ContentRequest: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [pagePhase, setPagePhase] = useState(PagePhase.title);
+  const [content, setContent] = useState("");
 
   if (!user.uId) {
     router.push("/login");
     return <div>Loading...</div>;
   }
 
-  const movePage = () => {
-    router.push("/");
+  const backPhase = () => {
+    setPagePhase(PagePhase.title);
   };
 
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTitle(e.currentTarget.value);
-  const onChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    setDescription(e.currentTarget.value);
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setTitle(e.target.value);
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setDescription(e.target.value);
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+    setContent(e.target.value);
 
-  const handleNextClick = () => {
-    const data = { aTitle: title, aDescription: description };
-
-    // TODO: description 노출되도록 변경되도록 해야함. phase 등 추가 필요
-
-    // fetch(`${Url.SERVER}${BoardApiPath.write}`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(data),
-    // });
+  const handleNextClick = () => setPagePhase(PagePhase.content);
+  const handleSubmitClick = async () => {
+    if (
+      title.trim().length === 0 ||
+      description.trim().length === 0 ||
+      content.trim().length === 0
+    ) {
+      alert("내용을 모두 채워주세요");
+      return;
+    }
+    const data = {
+      uId: user.uId,
+      aTitle: title,
+      aDescription: description,
+      aContent: content,
+      aCategory: "",
+      aCreateDate: new Date().toISOString(),
+    };
+    const res = await Api.post(BoardApiPath.write, data);
+    if (!res.ok) {
+      const json = await res.json();
+      console.error(json);
+      return;
+    }
+    router.push("/profile?tab=myRequest");
   };
 
   return (
-    <div>
+    <>
       <Navigation />
-      <div className={styles.main}>
-        <div className={styles.leftContainer}>
-          <div className={styles.backBtnContainer}>
-            <Image
-              src="/backbutton.png"
-              alt="logo"
-              width={56}
-              height={56}
-              onClick={movePage}
-              className={styles.backBtn}
-            />
-          </div>
-          <div>
-            <div className={styles.title}>Request description.</div>
-            <div className={styles.description}>
-              Write down explains about your proofreading commision.
-            </div>
-            <div className={styles.requestContainer}>
-              <div className={styles.inputContainer}>
+      <main className={styles.boardContainer}>
+        <BackButton onClick={backPhase} />
+        <div className={styles.requestContainer}>
+          {pagePhase === PagePhase.title ? (
+            <>
+              <InfoHeader />
+              <div>
                 <div className={styles.subtitleContainer}>
                   <div className={styles.subTitle}>Title about request.</div>
                   <div className={styles.guideText}>{title.length}/20</div>
@@ -73,13 +87,13 @@ const ContentRequest: NextPage = () => {
                 <input
                   type="text"
                   value={title}
-                  onChange={onChangeTitle}
+                  onChange={handleTitleChange}
                   className={styles.inputTitle}
                   maxLength={20}
                   placeholder="Placeholder"
                 />
               </div>
-              <div className={styles.inputContainer}>
+              <div>
                 <div className={styles.subtitleContainer}>
                   <div className={styles.subTitle}>Explanatory note.</div>
                   <div className={styles.guideText}>
@@ -88,19 +102,29 @@ const ContentRequest: NextPage = () => {
                 </div>
                 <textarea
                   value={description}
-                  onChange={onChangeDescription}
+                  onChange={handleDescriptionChange}
                   className={styles.inputDescription}
                   maxLength={140}
                   placeholder="Placeholder"
                 />
               </div>
-            </div>
-            <div className={styles.nextButtonContainer}>
-              <div className={styles.loginBtn} onClick={handleNextClick}>
-                Next
+              <div />
+              <Button label={"Next"} onClick={handleNextClick} />
+            </>
+          ) : (
+            <>
+              <div className={styles.inputContainer}>
+                <textarea
+                  value={content}
+                  onChange={handleContentChange}
+                  className={styles.inputPost}
+                  maxLength={140}
+                  placeholder="Placeholder"
+                />
               </div>
-            </div>
-          </div>
+              <Button label={"Posting"} onClick={handleSubmitClick} />
+            </>
+          )}
         </div>
         <Image
           src="/440-756.png"
@@ -109,9 +133,9 @@ const ContentRequest: NextPage = () => {
           height={756}
           className={styles.img3}
         />
-      </div>
+      </main>
       <Footer />
-    </div>
+    </>
   );
 };
 

@@ -14,6 +14,7 @@ import { RootState } from "../../store";
 import BoardButtonContainer from "../../components/board/BoardButtonContainer";
 import BoardEditContent from "../../components/board/BoardEditContent";
 import { Api } from "../../helpers/api";
+import BackButton from "../../components/common/BackButton";
 
 export enum BoardPhase {
   view = "view",
@@ -81,9 +82,7 @@ const Board: NextPage = () => {
       </Head>
       <Navigation />
       <main className={styles.boardContainer}>
-        <div className={styles.backContainer} onClick={movePage}>
-          <Image src="/backbutton.png" alt="logo" width={56} height={56} />
-        </div>
+        <BackButton onClick={movePage} />
         <div className={styles.textContainer}>
           {boardPhase === BoardPhase.view ? (
             <BoardContent

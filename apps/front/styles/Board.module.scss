@@ -108,37 +108,21 @@
   border-radius: 12px;
 }
 
-// contentRequest
-.main {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 40px;
-  margin: 150px 180px;
-}
-
-.backBtnContainer {
-  margin-bottom: 36px;
-}
-
-.backBtn {
-  cursor: pointer;
-}
-
-.leftContainer {
-  display: flex;
-  flex-direction: column;
-}
-
+// contentRequest - Phase 1.
 .requestContainer {
+  width: 100%;
+  margin: 32px 0;
   display: flex;
   flex-direction: column;
-  gap: 58px;
-  margin: 80px 0px 150px 0px;
+  justify-content: space-between;
+  margin-right: 5%;
+  overflow: hidden;
+  align-content: center;
+  flex-wrap: nowrap;
 }
 
 .inputTitle {
-  width: 760px;
+  width: 100%;
   height: 56px;
   padding: 0px 32px;
   border: none;
@@ -149,8 +133,8 @@
 }
 
 .inputDescription {
-  width: 760px;
-  height: 104px;
+  width: 100%;
+  height: 130px;
   padding: 16px 32px;
   border: none;
   border-radius: 12px;
@@ -176,4 +160,21 @@
   height: 756px;
   border-radius: 12px;
   background-color: #dddddd;
+}
+
+// contentRequest - Phase 2.
+.inputContainer {
+  height: 100%;
+  margin-bottom: 3%;
+}
+.inputPost {
+  width: 100%;
+  height: 100%;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  color: $gray800;
+  font-size: 20px;
+  box-shadow: 0px 4px 16px 0px $transparent50;
+  font-family: 'Noto Sans KR';
 }
