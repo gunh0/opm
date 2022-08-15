@@ -1,25 +1,33 @@
-import { UrlKey, SocketKey, UserApiKey, BoardApiKey } from "../models/path";
+import {
+  UrlKey,
+  SocketKey,
+  UserApiKey,
+  BoardApiKey,
+  BoardApiEndPoint,
+  UserApiEndPoint,
+} from "../models/path";
 
 export const Url: Record<UrlKey, string> = {
   SOCKET: "ws://localhost:8080",
   SERVER: "http://localhost:8080",
 };
 export const UserApiPath: Record<UserApiKey, string> = {
-  all: "/user/all",
-  signup: "/user/signup",
-  signin: "/user/login",
-  myArticleList: "/user/myArticleList",
-  myEditingList: "/user/myEditingList",
+  all: UserApiEndPoint.all,
+  signup: UserApiEndPoint.signup,
+  signIn: UserApiEndPoint.signIn,
 };
-export const BoardApiPath: Record<BoardApiKey, string> = {
-  one: "/board/articleId",
-  all: "/board/articleList",
-  write: "/board/writeArticle",
-  edit: "/board/editArticle",
-  delete: "/board/deleteArticle",
-  accept: "/board/acceptArticle",
-  cancel: "/board/calcelArticle",
-  proofread: "/board/proofreadArticle",
+export const BoardApiPath: Record<BoardApiKey, BoardApiEndPoint> = {
+  one: BoardApiEndPoint.one,
+  all: BoardApiEndPoint.all,
+  write: BoardApiEndPoint.write,
+  edit: BoardApiEndPoint.edit,
+  delete: BoardApiEndPoint.delete,
+  accept: BoardApiEndPoint.accept,
+  cancel: BoardApiEndPoint.cancel,
+  proofread: BoardApiEndPoint.proofread,
+  listByUser: BoardApiEndPoint.listByUser,
+  editingListByUser: BoardApiEndPoint.editingListByUser,
+  hitUp: BoardApiEndPoint.hitUp,
 };
 export const SocketPath: Record<SocketKey, string> = {
   END: "end",

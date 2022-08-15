@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { BoardApiPath } from "opm-models";
 
 import styles from "../../styles/Profile.module.scss";
+import { Api } from "../../helpers/api";
 
 const viewList = [
   {
@@ -43,6 +45,13 @@ const MyRequestMenu: NextPage = () => {
   const movePage = () => {
     router.push("/content");
   };
+
+  useEffect(() => {
+    const apiCall = async () => {
+      // TODO: 내 리스트 가져오기
+      // await Api.post(BoardApiPath.listByUser)
+    };
+  }, []);
 
   return (
     <div>

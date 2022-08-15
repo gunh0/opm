@@ -41,7 +41,7 @@ const Login: NextPage = () => {
       email,
       password,
     };
-    const res = await Api.post(UserApiPath.signin, data);
+    const res = await Api.post(UserApiPath.signIn, data);
     if (!res.ok) {
       setValidEmail(false);
       setValidPassword(false);

@@ -51,20 +51,14 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId: uId });
-  if (foundArticleList.length === 0) {
-    return res.status(200).send({ code: StatusCode.NO_CONTENT });
-  }
-  return res.status(200).send({ data: foundArticleList });
+  const foundArticleList = await Board.find({ uId });
+  return res.status(200).send({ data: foundArticleList ?? [] });
 };
 
 const showEditingListByUser = async (req: Request, res: Response) => {
-  const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId: eId });
-  if (foundArticleList.length === 0) {
-    return res.status(200).send({ code: StatusCode.NO_CONTENT });
-  }
-  return res.status(200).send({ data: foundArticleList });
+  const { uId } = req.body;
+  const foundArticleList = await Board.find({ eId: uId });
+  return res.status(200).send({ data: foundArticleList ?? [] });
 };
 
 const writeArticle = async (req: Request, res: Response) => {

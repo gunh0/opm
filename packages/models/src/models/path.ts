@@ -8,12 +8,13 @@ export type SocketKey =
   | "DISCONNECT"
   | "ERROR";
 
-export type UserApiKey =
-  | "all"
-  | "signup"
-  | "signin"
-  | "myArticleList"
-  | "myEditingList";
+export type UserApiKey = "all" | "signup" | "signIn";
+
+export enum UserApiEndPoint {
+  all = "/user/all",
+  signup = "/user/signup",
+  signIn = "/user/login",
+}
 
 export type BoardApiKey =
   | "one"
@@ -23,4 +24,21 @@ export type BoardApiKey =
   | "delete"
   | "accept"
   | "cancel"
-  | "proofread";
+  | "proofread"
+  | "listByUser"
+  | "editingListByUser"
+  | "hitUp";
+
+export enum BoardApiEndPoint {
+  one = "/board/article",
+  all = "/board/articleList",
+  write = "/board/writeArticle",
+  edit = "/board/editArticle",
+  delete = "/board/deleteArticle",
+  accept = "/board/acceptArticle",
+  cancel = "/board/cancelArticle",
+  proofread = "/board/proofreadArticle",
+  listByUser = "/board/myArticleList",
+  editingListByUser = "/board/myEditingList",
+  hitUp = "/board/hitUpArticle",
+}
