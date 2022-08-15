@@ -64,7 +64,14 @@ const Login: NextPage = () => {
       <Navigation />
       <div className={styles.mainContainer}>
         <div className={styles.imageContainer}>
-          <AdImage src="/ad/cat.webp" imageClassName={styles.img1} />
+          <iframe
+            className={styles.img1}
+            src="https://www.youtube.com/embed/A33AdB4u8GQ?autoplay=1&mute=1"
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
+            allowFullScreen
+          ></iframe>
         </div>
         <div>
           <div className={styles.title}>Sign In.</div>

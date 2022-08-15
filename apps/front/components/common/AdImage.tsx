@@ -8,6 +8,7 @@ interface AdImageProps {
   containerClassName?: string;
   imageClassName?: string;
   onClick?: () => void;
+  objectFit?: NonNullable<JSX.IntrinsicElements["img"]["style"]>["objectFit"];
 }
 
 const defaultClickEvent = () => {
@@ -19,6 +20,7 @@ const AdImage: FunctionComponent<AdImageProps> = ({
   src,
   containerClassName = "",
   imageClassName = "",
+  objectFit = "cover",
 }) => {
   return (
     <div
@@ -30,7 +32,7 @@ const AdImage: FunctionComponent<AdImageProps> = ({
         src={src}
         alt="img"
         layout="fill"
-        objectFit="cover"
+        objectFit={objectFit}
       />
     </div>
   );
