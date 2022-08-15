@@ -118,7 +118,7 @@ const ContentRequest: NextPage = () => {
                   value={content}
                   onChange={handleContentChange}
                   className={styles.inputPost}
-                  maxLength={140}
+                  maxLength={12000}
                   placeholder="Placeholder"
                 />
               </div>

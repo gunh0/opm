@@ -33,17 +33,19 @@ const showArticle = async (req: Request, res: Response) => {
 const showArticleList = async (req: Request, res: Response) => {
   const { aId } = req.query;
   if (aId) {
-    const foundArticle = await Board.findOne({ aId: aId });
+    const foundArticle = await Board.findOne({ aId });
     if (!foundArticle) {
       return res.status(200).send({ code: StatusCode.BAD_REQUEST });
     }
 
     const lastMongoId = foundArticle._id;
-    const BoardData = await Board.find({ _id: { $gt: lastMongoId } }).limit(20);
+    const BoardData = await Board.find({ _id: { $lt: lastMongoId } })
+      .sort({ _id: -1 })
+      .limit(20);
     return res.status(200).send({ data: BoardData });
   }
 
-  const BoardData = await Board.find().limit(20);
+  const BoardData = await Board.find().sort({ _id: -1 }).limit(20);
   return res.status(200).send({ data: BoardData });
 };
 
