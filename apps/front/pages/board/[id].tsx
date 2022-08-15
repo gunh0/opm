@@ -86,10 +86,17 @@ const Board: NextPage = () => {
         </div>
         <div className={styles.textContainer}>
           {boardPhase === BoardPhase.view ? (
-            <BoardContent text={boardText} />
+            <BoardContent
+              originText={board.aContent}
+              editedText={
+                board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? ""
+              }
+              articleStatus={board.aStatus}
+            />
           ) : (
+            // TODO: complete 면 노출되면 안됨
             <BoardEditContent
-              originText={boardText}
+              text={boardText}
               onChange={handleEditContentChange}
             />
           )}

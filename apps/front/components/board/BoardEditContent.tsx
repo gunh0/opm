@@ -3,18 +3,18 @@ import { ChangeEvent, FunctionComponent } from "react";
 import styles from "../../styles/Board.module.scss";
 
 interface BoardEditContentProps {
-  originText: string;
+  text: string;
   onChange: (e: ChangeEvent) => void;
 }
 
 const BoardEditContent: FunctionComponent<BoardEditContentProps> = ({
-  originText,
+  text,
   onChange,
 }) => {
   return (
     <textarea
       className={styles.textBox}
-      defaultValue={originText}
+      defaultValue={text}
       onChange={onChange}
     />
   );
