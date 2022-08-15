@@ -7,15 +7,24 @@ interface AdImageProps {
   src: string;
   containerClassName?: string;
   imageClassName?: string;
+  onClick?: () => void;
 }
 
+const defaultClickEvent = () => {
+  alert("AD CLICK!");
+};
+
 const AdImage: FunctionComponent<AdImageProps> = ({
+  onClick = defaultClickEvent,
   src,
   containerClassName = "",
   imageClassName = "",
 }) => {
   return (
-    <div className={`${styles.AdImageContainer} ${containerClassName}`}>
+    <div
+      className={`${styles.AdImageContainer} ${containerClassName}`}
+      onClick={onClick}
+    >
       <Image
         className={imageClassName}
         src={src}
