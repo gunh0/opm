@@ -11,7 +11,6 @@ import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 import { login } from "../store/slice/user";
 import { Api } from "../helpers/api";
-import AdImage from "../components/common/AdImage";
 
 const Login: NextPage = () => {
   const router = useRouter();

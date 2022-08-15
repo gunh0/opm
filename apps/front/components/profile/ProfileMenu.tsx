@@ -1,13 +1,17 @@
 import type { NextPage } from "next";
+import { UserInfo } from "opm-models";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
+import { RootState } from "../../store";
 import styles from "../../styles/Profile.module.scss";
 
 const ProfileMenu: NextPage = () => {
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [firstName, setFirstName] = useState<string>("placeholder");
   const [lastName, setLastName] = useState<string>("placeholder");
-  const [email, setEmail] = useState<string>("placeholder");
+
   const onChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFirstName(e.currentTarget.value);
   const onChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -15,10 +19,9 @@ const ProfileMenu: NextPage = () => {
 
   const edit = () => {
     setIsEdit(!isEdit);
-    if (isEdit == true) {
-      // 수정 함수
-      alert("Edited!");
-    }
+    if (!isEdit) return;
+    // 수정 함수
+    alert("Edited!");
   };
 
   return (
@@ -30,7 +33,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="email"
-            value={email}
+            value={user.uEmail}
             disabled={true}
             className={styles.sign}
           />
@@ -40,7 +43,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="firstName"
-            value={firstName}
+            value={user.uFirstName}
             onChange={onChangeFirstName}
             disabled={!isEdit}
             className={styles.sign}
@@ -51,7 +54,7 @@ const ProfileMenu: NextPage = () => {
           <input
             type="text"
             name="lastName"
-            value={lastName}
+            value={user.uLastName}
             onChange={onChangeLastName}
             disabled={!isEdit}
             className={styles.sign}
