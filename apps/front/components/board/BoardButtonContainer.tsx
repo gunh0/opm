@@ -51,7 +51,7 @@ const ViewPhaseButtonGroup: FunctionComponent<BoardButtonContainerProps> = ({
   return (
     <>
       <div className={styles.blankButton}></div>
-      <span>This post is being edited.</span>
+      <span>This post is being edited</span>
     </>
   );
 };
@@ -78,12 +78,25 @@ const WaitButtonGroup = () => {
   );
 };
 
+const CompleteButtonGroup = () => {
+  return (
+    <div className={styles.buttonContainer}>
+      <div className={styles.blankButton}></div>
+      <span>Edited post</span>
+    </div>
+  );
+};
+
 const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
   props,
 ) => {
   const { boardPhase } = props;
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const board = useSelector<RootState, BoardInfo>((state) => state.board);
+
+  if (board.aStatus === "COMPLETE") {
+    return <CompleteButtonGroup />;
+  }
 
   if (board.uId === user.uId) {
     return <WaitButtonGroup />;
