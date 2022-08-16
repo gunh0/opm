@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { BoardApiPath } from "opm-models";
+import { BoardApiPath, BoardInfo, UserInfo } from "opm-models";
+import { useSelector } from "react-redux";
 
 import styles from "../../styles/Profile.module.scss";
 import { Api } from "../../helpers/api";
+import { RootState } from "../../store";
 
 const viewList = [
   {
@@ -41,43 +43,50 @@ const viewList = [
 
 const MyRequestMenu: NextPage = () => {
   const router = useRouter();
-  const [isPostEmpty, setIsPostEmpty] = useState(false);
-  const movePage = () => {
-    router.push("/content");
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
+  const [requestList, setRequestList] = useState<BoardInfo[]>([]);
+
+  const handleArticleClick = (aId: string) => {
+    router.push(`/board/${aId}`);
   };
 
   useEffect(() => {
     const apiCall = async () => {
-      // TODO: 내 리스트 가져오기
-      // await Api.post(BoardApiPath.listByUser)
+      const param = { uId: user.uId };
+      const res = await Api.post(BoardApiPath.listByUser, param);
+      if (!res.ok) {
+        console.error("Something wrong...");
+        return;
+      }
+      const { data } = await res.json();
+      setRequestList(data);
     };
-  }, []);
+    apiCall();
+  }, [user]);
 
   return (
     <div>
       <div className={styles.title}>Posted by you.</div>
-      {isPostEmpty ? (
+      {requestList.length === 0 ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
-          {viewList.map((el) => (
-            <div key={el.key} className={styles.listContainer}>
-              <div className={styles.editingCard} onClick={movePage}>
+          {requestList.map((el) => (
+            <div key={el.aId} className={styles.listContainer}>
+              <div
+                className={styles.editingCard}
+                onClick={() => handleArticleClick(el.aId)}
+              >
                 <div className={styles.editingCardTitleContainer}>
-                  <div className={styles.editingCardTitle}>{el.title}</div>
-                  {el.isMine && (
-                    <div className={styles.editingCardIsMineText}>
-                      my request
-                    </div>
-                  )}
-                  {el.complete && (
+                  <div className={styles.editingCardTitle}>{el.aTitle}</div>
+                  {el.aStatus === "COMPLETE" && (
                     <div className={styles.editingCardCompleteText}>
                       complete
                     </div>
                   )}
                 </div>
                 <div className={styles.editingCardDescription}>
-                  {el.description}
+                  {el.aDescription}
                 </div>
               </div>
               <div className={styles.rightBtn}>
