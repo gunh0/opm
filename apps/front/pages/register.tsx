@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import React, { useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import { Url, UserApiPath } from "opm-models";
 import { useRouter } from "next/router";
 
@@ -9,6 +8,7 @@ import Navigation from "../components/common/Navigation";
 import Footer from "../components/common/Footer";
 import styles from "../styles/Login.module.scss";
 import { Api } from "../helpers/api";
+import AdImage from "../components/common/AdImage";
 
 const Register: NextPage = () => {
   const router = useRouter();
@@ -68,15 +68,12 @@ const Register: NextPage = () => {
       </Head>
       <Navigation />
       <div className={styles.mainContainer}>
-        <div>
-          <Image
-            src="/ad/newjeans.jpeg"
-            width={250}
-            height={660}
-            alt="img2"
-            className={styles.img2}
-          />
-        </div>
+        <AdImage
+          src="/ad/newjeans.jpeg"
+          containerClassName={styles.adImageContainer}
+          imageClassName={styles.img2}
+        />
+
         <div className={styles.rightContainer}>
           <div className={styles.title}>Join the Community.</div>
           <div className={styles.description}>
