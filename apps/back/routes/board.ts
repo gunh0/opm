@@ -33,7 +33,7 @@ const showArticle = async (req: Request, res: Response) => {
 const showArticleList = async (req: Request, res: Response) => {
   const { aId } = req.query;
   if (aId) {
-    const foundArticle = await Board.findOne({ aId });
+    const foundArticle = await Board.findOne({ aId: aId }).sort({ _id: 1 });
     if (!foundArticle) {
       return res.status(200).send({ code: StatusCode.BAD_REQUEST });
     }
@@ -51,14 +51,20 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId });
-  return res.status(200).send({ data: foundArticleList ?? [] });
+  const foundArticleList = await Board.find({ uId: uId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
 };
 
 const showEditingListByUser = async (req: Request, res: Response) => {
-  const { uId } = req.body;
-  const foundArticleList = await Board.find({ eId: uId });
-  return res.status(200).send({ data: foundArticleList ?? [] });
+  const { eId } = req.body;
+  const foundArticleList = await Board.find({ eId: eId });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
 };
 
 const writeArticle = async (req: Request, res: Response) => {
@@ -129,7 +135,7 @@ const deleteArticle = async (req: Request, res: Response) => {
 const acceptArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
-  const foundArticle = await Board.findOne({ aId });
+  const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
@@ -209,6 +215,30 @@ const proofreadArticle = async (req: Request, res: Response) => {
   return res.status(200).send({ data: foundArticle });
 };
 
+const completeArticle = async (req: Request, res: Response) => {
+  const { aId, uId } = req.body;
+
+  const foundArticle = await Board.findOne({ aId: aId });
+  if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.aStatus !== "DONE" || foundArticle.uId !== uId) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  foundArticle.aStatus = "COMPLETE";
+
+  foundArticle.save((error, data) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data, "Article proofread completed");
+    }
+  });
+  return res.status(200).send({ data: foundArticle });
+};
+
 const hitUpArticle = async (req: Request, res: Response) => {
   const { aId } = req.body;
 
@@ -240,6 +270,7 @@ const board = {
   acceptArticle,
   cancelArticle,
   proofreadArticle,
+  completeArticle,
   hitUpArticle,
 };
 

@@ -19,6 +19,10 @@ export interface MessageSocket {
   timestamp: string;
   textBody: string;
 }
+export interface MessageSocketSave {
+  roomId: number;
+  boardId: string;
+}
 export interface BoardSocket {
   aId: string;
   editorId: string;

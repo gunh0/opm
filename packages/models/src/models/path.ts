@@ -25,6 +25,7 @@ export type BoardApiKey =
   | "accept"
   | "cancel"
   | "proofread"
+  | "complete"
   | "listByUser"
   | "editingListByUser"
   | "hitUp";
@@ -38,6 +39,7 @@ export enum BoardApiEndPoint {
   accept = "/board/acceptArticle",
   cancel = "/board/cancelArticle",
   proofread = "/board/proofreadArticle",
+  complete = "/board/completeArticle",
   listByUser = "/board/myArticleList",
   editingListByUser = "/board/myEditingList",
   hitUp = "/board/hitUpArticle",

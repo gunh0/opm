@@ -25,6 +25,7 @@ export const BoardApiPath: Record<BoardApiKey, BoardApiEndPoint> = {
   accept: BoardApiEndPoint.accept,
   cancel: BoardApiEndPoint.cancel,
   proofread: BoardApiEndPoint.proofread,
+  complete: BoardApiEndPoint.complete,
   listByUser: BoardApiEndPoint.listByUser,
   editingListByUser: BoardApiEndPoint.editingListByUser,
   hitUp: BoardApiEndPoint.hitUp,

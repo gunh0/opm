@@ -63,6 +63,8 @@ const signIn = async (req: Request, res) => {
   return res.status(StatusCode.OK).json(user);
 };
 
+// const updateNotiList = async();
+
 const user = {
   showAllUser,
   signUpUser,

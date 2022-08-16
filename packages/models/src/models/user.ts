@@ -8,4 +8,12 @@ export interface UserInfo {
   uNickName: string;
   uPassword: string;
   uStatus: USER_STATUS;
+  uNotiList: UserNotificationList[];
+}
+
+export interface UserNotificationList {
+  nId: number;
+  checked: boolean;
+  timestamp: string;
+  notiBody: string;
 }
