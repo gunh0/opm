@@ -70,8 +70,8 @@ const Register: NextPage = () => {
       <div className={styles.mainContainer}>
         <div>
           <Image
-            src="/184-660.png"
-            width={184}
+            src="/ad/newjeans.jpeg"
+            width={250}
             height={660}
             alt="img2"
             className={styles.img2}
