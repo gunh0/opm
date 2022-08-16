@@ -1,22 +1,24 @@
-import { ARTICLE_STATUS } from "opm-models";
+import { BoardInfo } from "opm-models";
 import { FunctionComponent } from "react";
+import { useSelector } from "react-redux";
 
+import { RootState } from "../../store";
 import styles from "../../styles/Board.module.scss";
 
 interface BoardContentProps {
   originText: string;
   editedText: string;
-  articleStatus: ARTICLE_STATUS;
 }
 
 const BoardContent: FunctionComponent<BoardContentProps> = ({
   originText,
   editedText,
-  articleStatus,
 }) => {
+  const board = useSelector<RootState, BoardInfo>((state) => state.board);
+
   return (
     <div className={styles.textBox}>
-      {articleStatus === "COMPLETE" ? editedText : originText}
+      {board.aStatus === "COMPLETE" ? editedText : originText}
     </div>
   );
 };

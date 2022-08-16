@@ -129,13 +129,13 @@ const deleteArticle = async (req: Request, res: Response) => {
 const acceptArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
-  const foundArticle = await Board.findOne({ aId: aId });
+  const foundArticle = await Board.findOne({ aId });
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
   if (foundArticle.aStatus !== "INIT") {
-    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+    return res.status(200).send({ code: StatusCode.NOT_INIT });
   }
 
   foundArticle.eId = eId;

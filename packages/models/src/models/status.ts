@@ -125,6 +125,7 @@ export enum StatusCode {
    * This response means that server could not understand the request due to invalid syntax.
    */
   BAD_REQUEST = 400,
+  NOT_INIT = 400400,
   /**
    * Official Documentation @ https://tools.ietf.org/html/rfc7235#section-3.1
    *

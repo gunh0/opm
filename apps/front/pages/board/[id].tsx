@@ -1,20 +1,19 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { BoardApiPath, BoardInfo, StatusCode, Url, UserInfo } from "opm-models";
 import { useSelector } from "react-redux";
 
-import BoardContent from "../../components/board/BoardContent";
 import ChatView from "../../components/chat/ChatView";
 import Navigation from "../../components/common/Navigation";
 import styles from "../../styles/Board.module.scss";
 import { RootState } from "../../store";
 import BoardButtonContainer from "../../components/board/BoardButtonContainer";
-import BoardEditContent from "../../components/board/BoardEditContent";
 import { Api } from "../../helpers/api";
 import BackButton from "../../components/common/BackButton";
 import AdImage from "../../components/common/AdImage";
+import BoardTextArea from "../../components/board/BoardTextArea";
 
 export enum BoardPhase {
   view = "view",
@@ -25,18 +24,34 @@ const Board: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const board = useSelector<RootState, BoardInfo>((state) => state.board);
-  const [isAccept, setIsAccept] = useState(false);
   const [boardPhase, setBoardPhase] = useState(BoardPhase.view);
   const [editText, setEditText] = useState("");
   const [boardText, setBoardText] = useState(
     board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? board.aContent,
   );
 
-  const handleAcceptButtonClick = () => {
+  const handleAcceptButtonClick = async () => {
     if (!user.uId) {
       return router.push("/login");
     }
-    setIsAccept(true);
+    const param = {
+      aId: board.aId,
+      eId: user.uId,
+    };
+    const res = await Api.post(BoardApiPath.accept, param);
+    if (!res.ok) {
+      alert("something wrong...");
+      return;
+    }
+    const { code, data } = await res.json();
+    if (code === StatusCode.BAD_REQUEST) {
+      alert("BAD REQUEST");
+      return;
+    }
+    if (code === StatusCode.NOT_INIT) {
+      alert("BAD REQUEST, Article is NOT init");
+      return;
+    }
   };
   const movePage = () => {
     router.push("/");
@@ -46,10 +61,6 @@ const Board: NextPage = () => {
   };
   const handleCompletionButtonClick = () => {
     setBoardPhase(BoardPhase.view);
-  };
-  const handleEditContentChange = (e: ChangeEvent) => {
-    const { value } = e.target as HTMLTextAreaElement;
-    setEditText(value);
   };
   const handleSaveButtonClick = async () => {
     const { uId } = user;
@@ -73,6 +84,9 @@ const Board: NextPage = () => {
     setBoardPhase(BoardPhase.view);
   };
 
+  const isOpenChat =
+    board.aStatus !== "INIT" && [board.eId, board.uId].includes(user.uId);
+
   return (
     <>
       <Head>
@@ -84,23 +98,12 @@ const Board: NextPage = () => {
       <main className={styles.boardContainer}>
         <BackButton onClick={movePage} />
         <div className={styles.textContainer}>
-          {boardPhase === BoardPhase.view ? (
-            <BoardContent
-              originText={board.aContent}
-              editedText={
-                board.aEditList?.[board.aEditList.length - 1]?.aProofread ?? ""
-              }
-              articleStatus={board.aStatus}
-            />
-          ) : (
-            // TODO: complete 면 노출되면 안됨
-            <BoardEditContent
-              text={boardText}
-              onChange={handleEditContentChange}
-            />
-          )}
+          <BoardTextArea
+            boardPhase={boardPhase}
+            boardText={boardText}
+            setEditText={setEditText}
+          />
           <BoardButtonContainer
-            isAccept={isAccept}
             boardPhase={boardPhase}
             onAcceptButtonClick={handleAcceptButtonClick}
             onCompletionButtonClick={handleCompletionButtonClick}
@@ -109,7 +112,7 @@ const Board: NextPage = () => {
           />
         </div>
         <div className={styles.chatContainer}>
-          {isAccept ? <ChatView /> : <AdImage src={"/ad/newjeans.jpeg"} />}
+          {isOpenChat ? <ChatView /> : <AdImage src={"/ad/newjeans.jpeg"} />}
         </div>
       </main>
     </>
