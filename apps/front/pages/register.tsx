@@ -30,7 +30,6 @@ const Register: NextPage = () => {
     setAgreePP(e.target.checked);
   };
 
-  // 회원가입
   const handleSignUpClick = async () => {
     if (!firstName || !lastName || !email || !password) {
       alert("Please fill out everything.");

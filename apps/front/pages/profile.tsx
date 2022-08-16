@@ -21,6 +21,7 @@ import {
   TAB_INDEX_KEY,
 } from "../helpers/profile";
 import AdImage from "../components/common/AdImage";
+import Loading from "../components/common/Loading";
 
 const menuArr = [
   {
@@ -47,7 +48,7 @@ const Profile: NextPage = () => {
 
   if (!user.uId) {
     router.push("/login");
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const handleLogoutClick = () => {
@@ -89,7 +90,6 @@ const Profile: NextPage = () => {
         </div>
         <div className={styles.content}>{menuArr[activeIndex].content}</div>
       </div>
-
       <Footer />
     </div>
   );

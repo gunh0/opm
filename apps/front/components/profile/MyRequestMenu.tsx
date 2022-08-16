@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import styles from "../../styles/Profile.module.scss";
 import { Api } from "../../helpers/api";
 import { RootState } from "../../store";
+import Loading from "../common/Loading";
 
 const MyRequestMenu: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const [requestList, setRequestList] = useState<BoardInfo[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleArticleClick = (aId: string) => {
     router.push(`/board/${aId}`);
@@ -28,14 +30,28 @@ const MyRequestMenu: NextPage = () => {
       }
       const { data } = await res.json();
       setRequestList(data);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 150);
     };
     apiCall();
   }, [user]);
 
+  if (isLoading) {
+    return (
+      <>
+        <div className={styles.title}>Posted by you.</div>
+        <div className={styles.editingListContainer}>
+          <Loading />
+        </div>
+      </>
+    );
+  }
+
   return (
-    <div>
+    <>
       <div className={styles.title}>Posted by you.</div>
-      {requestList.length === 0 ? (
+      {!isLoading && requestList.length === 0 ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
@@ -70,7 +86,7 @@ const MyRequestMenu: NextPage = () => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

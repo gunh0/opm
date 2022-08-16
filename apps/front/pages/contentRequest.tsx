@@ -13,6 +13,7 @@ import InfoHeader from "../components/contentRequest/titlePhase/InfoHeader";
 import Button from "../components/contentRequest/Button";
 import { Api } from "../helpers/api";
 import AdImage from "../components/common/AdImage";
+import Loading from "../components/common/Loading";
 
 enum PagePhase {
   title = "title",
@@ -29,7 +30,7 @@ const ContentRequest: NextPage = () => {
 
   if (!user.uId) {
     router.push("/login");
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const backPhase = () => {
