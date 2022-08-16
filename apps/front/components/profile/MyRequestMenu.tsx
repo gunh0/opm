@@ -9,38 +9,6 @@ import styles from "../../styles/Profile.module.scss";
 import { Api } from "../../helpers/api";
 import { RootState } from "../../store";
 
-const viewList = [
-  {
-    key: 1,
-    title: "contents title",
-    description: "contents description",
-    isMine: true,
-    complete: false,
-  },
-  {
-    key: 2,
-    title: "contents title",
-    description:
-      "contents descriptioncontents descriptioncontents descriptioncontents description",
-    isMine: false,
-    complete: true,
-  },
-  {
-    key: 3,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 4,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-];
-
 const MyRequestMenu: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);

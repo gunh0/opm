@@ -20,6 +20,7 @@ import {
   TAB_KEY,
   TAB_INDEX_KEY,
 } from "../helpers/profile";
+import AdImage from "../components/common/AdImage";
 
 const menuArr = [
   {
@@ -84,6 +85,7 @@ const Profile: NextPage = () => {
           <div className={styles.logoutBtn} onClick={handleLogoutClick}>
             Log out
           </div>
+          <AdImage src="/ad/newjeans.jpeg" />
         </div>
         <div className={styles.content}>{menuArr[activeIndex].content}</div>
       </div>
