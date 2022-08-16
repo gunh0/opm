@@ -1,81 +1,67 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
+import { BoardApiPath, BoardInfo, UserInfo } from "opm-models";
+import { useSelector } from "react-redux";
 
 import styles from "../../styles/Profile.module.scss";
+import { RootState } from "../../store";
+import { Api } from "../../helpers/api";
+import Loading from "../common/Loading";
 
-const viewList = [
-  {
-    key: 1,
-    title: "contents title",
-    description: "contents description",
-    isMine: true,
-    complete: false,
-  },
-  {
-    key: 2,
-    title: "contents title",
-    description:
-      "contents descriptioncontents descriptioncontents descriptioncontents description",
-    isMine: false,
-    complete: true,
-  },
-  {
-    key: 3,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-  {
-    key: 4,
-    title: "contents title",
-    description: "contents description",
-    isMine: false,
-    complete: false,
-  },
-];
+import ArticleCard from "./common/ArticleCard";
 
 const WorksMenu: NextPage = () => {
   const router = useRouter();
-  const [isPostEmpty, setIsPostEmpty] = useState(false);
-  const movePage = () => {
-    router.push("/content");
+  const user = useSelector<RootState, UserInfo>((state) => state.user);
+  const [isLoading, setIsLoading] = useState(false);
+  const [workList, setWorkList] = useState<BoardInfo[]>([]);
+
+  useEffect(() => {
+    const apiCall = async () => {
+      const param = { uId: user.uId };
+      const res = await Api.post(BoardApiPath.editingListByUser, param);
+      if (!res.ok) {
+        console.error("something wrong...");
+        return;
+      }
+      const { data } = await res.json();
+      setWorkList(data);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 150);
+    };
+    apiCall();
+  }, [user]);
+
+  if (isLoading) {
+    return (
+      <>
+        <div className={styles.title}>Accepted proofread contents.</div>
+        <div className={styles.editingListContainer}>
+          <Loading />
+        </div>
+      </>
+    );
+  }
+
+  const handleArticleClick = (aId: string) => {
+    router.push(`/board/${aId}`);
   };
 
   return (
     <div>
       <div className={styles.title}>Accepted proofread contents.</div>
-      {isPostEmpty ? (
+      {workList.length === 0 ? (
         <div className={styles.nullText}>You never accepted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
-          {viewList.map((el) => (
-            <div key={el.key} className={styles.listContainer}>
-              <div className={styles.editingCard} onClick={movePage}>
-                <div className={styles.editingCardTitleContainer}>
-                  <div className={styles.editingCardTitle}>{el.title}</div>
-                  {el.complete && (
-                    <div className={styles.editingCardCompleteText}>
-                      complete
-                    </div>
-                  )}
-                </div>
-                <div className={styles.editingCardDescription}>
-                  {el.description}
-                </div>
-              </div>
-              <div className={styles.rightBtn}>
-                <Image
-                  src="/svg/delete.svg"
-                  width={16}
-                  height={18}
-                  alt="cancel"
-                  title="cancel"
-                />
-              </div>
-            </div>
+          {workList.map((el) => (
+            <ArticleCard
+              key={el.aId}
+              onArticleClick={handleArticleClick}
+              {...el}
+            />
           ))}
         </div>
       )}

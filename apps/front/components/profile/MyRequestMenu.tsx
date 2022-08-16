@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { BoardApiPath, BoardInfo, UserInfo } from "opm-models";
 import { useSelector } from "react-redux";
@@ -10,15 +9,13 @@ import { Api } from "../../helpers/api";
 import { RootState } from "../../store";
 import Loading from "../common/Loading";
 
+import ArticleCard from "./common/ArticleCard";
+
 const MyRequestMenu: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const [requestList, setRequestList] = useState<BoardInfo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleArticleClick = (aId: string) => {
-    router.push(`/board/${aId}`);
-  };
 
   useEffect(() => {
     const apiCall = async () => {
@@ -48,41 +45,23 @@ const MyRequestMenu: NextPage = () => {
     );
   }
 
+  const handleArticleClick = (aId: string) => {
+    router.push(`/board/${aId}`);
+  };
+
   return (
     <>
       <div className={styles.title}>Posted by you.</div>
-      {!isLoading && requestList.length === 0 ? (
+      {requestList.length === 0 ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
           {requestList.map((el) => (
-            <div key={el.aId} className={styles.listContainer}>
-              <div
-                className={styles.editingCard}
-                onClick={() => handleArticleClick(el.aId)}
-              >
-                <div className={styles.editingCardTitleContainer}>
-                  <div className={styles.editingCardTitle}>{el.aTitle}</div>
-                  {el.aStatus === "COMPLETE" && (
-                    <div className={styles.editingCardCompleteText}>
-                      complete
-                    </div>
-                  )}
-                </div>
-                <div className={styles.editingCardDescription}>
-                  {el.aDescription}
-                </div>
-              </div>
-              <div className={styles.rightBtn}>
-                <Image
-                  src="/svg/delete.svg"
-                  width={16}
-                  height={18}
-                  alt="delete"
-                  title="delete"
-                />
-              </div>
-            </div>
+            <ArticleCard
+              key={el.aId}
+              {...el}
+              onArticleClick={handleArticleClick}
+            />
           ))}
         </div>
       )}
