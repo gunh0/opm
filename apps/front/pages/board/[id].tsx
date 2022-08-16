@@ -60,6 +60,7 @@ const Board: NextPage = () => {
     setBoardPhase(BoardPhase.edit);
   };
   const handleCompleteButtonClick = () => {
+    // TODO: 최종 컨펌 API 필요
     setBoardPhase(BoardPhase.view);
   };
   const handleSaveButtonClick = async () => {
