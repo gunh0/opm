@@ -59,7 +59,7 @@ const Board: NextPage = () => {
   const handleEditingButtonClick = () => {
     setBoardPhase(BoardPhase.edit);
   };
-  const handleCompletionButtonClick = () => {
+  const handleCompleteButtonClick = () => {
     setBoardPhase(BoardPhase.view);
   };
   const handleSaveButtonClick = async () => {
@@ -104,9 +104,8 @@ const Board: NextPage = () => {
             setEditText={setEditText}
           />
           <BoardButtonContainer
-            boardPhase={boardPhase}
             onAcceptButtonClick={handleAcceptButtonClick}
-            onCompletionButtonClick={handleCompletionButtonClick}
+            onCompleteButtonClick={handleCompleteButtonClick}
             onEditingButtonClick={handleEditingButtonClick}
             onSaveButtonClick={handleSaveButtonClick}
           />

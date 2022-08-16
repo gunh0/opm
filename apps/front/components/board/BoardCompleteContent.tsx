@@ -13,7 +13,8 @@ const BoardCompleteContent: FunctionComponent<BoardCompleteContentProps> = ({
 }) => {
   return (
     <div className={styles.textBox}>
-      {/* {articleStatus === "COMPLETE" ? editedText : originText} */}
+      <div>{originText}</div>
+      <div>{editedText}</div>
     </div>
   );
 };
