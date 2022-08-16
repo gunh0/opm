@@ -14,7 +14,7 @@ import ArticleCard from "./common/ArticleCard";
 const WorksMenu: NextPage = () => {
   const router = useRouter();
   const user = useSelector<RootState, UserInfo>((state) => state.user);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [workList, setWorkList] = useState<BoardInfo[]>([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const WorksMenu: NextPage = () => {
   if (isLoading) {
     return (
       <>
-        <div className={styles.title}>Accepted proofread contents.</div>
+        <div className={styles.title}>Proofread contents.</div>
         <div className={styles.editingListContainer}>
           <Loading />
         </div>
@@ -50,8 +50,8 @@ const WorksMenu: NextPage = () => {
   };
 
   return (
-    <div>
-      <div className={styles.title}>Accepted proofread contents.</div>
+    <>
+      <div className={styles.title}>Proofread contents.</div>
       {workList.length === 0 ? (
         <div className={styles.nullText}>You never accepted a request.</div>
       ) : (
@@ -65,7 +65,7 @@ const WorksMenu: NextPage = () => {
           ))}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
