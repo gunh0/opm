@@ -7,6 +7,13 @@ import { UserNotificationList } from "opm-models/dist/models/user";
 import Board from "../models/board.model";
 import User from "../models/user.model";
 
+const seqCheck = (seq) => {
+  if (seq) {
+    return seq + 1;
+  }
+  return 0;
+};
+
 const showArticle = async (req: Request, res: Response) => {
   const { aId } = req.query;
   const foundArticle = await Board.findOne({ aId: aId });
@@ -170,11 +177,12 @@ const acceptArticle = async (req: Request, res: Response) => {
   }
 
   const notiList = foundUser.uNotiList;
+  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
   const newUserEditData: UserNotificationList = {
-    seq: notiList.length === 0 ? 1 : notiList[notiList.length - 1].seq + 1,
+    seq: seqCheck(isSeq),
     checked: false,
     timestamp: new Date().toISOString(),
-    notiBody: `"${foundArticle.aTitle}" 글이 에디터에게 수락되었어요. 지금 확인해보세요!`,
+    notiBody: `"${foundArticle.aTitle}" Article has been accepted.`,
   };
   notiList.push(newUserEditData);
 
@@ -190,6 +198,7 @@ const acceptArticle = async (req: Request, res: Response) => {
 
 const cancelArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
+  const data = [];
 
   const foundArticle = await Board.findOne({ aId: aId });
   if (!foundArticle) {
@@ -208,11 +217,35 @@ const cancelArticle = async (req: Request, res: Response) => {
   foundArticle.aStatus = "INIT";
 
   try {
-    const data = await foundArticle.save();
-    return res.status(200).send({ data });
+    const boardData = await foundArticle.save();
+    data.push(boardData);
   } catch (error) {
     console.info(error);
   }
+
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+  if (!foundUser) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  const notiList = foundUser.uNotiList;
+  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
+  const newUserEditData: UserNotificationList = {
+    seq: seqCheck(isSeq),
+    checked: false,
+    timestamp: new Date().toISOString(),
+    notiBody: `"${foundArticle.aTitle}" Article proofread was canceled.`,
+  };
+  notiList.push(newUserEditData);
+
+  try {
+    const userData = await foundUser.save();
+    data.push(userData);
+  } catch (error) {
+    console.info(error);
+  }
+
+  return res.status(200).send({ data });
 };
 
 const proofreadArticle = async (req: Request, res: Response) => {
