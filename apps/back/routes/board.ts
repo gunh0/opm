@@ -29,7 +29,6 @@ const NotiText: Record<BoardNotiKey, BoardNotiText> = {
 
 const makeNotiData = (notiList, articleTitle, text) => {
   const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
-  console.log(notiList[notiList.length - 1], notiList.length - 1, isSeq, "bb");
 
   const newNotiData: UserNotificationList = {
     seq: seqCheck(isSeq),
@@ -52,7 +51,7 @@ const showArticle = async (req: Request, res: Response) => {
 const showArticleList = async (req: Request, res: Response) => {
   const { aId } = req.query;
   if (aId) {
-    const foundArticle = await Board.findOne({ aId: aId }).sort({ _id: 1 });
+    const foundArticle = await Board.findOne({ aId: aId });
     if (!foundArticle) {
       return res.status(200).send({ code: StatusCode.BAD_REQUEST });
     }
@@ -70,7 +69,7 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId: uId });
+  const foundArticleList = await Board.find({ uId: uId }).sort({ _id: -1 });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
@@ -79,7 +78,7 @@ const showArticleListByUser = async (req: Request, res: Response) => {
 
 const showEditingListByUser = async (req: Request, res: Response) => {
   const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId: eId });
+  const foundArticleList = await Board.find({ eId: eId }).sort({ _id: -1 });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
