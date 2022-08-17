@@ -10,7 +10,11 @@ import type {
   BoardEditSocket,
   UpdateBoardStatusSocket,
 } from "./models/socket";
-import type { USER_STATUS, UserInfo } from "./models/user";
+import type {
+  USER_STATUS,
+  UserInfo,
+  UserNotificationList,
+} from "./models/user";
 import { StatusCode } from "./models/status";
 
 export {
@@ -23,6 +27,7 @@ export {
   MessageType,
   USER_STATUS,
   UserInfo,
+  UserNotificationList,
   MessageSocket,
   BoardSocket,
   BoardEditSocket,

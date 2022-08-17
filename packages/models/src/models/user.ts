@@ -12,7 +12,7 @@ export interface UserInfo {
 }
 
 export interface UserNotificationList {
-  nId: number;
+  seq: number;
   checked: boolean;
   timestamp: string;
   notiBody: string;
