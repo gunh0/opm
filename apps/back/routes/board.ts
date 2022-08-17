@@ -1,7 +1,13 @@
 import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
-import { BoardEditData, BoardInfo, StatusCode } from "opm-models";
+import {
+  BoardEditData,
+  BoardInfo,
+  StatusCode,
+  BoardNotiKey,
+  BoardNotiText,
+} from "opm-models";
 import { UserNotificationList } from "opm-models/dist/models/user";
 
 import Board from "../models/board.model";
@@ -11,7 +17,27 @@ const seqCheck = (seq) => {
   if (seq) {
     return seq + 1;
   }
-  return 0;
+  return 1;
+};
+
+const NotiText: Record<BoardNotiKey, BoardNotiText> = {
+  accept: BoardNotiText.accept,
+  cancel: BoardNotiText.cancel,
+  proofread: BoardNotiText.proofread,
+  complete: BoardNotiText.complete,
+};
+
+const makeNotiData = (notiList, articleTitle, text) => {
+  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
+  console.log(notiList[notiList.length - 1], notiList.length - 1, isSeq, "bb");
+
+  const newNotiData: UserNotificationList = {
+    seq: seqCheck(isSeq),
+    checked: false,
+    timestamp: new Date().toISOString(),
+    notiBody: `"${articleTitle}" ${text}`,
+  };
+  return newNotiData;
 };
 
 const showArticle = async (req: Request, res: Response) => {
@@ -146,10 +172,19 @@ const deleteArticle = async (req: Request, res: Response) => {
 
 const acceptArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
-  const data = [];
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.eId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -164,44 +199,34 @@ const acceptArticle = async (req: Request, res: Response) => {
   foundArticle.eId = eId;
   foundArticle.aStatus = "EDITING";
 
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.accept,
+  );
+  notiList.push(newUserNotiData);
+
   try {
     const boardData = await foundArticle.save();
-    data.push(boardData);
-  } catch (error) {
-    console.info(error);
-  }
-
-  const foundUser = await User.findOne({ uId: foundArticle.uId });
-  if (!foundUser) {
-    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
-  }
-
-  const notiList = foundUser.uNotiList;
-  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
-  const newUserEditData: UserNotificationList = {
-    seq: seqCheck(isSeq),
-    checked: false,
-    timestamp: new Date().toISOString(),
-    notiBody: `"${foundArticle.aTitle}" Article has been accepted.`,
-  };
-  notiList.push(newUserEditData);
-
-  try {
     const userData = await foundUser.save();
-    data.push(userData);
+    return res.status(200).send({ boardData, userData });
   } catch (error) {
     console.info(error);
   }
-
-  return res.status(200).send({ data });
 };
 
 const cancelArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
-  const data = [];
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -216,43 +241,34 @@ const cancelArticle = async (req: Request, res: Response) => {
   foundArticle.eId = "";
   foundArticle.aStatus = "INIT";
 
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.cancel,
+  );
+  notiList.push(newUserNotiData);
+
   try {
     const boardData = await foundArticle.save();
-    data.push(boardData);
-  } catch (error) {
-    console.info(error);
-  }
-
-  const foundUser = await User.findOne({ uId: foundArticle.uId });
-  if (!foundUser) {
-    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
-  }
-
-  const notiList = foundUser.uNotiList;
-  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
-  const newUserEditData: UserNotificationList = {
-    seq: seqCheck(isSeq),
-    checked: false,
-    timestamp: new Date().toISOString(),
-    notiBody: `"${foundArticle.aTitle}" Article proofread was canceled.`,
-  };
-  notiList.push(newUserEditData);
-
-  try {
     const userData = await foundUser.save();
-    data.push(userData);
+    return res.status(200).send({ boardData, userData });
   } catch (error) {
     console.info(error);
   }
-
-  return res.status(200).send({ data });
 };
 
 const proofreadArticle = async (req: Request, res: Response) => {
   const { aId, eId, aProofread } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -264,19 +280,28 @@ const proofreadArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.NOT_EDITING });
   }
 
-  if (!Array.isArray(foundArticle.aEditList)) {
-    foundArticle.aEditList = [];
-  }
+  const editList = foundArticle.aEditList;
+  const isSeq = editList.length !== 0 && editList[editList.length - 1].seq;
   const newBoardEditData: BoardEditData = {
-    seq: 1,
+    seq: seqCheck(isSeq),
     aProofread,
     aProofreadDate: new Date().toISOString(),
   };
   foundArticle.aEditList.push(newBoardEditData);
+  foundArticle.aStatus = "DONE";
+
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.proofread,
+  );
+  notiList.push(newUserNotiData);
 
   try {
-    const data = await foundArticle.save();
-    return res.status(200).send({ data });
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
   } catch (error) {
     console.info(error);
   }
@@ -286,7 +311,13 @@ const completeArticle = async (req: Request, res: Response) => {
   const { aId, uId } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ eId: foundArticle.eId });
+
   if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
@@ -300,9 +331,18 @@ const completeArticle = async (req: Request, res: Response) => {
 
   foundArticle.aStatus = "COMPLETE";
 
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.complete,
+  );
+  notiList.push(newUserNotiData);
+
   try {
-    const data = await foundArticle.save();
-    return res.status(200).send({ data });
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
   } catch (error) {
     console.info(error);
   }

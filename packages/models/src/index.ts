@@ -1,5 +1,6 @@
 import { Url, SocketPath, UserApiPath, BoardApiPath } from "./constant/path";
 import type { ARTICLE_STATUS, BoardInfo, BoardEditData } from "./models/board";
+import type { BoardNotiKey } from "./models/noti";
 import type { UrlKey, SocketKey } from "./models/path";
 import type {
   CommonSocket,
@@ -16,6 +17,7 @@ import type {
   UserNotificationList,
 } from "./models/user";
 import { StatusCode } from "./models/status";
+import { BoardNotiText } from "./models/noti";
 
 export {
   SocketPath,
@@ -38,4 +40,6 @@ export {
   BoardInfo,
   BoardEditData,
   StatusCode,
+  BoardNotiKey,
+  BoardNotiText,
 };
