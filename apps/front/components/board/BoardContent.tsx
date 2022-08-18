@@ -18,8 +18,7 @@ const BoardContent: FunctionComponent<BoardContentProps> = ({
 
   return (
     <div className={styles.textBox}>
-      <div className={styles.originText}>{originText}</div>
-      <div className={styles.editedText}>{editedText}</div>
+      {board.aStatus === "COMPLETE" ? editedText : originText}
     </div>
   );
 };
