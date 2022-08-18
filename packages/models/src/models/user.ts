@@ -17,5 +17,5 @@ export interface UserNotificationList {
   seq: number;
   checked: boolean;
   timestamp: string;
-  notiBody: BoardNotiText;
+  notiBody: string;
 }
