@@ -105,6 +105,7 @@ const Board: NextPage = () => {
             setEditText={setEditText}
           />
           <BoardButtonContainer
+            boardPhase={boardPhase}
             onAcceptButtonClick={handleAcceptButtonClick}
             onCompleteButtonClick={handleCompleteButtonClick}
             onEditingButtonClick={handleEditingButtonClick}
