@@ -1,26 +1,13 @@
 import { randomUUID } from "crypto";
 
 import { Request } from "express";
-import mongoose, { Schema, model } from "mongoose";
-import { UserInfo, StatusCode } from "opm-models";
+import { StatusCode } from "opm-models";
+
+import User from "../models/user.model";
 
 // 상태코드 정의
 const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
-
-// Mongoose
-const userSchema = new mongoose.Schema<UserInfo>({
-  uId: "",
-  uCreateDate: "",
-  uEmail: "",
-  uFirstName: "",
-  uLastName: "",
-  uNickName: "",
-  uPassword: "",
-  uStatus: "String",
-});
-userSchema.set("collection", "User");
-const User = model<UserInfo>("User", userSchema);
 
 const showAllUser = async (req, res) => {
   const allUser = await User.find();

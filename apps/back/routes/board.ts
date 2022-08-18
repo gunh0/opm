@@ -1,25 +1,43 @@
 import { randomUUID } from "crypto";
 
 import { Request, Response } from "express";
-import mongoose from "mongoose";
-import { BoardEditData, BoardInfo, StatusCode } from "opm-models";
+import {
+  BoardEditData,
+  BoardInfo,
+  StatusCode,
+  BoardNotiKey,
+  BoardNotiText,
+} from "opm-models";
+import { UserNotificationList } from "opm-models/dist/models/user";
 
-const boardModel = new mongoose.Schema<BoardInfo>({
-  aId: "",
-  uId: "",
-  eId: "",
-  aTitle: "",
-  aDescription: "",
-  aContent: "",
-  aCategory: "",
-  aCreateDate: "",
-  aEditDate: "",
-  aHit: 0,
-  aEditList: [],
-  aStatus: "String",
-});
-boardModel.set("collection", "Board");
-const Board = mongoose.model("Board", boardModel);
+import Board from "../models/board.model";
+import User from "../models/user.model";
+
+const seqCheck = (seq) => {
+  if (seq) {
+    return seq + 1;
+  }
+  return 1;
+};
+
+const NotiText: Record<BoardNotiKey, BoardNotiText> = {
+  accept: BoardNotiText.accept,
+  cancel: BoardNotiText.cancel,
+  proofread: BoardNotiText.proofread,
+  complete: BoardNotiText.complete,
+};
+
+const makeNotiData = (notiList, articleTitle, text) => {
+  const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
+
+  const newNotiData: UserNotificationList = {
+    seq: seqCheck(isSeq),
+    checked: false,
+    timestamp: new Date().toISOString(),
+    notiBody: `"${articleTitle}" ${text}`,
+  };
+  return newNotiData;
+};
 
 const showArticle = async (req: Request, res: Response) => {
   const { aId } = req.query;
@@ -33,7 +51,7 @@ const showArticle = async (req: Request, res: Response) => {
 const showArticleList = async (req: Request, res: Response) => {
   const { aId } = req.query;
   if (aId) {
-    const foundArticle = await Board.findOne({ aId });
+    const foundArticle = await Board.findOne({ aId: aId });
     if (!foundArticle) {
       return res.status(200).send({ code: StatusCode.BAD_REQUEST });
     }
@@ -51,14 +69,20 @@ const showArticleList = async (req: Request, res: Response) => {
 
 const showArticleListByUser = async (req: Request, res: Response) => {
   const { uId } = req.body;
-  const foundArticleList = await Board.find({ uId });
-  return res.status(200).send({ data: foundArticleList ?? [] });
+  const foundArticleList = await Board.find({ uId: uId }).sort({ _id: -1 });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
 };
 
 const showEditingListByUser = async (req: Request, res: Response) => {
-  const { uId } = req.body;
-  const foundArticleList = await Board.find({ eId: uId });
-  return res.status(200).send({ data: foundArticleList ?? [] });
+  const { eId } = req.body;
+  const foundArticleList = await Board.find({ eId: eId }).sort({ _id: -1 });
+  if (foundArticleList.length === 0) {
+    return res.status(200).send({ code: StatusCode.NO_CONTENT });
+  }
+  return res.status(200).send({ data: foundArticleList });
 };
 
 const writeArticle = async (req: Request, res: Response) => {
@@ -80,14 +104,12 @@ const writeArticle = async (req: Request, res: Response) => {
     aStatus: "INIT",
   });
 
-  newArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "new Article saved");
-    }
-  });
-  return res.status(200).send({ data: newArticle });
+  try {
+    const data = await newArticle.save();
+    return res.status(200).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const editArticle = async (req: Request, res: Response) => {
@@ -98,8 +120,12 @@ const editArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus !== "INIT" || foundArticle.uId !== uId) {
-    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  if (foundArticle.uId !== uId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (foundArticle.aStatus !== "INIT") {
+    return res.status(200).send({ code: StatusCode.NOT_INIT });
   }
 
   foundArticle.aTitle = aTitle;
@@ -108,30 +134,61 @@ const editArticle = async (req: Request, res: Response) => {
   foundArticle.aCategory = aCategory;
   foundArticle.aEditDate = new Date().toISOString();
 
-  foundArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "Article edited");
-    }
-  });
-  return res.status(200).send({ data: foundArticle });
+  try {
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const deleteArticle = async (req: Request, res: Response) => {
-  const { aId, uId, aStatus } = req.body;
-  if (aStatus === "INIT") {
-    await Board.deleteOne({ aId: aId, uId: uId });
-    return res.status(200).send();
+  const { aId, uId } = req.body;
+
+  const foundArticle = await Board.findOne({ aId: aId });
+  if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.uId !== uId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (foundArticle.aStatus !== "INIT") {
+    return res.status(200).send({ code: StatusCode.NOT_INIT });
+  }
+
+  try {
+    const data = await Board.deleteOne({ aId: aId, uId: uId });
+    if (data.deletedCount === 1) {
+      return res.status(200).send({ data: { aId, uId } });
+    }
+    throw Error;
+  } catch (error) {
+    console.info(error);
   }
 };
 
 const acceptArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
-  const foundArticle = await Board.findOne({ aId });
+  const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.eId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (!foundUser) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.uId === eId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
   }
 
   if (foundArticle.aStatus !== "INIT") {
@@ -141,72 +198,153 @@ const acceptArticle = async (req: Request, res: Response) => {
   foundArticle.eId = eId;
   foundArticle.aStatus = "EDITING";
 
-  foundArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "Article proofread accepted");
-    }
-  });
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.accept,
+  );
+  notiList.push(newUserNotiData);
 
-  return res.status(200).send({ data: foundArticle });
+  try {
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const cancelArticle = async (req: Request, res: Response) => {
   const { aId, eId } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus !== "EDITING" || foundArticle.eId !== eId) {
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.eId !== eId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (foundArticle.aStatus !== "EDITING") {
+    return res.status(200).send({ code: StatusCode.NOT_EDITING });
   }
 
   foundArticle.eId = "";
   foundArticle.aStatus = "INIT";
 
-  foundArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "Article proofread canceled");
-    }
-  });
-  return res.status(200).send({ data: foundArticle });
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.cancel,
+  );
+  notiList.push(newUserNotiData);
+
+  try {
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const proofreadArticle = async (req: Request, res: Response) => {
   const { aId, eId, aProofread } = req.body;
 
   const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ uId: foundArticle.uId });
+
   if (!foundArticle) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.aStatus !== "EDITING" || foundArticle.eId !== eId) {
+  if (!foundUser) {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (!Array.isArray(foundArticle.aEditList)) {
-    foundArticle.aEditList = [];
+  if (foundArticle.eId !== eId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
   }
+
+  if (foundArticle.aStatus !== "EDITING") {
+    return res.status(200).send({ code: StatusCode.NOT_EDITING });
+  }
+
+  const editList = foundArticle.aEditList;
+  const isSeq = editList.length !== 0 && editList[editList.length - 1].seq;
   const newBoardEditData: BoardEditData = {
-    seq: 1,
+    seq: seqCheck(isSeq),
     aProofread,
     aProofreadDate: new Date().toISOString(),
   };
   foundArticle.aEditList.push(newBoardEditData);
+  foundArticle.aStatus = "DONE";
 
-  foundArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "Article proofread done");
-    }
-  });
-  return res.status(200).send({ data: foundArticle });
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.proofread,
+  );
+  notiList.push(newUserNotiData);
+
+  try {
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
+const completeArticle = async (req: Request, res: Response) => {
+  const { aId, uId } = req.body;
+
+  const foundArticle = await Board.findOne({ aId: aId });
+  const foundUser = await User.findOne({ eId: foundArticle.eId });
+
+  if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (!foundUser) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+
+  if (foundArticle.uId !== uId) {
+    return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
+  }
+
+  if (foundArticle.aStatus !== "DONE") {
+    return res.status(200).send({ code: StatusCode.NOT_DONE });
+  }
+
+  foundArticle.aStatus = "COMPLETE";
+
+  const notiList = foundUser.uNotiList;
+  const newUserNotiData = makeNotiData(
+    notiList,
+    foundArticle.aTitle,
+    NotiText.complete,
+  );
+  notiList.push(newUserNotiData);
+
+  try {
+    const boardData = await foundArticle.save();
+    const userData = await foundUser.save();
+    return res.status(200).send({ boardData, userData });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const hitUpArticle = async (req: Request, res: Response) => {
@@ -219,14 +357,12 @@ const hitUpArticle = async (req: Request, res: Response) => {
 
   foundArticle.aHit += 1;
 
-  foundArticle.save((error, data) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log(data, "Article Hit updated");
-    }
-  });
-  return res.status(200).send({ data: foundArticle });
+  try {
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
 };
 
 const board = {
@@ -240,6 +376,7 @@ const board = {
   acceptArticle,
   cancelArticle,
   proofreadArticle,
+  completeArticle,
   hitUpArticle,
 };
 

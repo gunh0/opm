@@ -126,6 +126,9 @@ export enum StatusCode {
    */
   BAD_REQUEST = 400,
   NOT_INIT = 400400,
+  NOT_EDITING = 400401,
+  NOT_DONE = 400402,
+  NOT_COMPLETE = 400403,
   /**
    * Official Documentation @ https://tools.ietf.org/html/rfc7235#section-3.1
    *

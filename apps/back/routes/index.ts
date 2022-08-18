@@ -22,6 +22,7 @@ router.post(BoardApiPath.delete, board.deleteArticle);
 router.post(BoardApiPath.accept, board.acceptArticle);
 router.post(BoardApiPath.cancel, board.cancelArticle);
 router.post(BoardApiPath.proofread, board.proofreadArticle);
+router.post(BoardApiPath.complete, board.completeArticle);
 router.post(BoardApiPath.hitUp, board.hitUpArticle);
 
 router.get("/room/all", room.showAllRoom);
