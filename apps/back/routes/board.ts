@@ -202,7 +202,7 @@ const acceptArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    NotiText.accept,
+    "Article has been accepted.",
   );
   notiList.push(newUserNotiData);
 
@@ -244,7 +244,7 @@ const cancelArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    NotiText.cancel,
+    "Article proofread was canceled.",
   );
   notiList.push(newUserNotiData);
 
@@ -293,7 +293,7 @@ const proofreadArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    NotiText.proofread,
+    "Article proofread was done.",
   );
   notiList.push(newUserNotiData);
 
@@ -334,7 +334,7 @@ const completeArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    NotiText.complete,
+    "We're all finished. You all did a good job!",
   );
   notiList.push(newUserNotiData);
 
