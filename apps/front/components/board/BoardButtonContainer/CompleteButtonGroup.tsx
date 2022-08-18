@@ -6,7 +6,7 @@ const CompleteButtonGroup: FunctionComponent = () => {
   return (
     <div className={styles.buttonContainer}>
       <div className={styles.blankButton} />
-      <span>Edited post</span>
+      <div className={styles.completionButton}>Edited post</div>
     </div>
   );
 };
