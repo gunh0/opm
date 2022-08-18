@@ -3,12 +3,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html>
-      <Head>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"
-        />
-      </Head>
+      <Head />
       <body>
         <Main />
         <NextScript />
