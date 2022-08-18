@@ -1,3 +1,5 @@
+import { BoardNotiText } from "./noti";
+
 export type USER_STATUS = "ONLINE" | "OFFLINE";
 export interface UserInfo {
   uId: string;
@@ -15,5 +17,5 @@ export interface UserNotificationList {
   seq: number;
   checked: boolean;
   timestamp: string;
-  notiBody: string;
+  notiBody: BoardNotiText;
 }
