@@ -7,7 +7,7 @@ const options = {
       version: "1.0.0",
       description: "설명이 필요한가",
     },
-    host: "localhost:8080",
+    host: "localhost:8888",
     basePath: "/",
 
     securityDefinitions: {
