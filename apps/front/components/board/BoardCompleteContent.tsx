@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-import Diff from "../../hooks/diff";
 
 import styles from "../../styles/Board.module.scss";
 
@@ -14,7 +13,8 @@ const BoardCompleteContent: FunctionComponent<BoardCompleteContentProps> = ({
 }) => {
   return (
     <div className={styles.textBox}>
-      <Diff string1={originText} string2={editedText} mode="words" />
+      <div className={styles.originText}>{originText}</div>
+      <div className={styles.editedText}>{editedText}</div>
     </div>
   );
 };

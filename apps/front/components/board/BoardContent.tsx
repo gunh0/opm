@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../../store";
 import styles from "../../styles/Board.module.scss";
-import Diff from "../../hooks/diff";
 
 interface BoardContentProps {
   originText: string;
@@ -19,7 +18,7 @@ const BoardContent: FunctionComponent<BoardContentProps> = ({
 
   return (
     <div className={styles.textBox}>
-      <Diff string1={originText} string2={editedText} mode="words" />
+      {board.aStatus === "COMPLETE" ? editedText : originText}
     </div>
   );
 };
