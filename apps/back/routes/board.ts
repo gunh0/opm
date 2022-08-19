@@ -27,7 +27,7 @@ const NotiText: Record<BoardNotiKey, BoardNotiText> = {
   complete: BoardNotiText.complete,
 };
 
-const makeNotiData = (notiList, articleTitle, text) => {
+const makeNotiData = (notiList, articleTitle: string, text: BoardNotiText) => {
   const isSeq = notiList.length !== 0 && notiList[notiList.length - 1].seq;
 
   const newNotiData: UserNotificationList = {
@@ -77,8 +77,8 @@ const showArticleListByUser = async (req: Request, res: Response) => {
 };
 
 const showEditingListByUser = async (req: Request, res: Response) => {
-  const { eId } = req.body;
-  const foundArticleList = await Board.find({ eId: eId }).sort({ _id: -1 });
+  const { uId } = req.body;
+  const foundArticleList = await Board.find({ eId: uId }).sort({ _id: -1 });
   if (foundArticleList.length === 0) {
     return res.status(200).send({ code: StatusCode.NO_CONTENT });
   }
@@ -170,7 +170,7 @@ const deleteArticle = async (req: Request, res: Response) => {
 };
 
 const acceptArticle = async (req: Request, res: Response) => {
-  const { aId, eId } = req.body;
+  const { aId, eId } = req.body; // editor user ID -> eId
 
   const foundArticle = await Board.findOne({ aId: aId });
   const foundUser = await User.findOne({ uId: foundArticle.uId });
@@ -179,7 +179,7 @@ const acceptArticle = async (req: Request, res: Response) => {
     return res.status(200).send({ code: StatusCode.BAD_REQUEST });
   }
 
-  if (foundArticle.eId) {
+  if (foundArticle.eId && foundArticle.eId !== eId) {
     return res.status(200).send({ code: StatusCode.METHOD_NOT_ALLOWED });
   }
 
@@ -202,14 +202,13 @@ const acceptArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    "Article has been accepted.",
+    NotiText.accept,
   );
   notiList.push(newUserNotiData);
 
   try {
-    const boardData = await foundArticle.save();
-    const userData = await foundUser.save();
-    return res.status(200).send({ boardData, userData });
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
   } catch (error) {
     console.info(error);
   }
@@ -244,14 +243,13 @@ const cancelArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    "Article proofread was canceled.",
+    NotiText.cancel,
   );
   notiList.push(newUserNotiData);
 
   try {
-    const boardData = await foundArticle.save();
-    const userData = await foundUser.save();
-    return res.status(200).send({ boardData, userData });
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
   } catch (error) {
     console.info(error);
   }
@@ -293,14 +291,13 @@ const proofreadArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    "Article proofread was done.",
+    NotiText.proofread,
   );
   notiList.push(newUserNotiData);
 
   try {
-    const boardData = await foundArticle.save();
-    const userData = await foundUser.save();
-    return res.status(200).send({ boardData, userData });
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
   } catch (error) {
     console.info(error);
   }
@@ -334,14 +331,13 @@ const completeArticle = async (req: Request, res: Response) => {
   const newUserNotiData = makeNotiData(
     notiList,
     foundArticle.aTitle,
-    "We're all finished. You all did a good job!",
+    NotiText.complete,
   );
   notiList.push(newUserNotiData);
 
   try {
-    const boardData = await foundArticle.save();
-    const userData = await foundUser.save();
-    return res.status(200).send({ boardData, userData });
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
   } catch (error) {
     console.info(error);
   }

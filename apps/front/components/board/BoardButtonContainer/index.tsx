@@ -7,6 +7,7 @@ import { BoardPhase } from "../../../pages/board/[id]";
 
 import CompleteButtonGroup from "./CompleteButtonGroup";
 import NonValidViewerButtonGroup from "./NonValidViewerButtonGroup";
+import NonValidEditingButtonGroup from "./NonValidEditingButtonGroup";
 import AcceptButtonGroup from "./AcceptButtonGroup";
 import SaveButtonGroup from "./SaveButtonGroup";
 import CompleteCheckButtonGroup from "./CompleteCheckButtonGroup";
@@ -29,10 +30,27 @@ const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
   const board = useSelector<RootState, BoardInfo>((state) => state.board);
 
   const nonValidViewer = ![board.eId, board.uId].includes(user.uId);
+  const nonValidEditing = !user.uId;
+
   const isMyRequest = board.uId === user.uId;
+
+  if (nonValidEditing && board.aStatus === "EDITING") {
+    return <NonValidEditingButtonGroup />;
+  }
+
+  if (nonValidViewer) {
+    return <NonValidViewerButtonGroup />;
+  }
 
   if (board.aStatus === "COMPLETE") {
     return <CompleteButtonGroup />;
+  }
+
+  if (board.aStatus === "EDITING") {
+    if (boardPhase === "edit") {
+      return <SaveButtonGroup {...props} />;
+    }
+    return <EditButtonGroup {...props} />;
   }
 
   if (board.aStatus === "INIT") {
@@ -43,17 +61,10 @@ const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
     );
   }
 
-  if (nonValidViewer) {
-    return <NonValidViewerButtonGroup />;
-  }
-
   if (board.uId === user.uId) {
     return <CompleteCheckButtonGroup {...props} />;
   }
 
-  if (boardPhase === "edit") {
-    return <SaveButtonGroup {...props} />;
-  }
   return <EditButtonGroup {...props} />;
 };
 
