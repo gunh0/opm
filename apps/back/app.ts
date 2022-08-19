@@ -17,33 +17,30 @@ import { runSocket } from "./socket/event";
 dotEnv.config();
 const app = express();
 
-let opmServer;
 const liveServer = "/etc/letsencrypt/live/proofor.cf/cert.pem";
+const isLiveServer = fs.existsSync(liveServer);
 const PORT = 8080;
-const liveServerChecker = () => {
-  if (fs.existsSync(liveServer)) {
-    const options = {
-      key: fs.readFileSync("/etc/letsencrypt/live/proofor.cf/privkey.pem"),
-      cert: fs.readFileSync("/etc/letsencrypt/live/proofor.cf/cert.pem"),
-    };
-    opmServer = https.createServer(options, app);
-    console.info("proofor live server.");
-    opmServer.listen(PORT, () => {
-      console.info(`Listening on port ${PORT}`);
-      const io = new Server(opmServer, { cors: { origin: "*" } });
-      runSocket(io);
-    });
-  } else {
-    opmServer = http.createServer(app);
-    console.info("localhost");
-    opmServer.listen(PORT, () => {
-      console.info(`Listening on port ${PORT}`);
-      const io = new Server(opmServer, { cors: { origin: "*" } });
-      runSocket(io);
-    });
-  }
-};
-liveServerChecker();
+
+const serverOptions: any = {};
+if (isLiveServer) {
+  serverOptions.key = fs.readFileSync(
+    "/etc/letsencrypt/live/proofor.cf/privkey.pem",
+  );
+  serverOptions.cert = fs.readFileSync(
+    "/etc/letsencrypt/live/proofor.cf/cert.pem",
+  );
+}
+
+const opmServer = https.createServer(serverOptions, app);
+opmServer.listen(PORT, () => {
+  console.info(
+    `${
+      isLiveServer ? "LIVE" : "LOCAL"
+    } Server is running... Listening on port ${PORT}`,
+  );
+  const io = new Server(opmServer, { cors: { origin: "*" } });
+  runSocket(io);
+});
 
 app.use(cors());
 app.use(bodyParser.json());

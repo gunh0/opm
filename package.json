@@ -20,7 +20,7 @@
     "fix": "turbo run fix",
     "prepare": "husky install",
     "test": "jest",
-    "start": "yarn && yarn run build:pkgs && yarn front build && yarn back build && turbo run start"
+    "start": "yarn && yarn build:pkgs && turbo run start"
   },
   "devDependencies": {
     "husky": "^8.0.1",

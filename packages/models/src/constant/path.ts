@@ -8,8 +8,10 @@ import {
 } from "../models/path";
 
 export const Url: Record<UrlKey, string> = {
-  SOCKET: "ws://localhost:8080",
-  SERVER: "http://localhost:8080",
+  LOCAL_SOCKET: "ws://localhost:8080",
+  REAL_SOCKET: "wss://proofor.cf:8080",
+  LOCAL_SERVER: "http://localhost:8080",
+  REAL_SERVER: "https://proofor.cf:8080",
 };
 export const UserApiPath: Record<UserApiKey, string> = {
   all: UserApiEndPoint.all,
