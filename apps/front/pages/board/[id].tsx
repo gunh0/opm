@@ -15,6 +15,7 @@ import BackButton from "../../components/common/BackButton";
 import AdImage from "../../components/common/AdImage";
 import BoardTextArea from "../../components/board/BoardTextArea";
 import { clearBoard } from "../../store/slice/board";
+import { setBoard } from "../../store/slice/board";
 import Loading from "../../components/common/Loading";
 
 export enum BoardPhase {
@@ -46,13 +47,6 @@ const Board: NextPage = () => {
     };
   }, []);
 
-  if (!user.uId) {
-    setTimeout(() => {
-      router.push("/login");
-    }, 300);
-    return <Loading top={"40%"} left={"40%"} />;
-  }
-
   const handleAcceptButtonClick = async () => {
     if (!user.uId) {
       return router.push("/login");
@@ -75,12 +69,15 @@ const Board: NextPage = () => {
       alert("BAD REQUEST, Article is NOT init");
       return;
     }
+    dispatch(setBoard(data));
   };
   const movePage = () => {
     router.push("/");
   };
   const handleEditingButtonClick = () => {
-    setBoardPhase(BoardPhase.edit);
+    if (user.uId) {
+      setBoardPhase(BoardPhase.edit);
+    }
   };
   const handleCompleteButtonClick = () => {
     // TODO: 최종 컨펌 API 필요
