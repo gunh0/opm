@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+
 import styles from "../../../styles/Board.module.scss";
 
 const EditButtonGroup: FunctionComponent<{

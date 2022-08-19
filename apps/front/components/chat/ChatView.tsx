@@ -21,7 +21,12 @@ const ChatView: NextPage = () => {
   const { id: aId } = router.query;
 
   useEffect(() => {
-    const socketClient = io(Url.SOCKET, { transports: ["websocket"] });
+    const socketClient = io(
+      process.env.NODE_ENV === "production"
+        ? Url.REAL_SOCKET
+        : Url.LOCAL_SOCKET,
+      { transports: ["websocket"] },
+    );
     setSocket(socketClient);
   }, []);
 

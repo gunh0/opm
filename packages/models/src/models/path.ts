@@ -1,4 +1,8 @@
-export type UrlKey = "SOCKET" | "SERVER";
+export type UrlKey =
+  | "LOCAL_SOCKET"
+  | "REAL_SOCKET"
+  | "LOCAL_SERVER"
+  | "REAL_SERVER";
 
 export type SocketKey =
   | "END"
