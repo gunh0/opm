@@ -52,7 +52,7 @@ const WorksMenu: NextPage = () => {
   return (
     <>
       <div className={styles.title}>Proofread contents.</div>
-      {workList.length === 0 ? (
+      {workList && workList.length === 0 ? (
         <div className={styles.nullText}>You never accepted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>

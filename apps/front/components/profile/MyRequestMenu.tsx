@@ -52,7 +52,7 @@ const MyRequestMenu: NextPage = () => {
   return (
     <>
       <div className={styles.title}>Posted by you.</div>
-      {requestList.length === 0 ? (
+      {requestList && requestList.length === 0 ? (
         <div className={styles.nullText}>You never posted a request.</div>
       ) : (
         <div className={styles.editingListContainer}>
