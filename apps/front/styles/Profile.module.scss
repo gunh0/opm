@@ -6,7 +6,7 @@
   flex-direction: row;
   margin: 200px 180px 100px 200px;
   padding: 0px;
-  height: 100vh;
+  height: 130vh;
 }
 
 .menuContainer {
@@ -83,7 +83,10 @@
 }
 
 .editingListContainer {
-  height: 40rem;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  height: 90vh;
 }
 
 .editingCard {

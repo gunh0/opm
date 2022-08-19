@@ -13,8 +13,8 @@ const BoardCompleteContent: FunctionComponent<BoardCompleteContentProps> = ({
 }) => {
   return (
     <div className={styles.textBox}>
-      <div>{originText}</div>
-      <div>{editedText}</div>
+      <div className={styles.originText}>{originText}</div>
+      <div className={styles.editedText}>{editedText}</div>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import { FunctionComponent } from "react";
-
 import styles from "../../../styles/Board.module.scss";
 
 const EditButtonGroup: FunctionComponent<{
@@ -7,10 +6,10 @@ const EditButtonGroup: FunctionComponent<{
 }> = ({ onEditingButtonClick }) => {
   return (
     <div className={styles.buttonContainer}>
-      <div className={styles.acceptButton} onClick={onEditingButtonClick}>
-        Edit
+      <div className={styles.editingButton} onClick={onEditingButtonClick}>
+        Editing
       </div>
-      <div className={styles.completionButton}>Completion</div>
+      <div className={styles.blankButton} />
     </div>
   );
 };

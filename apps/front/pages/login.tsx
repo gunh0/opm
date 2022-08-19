@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { KeyboardEventHandler, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { UserApiPath } from "opm-models";
@@ -26,6 +26,24 @@ const Login: NextPage = () => {
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValidPassword(true);
     setPassword(e.currentTarget.value);
+  };
+
+  const handleInputKeyDown: KeyboardEventHandler<HTMLInputElement> = (
+    event,
+  ) => {
+    const { key } = event;
+    if (key !== "Enter") {
+      return;
+    }
+    if (!email) {
+      setValidEmail(false);
+      return;
+    }
+    if (!password) {
+      setValidPassword(false);
+      return;
+    }
+    handleSignInClick();
   };
 
   const handleSignInClick = async () => {
@@ -89,6 +107,7 @@ const Login: NextPage = () => {
                 name="email"
                 value={email}
                 onChange={handleEmailChange}
+                onKeyDown={handleInputKeyDown}
                 className={styles.sign}
               />
             </div>
@@ -106,6 +125,7 @@ const Login: NextPage = () => {
                 name="password"
                 value={password}
                 onChange={handlePasswordChange}
+                onKeyDown={handleInputKeyDown}
                 className={styles.sign}
               />
             </div>
