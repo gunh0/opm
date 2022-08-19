@@ -40,7 +40,7 @@
   word-break: break-word;
   position: relative;
   color: $gray600;
-  line-height: 3;
+  line-height: 4;
   border-radius: 12px;
   padding: 20px;
   overflow: auto;
@@ -185,15 +185,16 @@
 
 .originText {
   color: $gray600;
-  margin-top: 10px;
 }
 
-.originTextEdited {
-  color: $royalBlue400
+.originTextEdited { // TODO: 원래 텍스트 중 수정된 부분
+  color: $gray300;
 }
 
 .editedText {
   position: absolute;
-  top: 10px;
-  color: $gray300;
+  top: 40px;
+  color: $royalBlue400;
+  text-decoration-line: underline;
+  text-underline-offset: 8px;
 }
