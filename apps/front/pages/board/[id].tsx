@@ -74,14 +74,24 @@ const Board: NextPage = () => {
   const movePage = () => {
     router.push("/");
   };
-  const handleEditingButtonClick = () => {
-    if (user.uId) {
-      setBoardPhase(BoardPhase.edit);
-    }
+  const handleEditingButtonClick = async () => {
+    if (!user.uId) return;
+    const param: Partial<BoardInfo> = {
+      aId: board.aId,
+      aStatus: "EDITING",
+    };
+    await Api.post(BoardApiPath.changeBoardState, param);
+    setBoardPhase(BoardPhase.edit);
   };
-  const handleCompleteButtonClick = () => {
-    // TODO: 최종 컨펌 API 필요
+  const handleCompleteButtonClick = async () => {
+    if (!user.uId) return;
+    const param: Partial<BoardInfo> = {
+      aId: board.aId,
+      aStatus: "COMPLETE",
+    };
+    await Api.post(BoardApiPath.changeBoardState, param);
     setBoardPhase(BoardPhase.view);
+    router.push("/profile?tab=myRequest");
   };
   const handleSaveButtonClick = async () => {
     const { uId } = user;
