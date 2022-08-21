@@ -11,27 +11,12 @@ import mongoose, { ConnectOptions } from "mongoose";
 import { Server } from "socket.io";
 
 import routes from "./routes";
-import { specs } from "./swagger/swagger";
+import { isLiveServer, PORT } from "./models/constant";
 import { runSocket } from "./socket/event";
 
 dotEnv.config();
-const app = express();
 
-const liveServer = "/etc/letsencrypt/live/proofor.cf/cert.pem";
-const isLiveServer = fs.existsSync(liveServer);
-const PORT = 8080;
-
-const serverOptions: any = {};
-if (isLiveServer) {
-  serverOptions.key = fs.readFileSync(
-    "/etc/letsencrypt/live/proofor.cf/privkey.pem",
-  );
-  serverOptions.cert = fs.readFileSync(
-    "/etc/letsencrypt/live/proofor.cf/cert.pem",
-  );
-}
-
-const opmServer = https.createServer(serverOptions, app);
+const opmServer = getServer();
 opmServer.listen(PORT, () => {
   console.info(
     `${
