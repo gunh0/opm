@@ -38,7 +38,7 @@ const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
     return <NonValidEditingButtonGroup />;
   }
 
-  if (nonValidViewer) {
+  if (nonValidViewer && board.aStatus !== "INIT") {
     return <NonValidViewerButtonGroup />;
   }
 
@@ -46,7 +46,7 @@ const BoardButtonContainer: FunctionComponent<BoardButtonContainerProps> = (
     return <CompleteButtonGroup />;
   }
 
-  if (board.aStatus === "EDITING") {
+  if (board.aStatus === "EDITING" && board.eId === user.uId) {
     if (boardPhase === "edit") {
       return <SaveButtonGroup {...props} />;
     }
