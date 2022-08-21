@@ -6,6 +6,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import swaggerUi from "swagger-ui-express";
+import mongoose from "mongoose";
 
 import routes from "../routes";
 import { specs } from "../swagger/swagger";
@@ -42,4 +43,14 @@ export const getServer = () => {
   const opmServer = serverScheme.createServer(serverOptions, app);
 
   return opmServer;
+};
+
+export const runMongo = () => {
+  mongoose
+    .connect(DB_URL, mongooseOption)
+    .then(() => console.info("MongoDB connected successfully."))
+    .catch((err) => {
+      console.info("MongoDB Connection Failed");
+      console.info(err);
+    });
 };
