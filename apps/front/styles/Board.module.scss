@@ -197,3 +197,14 @@
   text-decoration-line: underline;
   text-underline-offset: 8px;
 }
+
+.diff {
+  &-added {
+    color: green;
+    background-color: #b5efdb;
+  }
+  &-removed {
+    color: red;
+    background-color: #fec4c0;
+  }
+}
