@@ -32,7 +32,8 @@ export type BoardApiKey =
   | "complete"
   | "listByUser"
   | "editingListByUser"
-  | "hitUp";
+  | "hitUp"
+  | "changeBoardState";
 
 export enum BoardApiEndPoint {
   one = "/board/article",
@@ -47,4 +48,5 @@ export enum BoardApiEndPoint {
   listByUser = "/board/myArticleList",
   editingListByUser = "/board/myEditingList",
   hitUp = "/board/hitUpArticle",
+  changeBoardState = "/board/changeBoardState",
 }
