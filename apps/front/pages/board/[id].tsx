@@ -28,6 +28,7 @@ const Board: NextPage = () => {
   const user = useSelector<RootState, UserInfo>((state) => state.user);
   const board = useSelector<RootState, BoardInfo>((state) => state.board);
   const dispatch = useDispatch();
+  const { id: pathAid } = router.query;
 
   const [boardPhase, setBoardPhase] = useState(BoardPhase.view);
   const [editText, setEditText] = useState("");
@@ -37,15 +38,22 @@ const Board: NextPage = () => {
   const [isRender, setIsRender] = useState(false);
 
   useEffect(() => {
-    if (isRender) {
+    if (isRender || !pathAid) {
       return;
     }
+    const callApi = async () => {
+      const res = await Api.get(`${BoardApiPath.one}?aId=${pathAid}`);
+      const { data } = await res.json();
+      if (!data) return;
+      dispatch(setBoard(data));
+    };
     setIsRender(true);
+    callApi();
 
     return () => {
       dispatch(clearBoard());
     };
-  }, []);
+  }, [pathAid, dispatch, isRender]);
 
   const handleAcceptButtonClick = async () => {
     if (!user.uId) {
