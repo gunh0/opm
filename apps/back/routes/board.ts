@@ -361,9 +361,27 @@ const hitUpArticle = async (req: Request, res: Response) => {
   }
 };
 
+const changeBoardState = async (req: Request, res: Response) => {
+  const { aId, aStatus } = req.body;
+
+  const foundArticle = await Board.findOne({ aId });
+  if (!foundArticle) {
+    return res.status(200).send({ code: StatusCode.BAD_REQUEST });
+  }
+  foundArticle.aStatus = aStatus;
+
+  try {
+    const data = await foundArticle.save();
+    return res.status(200).send({ data });
+  } catch (error) {
+    console.info(error);
+  }
+};
+
 const board = {
   showArticle,
   showArticleList,
+  changeBoardState,
   showArticleListByUser,
   showEditingListByUser,
   writeArticle,

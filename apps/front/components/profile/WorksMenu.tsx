@@ -26,7 +26,7 @@ const WorksMenu: NextPage = () => {
         return;
       }
       const { data } = await res.json();
-      setWorkList(data);
+      setWorkList(data ?? []);
       setTimeout(() => {
         setIsLoading(false);
       }, 150);

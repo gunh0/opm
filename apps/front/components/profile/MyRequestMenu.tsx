@@ -26,7 +26,7 @@ const MyRequestMenu: NextPage = () => {
         return;
       }
       const { data } = await res.json();
-      setRequestList(data);
+      setRequestList(data ?? []);
       setTimeout(() => {
         setIsLoading(false);
       }, 150);

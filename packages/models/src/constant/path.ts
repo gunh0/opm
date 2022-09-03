@@ -31,6 +31,7 @@ export const BoardApiPath: Record<BoardApiKey, BoardApiEndPoint> = {
   listByUser: BoardApiEndPoint.listByUser,
   editingListByUser: BoardApiEndPoint.editingListByUser,
   hitUp: BoardApiEndPoint.hitUp,
+  changeBoardState: BoardApiEndPoint.changeBoardState,
 };
 export const SocketPath: Record<SocketKey, string> = {
   END: "end",

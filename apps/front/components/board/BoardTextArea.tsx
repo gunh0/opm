@@ -39,8 +39,7 @@ const BoardTextArea: FunctionComponent<BoardAreaProps> = ({
     );
   }
 
-  const isValidViewer =
-    board.aStatus === "DONE" && [board.uId, board.eId].includes(user.uId);
+  const isValidViewer = board.aStatus === "DONE" && board.uId === user.uId;
   if (board.aStatus === "COMPLETE" || isValidViewer) {
     return (
       <BoardCompleteContent
