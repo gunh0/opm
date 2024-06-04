@@ -6,7 +6,7 @@ import { StatusCode } from "opm-models";
 import User from "../models/user.model";
 
 // 상태코드 정의
-const ALREADY_ID: string = "존재하는 ID 입니다";
+const ALREADY_ID: string = "존재하는 ID 입니다";
 const CREATED_ID: string = "회원가입 완료";
 
 const showAllUser = async (req, res) => {
